@@ -1,0 +1,26 @@
+{
+  "name": "alfa-3c",
+  "version": "1.0.0",
+  "description": "Sistema de Gestor de Pagos para la empresa Alfa 3C",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Infinishk/Alfa3C.git"
+  },
+  "keywords": [
+    "Alfa",
+    "3C",
+    "Gestor",
+    "Contratos",
+    "Pagos"
+  ],
+  "author": "Infinishk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Infinishk/Alfa3C/issues"
+  },
+  "homepage": "https://github.com/Infinishk/Alfa3C#readme"
+}
