@@ -76,10 +76,10 @@ const helmet = require('helmet');
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            "script-src": ["'self'", 'code.jquery.com', 'ajax.googleapis.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com'],
-            "script-src-attr": ["'unsafe-inline'"],
-            "connect-src": ["'self'", 'sandboxpo.mit.com.mx'],
-            "frame-src": ['*']
+            'script-src': ['\'self\'', 'code.jquery.com', 'ajax.googleapis.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com'],
+            'script-src-attr': ['\'unsafe-inline\''],
+            'connect-src': ['\'self\'', 'sandboxpo.mit.com.mx'],
+            'frame-src': ['*']
         }
     }
 }));
@@ -122,7 +122,7 @@ app.use((request, response) => {
     response.render('404', {
         username: request.session.username || '',
         permisos: request.session.permisos || [],
-        rol: request.session.rol || "",
+        rol: request.session.rol || '',
     });
 });
 
