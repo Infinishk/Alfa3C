@@ -1,0 +1,27 @@
+name: Test Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+jobs:
+    test:
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                node-version: 18      
+            - name: Install dependencies
+              run: npm install --no-audit --no-fund --no-optional
+            - name: Run ESLint
+              run: npm run lint
