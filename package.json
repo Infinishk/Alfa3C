@@ -4,6 +4,9 @@
   "description": "Sistema de Gestor de Pagos para la empresa Alfa 3C",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon app.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -39,5 +42,8 @@
     "mysql2": "^3.11.0",
     "nodemon": "^3.1.4",
     "sass": "^1.77.8"
+  },
+  "devDependencies": {
+    "eslint": "^9.10.0"
   }
 }

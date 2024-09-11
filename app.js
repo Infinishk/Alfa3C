@@ -117,7 +117,7 @@ const home_root = require('./util/home');
 app.get('/', home_root);
 
 // Para manejar errores 404
-app.use((request, response, next) => {
+app.use((request, response) => {
     response.status(404);
     response.render('404', {
         username: request.session.username || '',
