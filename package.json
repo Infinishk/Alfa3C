@@ -4,7 +4,10 @@
   "description": "Sistema de Gestor de Pagos para la empresa Alfa 3C",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+      "start": "nodemon app.js",
+      "lint": "eslint .",
+      "lint:fix": "eslint . --fix",
+      "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
