@@ -5,4 +5,4 @@ module.exports = (request, response, next) => {
         return response.redirect('/auth/login');
     }
     next();
-}
+};
