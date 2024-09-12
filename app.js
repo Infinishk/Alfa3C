@@ -48,9 +48,9 @@ const helmet = require('helmet');
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            'script-src': ['self', 'code.jquery.com', 'ajax.googleapis.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com'],
-            'script-src-attr': ['self'],
-            'connect-src': ['self'],
+            'script-src': ['\'self\'', 'code.jquery.com', 'ajax.googleapis.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com'],
+            'script-src-attr': [],
+            'connect-src': ['\'self\''],
             'frame-src': ['*']
         }
     }
