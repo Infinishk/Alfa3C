@@ -1,0 +1,22 @@
+<section>
+    <h2>Usuarios Activos</h2>
+    <ul>
+        <% activeUsers.forEach(function(user) { %>
+        <li><%= user.IDUsuario %> - <%= user.CorreoElectronico %> - <%= user.Status %></li>
+        <% }); %>
+    </ul>
+
+    <h2>Usuarios Inactivos</h2>
+    <ul>
+        <% inactiveUsers.forEach(function(user) { %>
+        <li><%= user.IDUsuario %> - <%= user.CorreoElectronico %> - <%= user.Status %></li>
+        <% }); %>
+    </ul>
+
+    <h2>Administradores</h2>
+    <ul>
+        <% adminUsers.forEach(function(admin) { %>
+        <li><%= admin.IDUsuario %> - <%= admin.CorreoElectronico %> - <%= admin.Status %></li>
+        <% }); %>
+    </ul>
+</section>
