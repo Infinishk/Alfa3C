@@ -1,14 +1,18 @@
 <section>
-    <h2>Usuarios Activos</h2>
+    <h2>Usuarios Activos - <span id="textCambio">Sin Cambios</span>
+    </h2>
+
     <ul>
         <% activeUsers.forEach(function(user) { %>
         <li>
             <%= user.IDUsuario %> - <%= user.CorreoElectronico %> - <%= user.Status %>
-            <% if (user.Status == 0) { %>
-            <button>Activar</button>
-            <% } else { %>
-            <button>Desactivar</button>
-            <% } %>
+            <button onclick="modifyStatus('<%= user.IDUsuario %>', '<%= user.Status %>')">
+                <% if (user.Status == 0) { %>
+                    Activar
+                <% } else { %>
+                    Desactivar
+                <% } %>
+            </button>
         </li>
         <% }); %>
     </ul>
@@ -18,11 +22,13 @@
         <% inactiveUsers.forEach(function(user) { %>
         <li>
             <%= user.IDUsuario %> - <%= user.CorreoElectronico %> - <%= user.Status %>
-            <% if (user.Status == 0) { %>
-            <button>Activar</button>
-            <% } else { %>
-            <button>Desactivar</button>
-            <% } %>
+            <button onclick="modifyStatus('<%= user.IDUsuario %>', '<%= user.Status %>')">
+                <% if (user.Status == 0) { %>
+                    Activar
+                <% } else { %>
+                    Desactivar
+                <% } %>
+            </button>
         </li>
         <% }); %>
     </ul>
@@ -32,13 +38,15 @@
         <% adminUsers.forEach(function(admin) { %>
         <li>
             <%= admin.IDUsuario %> - <%= admin.CorreoElectronico %> - <%= admin.Status %>
-            <% if (admin.Status == 0) { %>
-            <button>Activar</button>
-            <% } else { %>
-            <button>Desactivar</button>
-            <% } %>
+            <button onclick="modifyStatus('<%= admin.IDUsuario %>', '<%= admin.Status %>')">
+                <% if (admin.Status == 0) { %>
+                    Activar
+                <% } else { %>
+                    Desactivar
+                <% } %>
+            </button>
         </li>
         <% }); %>
     </ul>
 </section>
-<script type="text/javascript" src="/js/consultarUsuarios.js"></script>
+<script type="text/javascript" src="/js/usuarios/consultarUsuarios.js"></script>

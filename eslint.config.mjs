@@ -2,7 +2,6 @@ import globals from 'globals';
 import pluginJs from '@eslint/js';
 
 export default [
-  // Primero aplicas las configuraciones recomendadas por Prettier
   pluginJs.configs.recommended,
 
   // Luego aplicas tus reglas personalizadas
