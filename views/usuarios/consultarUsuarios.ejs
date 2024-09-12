@@ -2,21 +2,43 @@
     <h2>Usuarios Activos</h2>
     <ul>
         <% activeUsers.forEach(function(user) { %>
-        <li><%= user.IDUsuario %> - <%= user.CorreoElectronico %> - <%= user.Status %></li>
+        <li>
+            <%= user.IDUsuario %> - <%= user.CorreoElectronico %> - <%= user.Status %>
+            <% if (user.Status == 0) { %>
+            <button>Activar</button>
+            <% } else { %>
+            <button>Desactivar</button>
+            <% } %>
+        </li>
         <% }); %>
     </ul>
 
     <h2>Usuarios Inactivos</h2>
     <ul>
         <% inactiveUsers.forEach(function(user) { %>
-        <li><%= user.IDUsuario %> - <%= user.CorreoElectronico %> - <%= user.Status %></li>
+        <li>
+            <%= user.IDUsuario %> - <%= user.CorreoElectronico %> - <%= user.Status %>
+            <% if (user.Status == 0) { %>
+            <button>Activar</button>
+            <% } else { %>
+            <button>Desactivar</button>
+            <% } %>
+        </li>
         <% }); %>
     </ul>
 
     <h2>Administradores</h2>
     <ul>
         <% adminUsers.forEach(function(admin) { %>
-        <li><%= admin.IDUsuario %> - <%= admin.CorreoElectronico %> - <%= admin.Status %></li>
+        <li>
+            <%= admin.IDUsuario %> - <%= admin.CorreoElectronico %> - <%= admin.Status %>
+            <% if (admin.Status == 0) { %>
+            <button>Activar</button>
+            <% } else { %>
+            <button>Desactivar</button>
+            <% } %>
+        </li>
         <% }); %>
     </ul>
 </section>
+<script type="text/javascript" src="/js/consultarUsuarios.js"></script>

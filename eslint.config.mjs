@@ -7,6 +7,7 @@ export default [
 
   // Luego aplicas tus reglas personalizadas
   {
+    ignores: ['public/js/**/*.js'],
     languageOptions: {
       globals: globals.node,
     },
@@ -23,6 +24,30 @@ export default [
       'no-console': ['warn', {
         allow: ['warn', 'error']
       }]
+    },
+  },
+  {
+    files: ['public/js/**/*.js'], // Ajusta esta ruta según tu proyecto
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        $: 'readonly', // Si utilizas jQuery
+        moment: 'readonly', // Moment.js
+      },
+    },
+    rules: {
+      'no-console': ['warn', {
+        allow: ['warn', 'error']
+      }], 
+      'no-unused-expressions': 'error',
+      'no-extra-semi': 'error', 
+      'no-alert': 'warn',
+      'camelcase': ['error', {
+        properties: 'always'
+      }], 
+      'strict': ['error', 'function'],
+      'no-script-url': 'error',
+      'no-implied-eval': 'error',
     },
   },
 ];
