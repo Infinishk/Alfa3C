@@ -109,8 +109,8 @@ app.locals.contienePermiso = (permisos, casoUso) => {
 };
 
 // Ruta para la página principal
-const home_root = require('./util/home');
-app.get('/', home_root);
+const homeRoot = require('./util/home');
+app.get('/', homeRoot);
 
 // Para manejar errores 404
 app.use((request, response) => {
