@@ -48,10 +48,10 @@ const helmet = require('helmet');
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
+            'default-src': ['\'self\''],
             'script-src': ['\'self\'', 'code.jquery.com', 'ajax.googleapis.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com'],
             'script-src-attr': [],
-            'connect-src': ['\'self\''],
-            'frame-src': ['*']
+            'connect-src': ['\'self\'']
         }
     }
 }));
@@ -64,19 +64,19 @@ app.use(compression());
 
 // Rutas
 const rutasConfiguracion = require('./routes/configuracion.routes');
-app.use('/configuracion', checkSession, rutasConfiguracion);
+app.use('/configuracion', rutasConfiguracion);
 
 const rutasContrato = require('./routes/contrato.routes');
-app.use('/contrato', checkSession, rutasContrato);
+app.use('/contrato', rutasContrato);
 
 const rutasEstadoCuenta = require('./routes/estadoCuenta.routes');
-app.use('/estadoCuenta', checkSession, rutasEstadoCuenta);
+app.use('/estadoCuenta', rutasEstadoCuenta);
 
 const rutasInquilino = require('./routes/inquilino.routes');
-app.use('/inquilino', checkSession, rutasInquilino);
+app.use('/inquilino', rutasInquilino);
 
 const rutasPagos = require('./routes/pagos.routes');
-app.use('/pagos', checkSession, rutasPagos);
+app.use('/pagos', rutasPagos);
 
 const rutasSession = require('./routes/session.routes');
 app.use('/auth', rutasSession);
@@ -85,12 +85,12 @@ const rutasUsuarios = require('./routes/usuarios.routes');
 app.use('/usuarios', rutasUsuarios);
 
 // Middleware para verificar si la sesión está activa
-function checkSession(req, res, next) {
-    if (!req.session.username) {
-        return res.redirect('/auth/login'); // Redirigir al login si no hay una sesión activa
-    }
-    next();
-}
+// function checkSession(req, res, next) {
+//     if (!req.session.username) {
+//         return res.redirect('/auth/login'); // Redirigir al login si no hay una sesión activa
+//     }
+//     next();
+// }
 
 // Middleware para manejar errores de CSRF
 app.use((err, req, res, next) => {
