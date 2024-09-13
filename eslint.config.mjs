@@ -22,6 +22,9 @@ export default [
       'prefer-const': 'error',
       'no-console': ['warn', {
         allow: ['warn', 'error']
+      }], 
+      'camelcase': ['error', { // Reglas de camelCase para Node.js
+        properties: 'always'
       }]
     },
   },
