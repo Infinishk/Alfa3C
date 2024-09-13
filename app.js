@@ -108,6 +108,17 @@ app.locals.contienePermiso = (permisos, casoUso) => {
     return contains;
 };
 
+const cron = require('node-cron');
+
+const automatizarRecargosController = require('./controllers/schedule/automatizarRecargos.controller');
+// cron.schedule('0 3 * * *', () => {
+cron.schedule('*/1 * * * *', () => {
+    automatizarRecargosController.setRecargos();
+}, {
+    scheduled: true,
+    timezone: 'America/Mexico_City'
+});
+
 // Ruta para la página principal
 const homeRoot = require('./util/home');
 app.get('/', homeRoot);
