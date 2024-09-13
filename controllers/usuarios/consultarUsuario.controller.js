@@ -8,6 +8,7 @@ exports.getUsuarios = async (request, response, next) => {
         const [adminUsers] = await Usuario.fetchAdmins();
 
         response.render('usuarios/consultarUsuarios', {
+            csrfToken: request.csrfToken(),
             username: request.session.username || '',
             permisos: request.session.permisos || [],
             rol: request.session.rol || '', 

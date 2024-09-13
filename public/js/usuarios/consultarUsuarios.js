@@ -1,12 +1,12 @@
 window.modifyStatus = (userID, status) => {
     //El token de protección CSRF
-    //const csrf = document.getElementById('_csrf').value;
+    const csrf = document.getElementById('_csrf').value;
 
     fetch('/usuarios/modifyUserStatus', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                //'csrf-token': csrf
+                'csrf-token': csrf
             },
             body: JSON.stringify({
                 userID: userID,

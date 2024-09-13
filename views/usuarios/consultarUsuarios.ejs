@@ -2,6 +2,8 @@
     <h2>Usuarios Activos - <span id="textCambio">Sin Cambios</span>
     </h2>
 
+    <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+
     <ul>
         <% activeUsers.forEach(function(user) { %>
         <li>
