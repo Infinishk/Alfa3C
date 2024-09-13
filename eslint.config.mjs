@@ -40,13 +40,13 @@ export default [
     rules: {
       'no-console': ['warn', {
         allow: ['warn', 'error']
-      }],
+      }], 
       'no-unused-expressions': 'error',
-      'no-extra-semi': 'error',
+      'no-extra-semi': 'error', 
       'no-alert': 'warn',
       'camelcase': ['error', {
         properties: 'always'
-      }],
+      }], 
       'strict': ['error', 'function'],
       'no-script-url': 'error',
       'no-implied-eval': 'error',
