@@ -29,7 +29,7 @@ export default [
     },
   },
   {
-    files: ['public/js/**/*.js'], // Ajusta esta ruta según tu proyecto
+    files: ['public/js/**/*.js'],
     languageOptions: {
       globals: {
         ...globals.browser,
