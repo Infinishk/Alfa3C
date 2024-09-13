@@ -1,4 +1,4 @@
-window.modifyStatus = (userID, status) => {
+const modifyStatus = (userID, status) => {
     //El token de protección CSRF
     const csrf = document.getElementById('_csrf').value;
 
@@ -33,3 +33,16 @@ window.modifyStatus = (userID, status) => {
             console.error('Error en la petición fetch:', error);
         });
 };
+
+document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('.modify-status-button');
+
+    buttons.forEach(button => {
+        // Añade la función al atributo onclick directamente
+        button.onclick = function () {
+            const userID = button.getAttribute('data-user-id');
+            const status = button.getAttribute('data-user-status');
+            modifyStatus(userID, status);
+        };
+    });
+});

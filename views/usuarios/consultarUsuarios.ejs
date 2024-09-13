@@ -8,7 +8,8 @@
         <% activeUsers.forEach(function(user) { %>
         <li>
             <%= user.IDUsuario %> - <%= user.CorreoElectronico %> - <%= user.Status %>
-            <button onclick="modifyStatus('<%= user.IDUsuario %>', '<%= user.Status %>')">
+            <button class="modify-status-button" data-user-id="<%= user.IDUsuario %>"
+                data-user-status="<%= user.Status %>">
                 <% if (user.Status == 0) { %>
                     Activar
                 <% } else { %>
@@ -24,7 +25,8 @@
         <% inactiveUsers.forEach(function(user) { %>
         <li>
             <%= user.IDUsuario %> - <%= user.CorreoElectronico %> - <%= user.Status %>
-            <button onclick="modifyStatus('<%= user.IDUsuario %>', '<%= user.Status %>')">
+            <button class="modify-status-button" data-user-id="<%= user.IDUsuario %>"
+                data-user-status="<%= user.Status %>">
                 <% if (user.Status == 0) { %>
                     Activar
                 <% } else { %>
@@ -40,7 +42,8 @@
         <% adminUsers.forEach(function(admin) { %>
         <li>
             <%= admin.IDUsuario %> - <%= admin.CorreoElectronico %> - <%= admin.Status %>
-            <button onclick="modifyStatus('<%= admin.IDUsuario %>', '<%= admin.Status %>')">
+            <button class="modify-status-button" data-user-id="<%= admin.IDUsuario %>"
+                data-user-status="<%= admin.Status %>">
                 <% if (admin.Status == 0) { %>
                     Activar
                 <% } else { %>
