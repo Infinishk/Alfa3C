@@ -11,8 +11,8 @@ const iniciarSesionController = require('../controllers/session/iniciarSesion.co
 router.get('/login', sessionController.get_login);
 */
 
-const agregarContratoController = require('../controllers/contrato/agregarContrato.controller');
-router.get('/registrarContrato', agregarContratoController.get_registrar_contrato);
-router.post('/registrarContrato', agregarContratoController.post_registrar_contrato);
+const modificarContratoController = require('../controllers/contrato/modificarContrato.controller');
+router.get('/modificarContrato', modificarContratoController.get_modificar_contrato);
+router.post('/modificarContrato', modificarContratoController.post_modificar_contrato);
 
 module.exports = router;
