@@ -9,10 +9,14 @@ module.exports = class Contrato{
         this.Estatus = mi_Estatus;
     }
 
-    static save(idRazonSocial, titulo,numMeses) {
+    static update(idRazonSocial, titulo,numMeses,idContrato) {
         return db.execute(
-            `INSERT INTO Contrato (IDRazonSocial, Titulo, DuracionMeses, Estatus) VALUES (?,?, ?, 1)`,
-            [idRazonSocial, titulo,numMeses]
+            `UPDATE Contrato SET IDRazonSocial=?, Titulo=?, DuracionMeses=? WHERE IDContrato=?`,
+            [idRazonSocial, titulo, numMeses, idContrato] 
         );
+    }
+
+    static fetch(idContrato) {
+        return db.execute('SELECT * FROM Contrato WHERE IDContrato = ?', [idContrato]);
     }
 }
