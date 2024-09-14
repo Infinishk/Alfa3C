@@ -44,13 +44,32 @@ exports.post_registrar_contrato = async (request, response, next) => {
             return response.status(500).send('ID de razón social no válido');
         }
 
-        // Guardar el contrato con el ID de la razón social
+        // Guardar el contrato
         await Contrato.save(IDRazon, titulo, numMeses);
 
-        // Enviar respuesta de éxito
-        response.status(200).send('Contrato registrado con éxito');
+        // Obtener el contrato recién creado
+        const [contratos] = await Contrato.fetchOne(titulo);
+
+        // Obtener la razón social asociada
+        const [razonSocialInfo] = await RazonSocial.fetchOne(razonSocial);
+
+        // Renderizar la vista con la información del contrato y la razón social
+        response.render('contrato/resultadoContrato', {
+            modificar: false,
+            registrar: true,
+            contrato: contratos[0],
+            razonSocial: razonSocialInfo[0],
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+            rol: request.session.rol || "",
+        });
+
     } catch (error) {
         console.log(error);
-        response.status(500).send('Error al registrar el contrato');
+        response.status(500).render('500', {
+            username: request.session.username || '',
+            permisos: request.session.permisos || [],
+            rol: request.session.rol || "",
+        });
     }
 };

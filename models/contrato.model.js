@@ -15,4 +15,8 @@ module.exports = class Contrato{
             [idRazonSocial, titulo,numMeses]
         );
     }
+
+    static fetchOne(titulo){
+        return db.execute('Select * from Contrato WHERE Titulo = ?',[titulo]);
+    }
 }
