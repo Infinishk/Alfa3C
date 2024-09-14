@@ -16,20 +16,36 @@ exports.post_registrar_contrato = async (request, response, next) => {
         const titulo = request.body.titulo;
         const numMeses = request.body.numMeses;
 
-        const verificarRazonSocial = await RazonSocial.fetchID(razonSocial);
+        if (!razonSocial || !nombreEmpresa || !titulo || !numMeses) {
+            return response.status(400).send('Faltan datos requeridos');
+        }
 
-        if (verificarRazonSocial.length === 0) {
+        let IDRazon;
+
+        // Verificar si la razón social ya existe
+        const [verificarRazonSocial] = await RazonSocial.fetchID(razonSocial);
+
+        // Comprobar si la respuesta de fetchID tiene datos válidos
+        if (!verificarRazonSocial || verificarRazonSocial.length === 0) {
+            // Crear la nueva razón social
             await RazonSocial.save(nombreEmpresa, razonSocial);
-            // Obtener el ID de la razón social
+            // Obtener el ID de la nueva razón social
             const [rows] = await RazonSocial.fetchID(razonSocial);
-            const IDRazon = rows[0].IDRazonSocial;
-            // Guardar el contrato usando el ID de la razón social
-            await Contrato.save(IDRazon, titulo, numMeses);
+            if (rows.length === 0) {
+                return response.status(500).send('No se pudo obtener el ID de la razón social');
+            }
+            IDRazon = rows[0].IDRazonSocial;
+        } else {
+            IDRazon = verificarRazonSocial[0].IDRazonSocial;
         }
 
-        else{
-            await Contrato.save(verificarRazonSocial[0][0].IDRazonSocial, titulo, numMeses);
+        // Verificar que IDRazon no sea undefined
+        if (IDRazon === undefined) {
+            return response.status(500).send('ID de razón social no válido');
         }
+
+        // Guardar el contrato con el ID de la razón social
+        await Contrato.save(IDRazon, titulo, numMeses);
 
         // Enviar respuesta de éxito
         response.status(200).send('Contrato registrado con éxito');
@@ -38,5 +54,3 @@ exports.post_registrar_contrato = async (request, response, next) => {
         response.status(500).send('Error al registrar el contrato');
     }
 };
-
-
