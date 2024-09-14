@@ -13,11 +13,8 @@ exports.post_registrar_contrato = async (request, response, next) => {
     try {
         const razonSocial = request.body.razonSocial;
         const nombreEmpresa = request.body.nombreEmpresa;
-        const inflacion = request.body.inflacion;
-        const cliente = request.body.cliente;
-        const fechaInicio = request.body.fechaInicio;
-        const fechaFin = request.body.fechaFin;
-        const costoTotal = request.body.costoTotal;
+        const titulo = request.body.titulo;
+        const numMeses = request.body.numMeses;
 
         // Guardar la razón social
         await RazonSocial.save(nombreEmpresa, razonSocial);
@@ -27,7 +24,7 @@ exports.post_registrar_contrato = async (request, response, next) => {
         const IDRazon = rows[0].IDRazonSocial;
 
         // Guardar el contrato usando el ID de la razón social
-        await Contrato.save(cliente, IDRazon, inflacion, fechaInicio, fechaFin, costoTotal);
+        await Contrato.save(IDRazon, titulo, numMeses);
 
         // Enviar respuesta de éxito
         response.status(200).send('Contrato registrado con éxito');

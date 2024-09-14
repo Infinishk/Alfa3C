@@ -12,6 +12,7 @@ router.get('/login', sessionController.get_login);
 */
 
 const agregarContratoController = require('../controllers/contrato/agregarContrato.controller');
+router.get('/registrarContrato', agregarContratoController.get_registrar_contrato);
 router.post('/registrarContrato', agregarContratoController.post_registrar_contrato);
 
 module.exports = router;

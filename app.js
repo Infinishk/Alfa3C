@@ -40,9 +40,9 @@ const multer = require('multer');
 const upload = multer();
 app.use(upload.single('archivo'));
 
-const csrf = require('csurf');
-const csrfProtection = csrf();
-app.use(csrfProtection);
+// const csrf = require('csurf');
+// const csrfProtection = csrf();
+// app.use(csrfProtection);
 
 const helmet = require('helmet');
 app.use(helmet({
@@ -93,12 +93,12 @@ app.use('/usuarios', rutasUsuarios);
 // }
 
 // Middleware para manejar errores de CSRF
-app.use((err, req, res, next) => {
-    if (err.code === 'EBADCSRFTOKEN') {
-        return res.redirect('/auth/login'); // Redirigir al login si se detecta un token CSRF inválido
-    }
-    next(err);
-});
+// app.use((err, req, res, next) => {
+//     if (err.code === 'EBADCSRFTOKEN') {
+//         return res.redirect('/auth/login'); // Redirigir al login si se detecta un token CSRF inválido
+//     }
+//     next(err);
+// });
 
 // Función local para EJS, para iterar permisos
 app.locals.contienePermiso = (permisos, casoUso) => {
