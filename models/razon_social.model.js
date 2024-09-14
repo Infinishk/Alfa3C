@@ -7,16 +7,14 @@ module.exports = class RazonSocial{
         this.ReferenciaBancaria = mi_ReferenciaBancaria
     }
 
-    static save(nombreEmpresa,referenciaBancaria) {
+    static update(nombreEmpresa,referenciaBancaria,idRazonSocial) {
         return db.execute(
-            `INSERT INTO razonSocial (NombreEmpresa, ReferenciaBancaria) VALUES (?, ?)`,
-            [nombreEmpresa, referenciaBancaria]); 
+            `UPDATE razonSocial SET NombreEmpresa=?, ReferenciaBancaria=? WHERE IDRazonSocial=?`,
+            [nombreEmpresa,referenciaBancaria,idRazonSocial] 
+        );
     }
 
-    static fetchID(referenciaBancaria){
-        return db.execute(
-            `SELECT IDRazonSocial FROM razonSocial WHERE ReferenciaBancaria = ?`,
-            [referenciaBancaria]
-        );
+    static fetchOne(idRazonSocial){
+        return db.execute('Select * from razonSocial WHERE IDRazonSocial = ?',[idRazonSocial]);
     }
 }

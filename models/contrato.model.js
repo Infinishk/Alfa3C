@@ -16,7 +16,7 @@ module.exports = class Contrato{
         );
     }
 
-    static fetch(idContrato) {
-        return db.execute('SELECT * FROM Contrato WHERE IDContrato = ?', [idContrato]);
+    static fetchOne(titulo){
+        return db.execute('Select * from Contrato WHERE Titulo = ?',[titulo]);
     }
 }

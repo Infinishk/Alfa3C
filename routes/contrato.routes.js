@@ -13,6 +13,7 @@ router.get('/login', sessionController.get_login);
 
 const modificarContratoController = require('../controllers/contrato/modificarContrato.controller');
 router.get('/modificarContrato', modificarContratoController.get_modificar_contrato);
+router.post('/fetchContrato', modificarContratoController.post_fetch_contrato);
 router.post('/modificarContrato', modificarContratoController.post_modificar_contrato);
 
 module.exports = router;

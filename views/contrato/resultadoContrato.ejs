@@ -1,0 +1,65 @@
+
+<body>
+    <div class="container" style="display: flex; justify-content: center;">
+        <div class="content" style="width: 70%; margin-top: 50px;">
+            <% if (modificar) { %>
+                <h1 class="title is-2 has-text-centered">Información Actualizada del Contrato</h1>
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4 has-text-black">ID:</p>
+                                <p class="subtitle is-4 has-text-grey"><%= contrato.IDContrato %></p>
+                                <p class="title is-4 has-text-black">Titulo:</p>
+                                <p class="subtitle is-4 has-text-grey"><%= contrato.Titulo %></p>
+                                <p class="title is-4 has-text-black">ID Razon Social:</p>
+                                <p class="subtitle is-4 has-text-grey"><%= contrato.IDRazonSocial %></p>
+                                <p class="title is-4 has-text-black">Razon Social Nombre:</p>
+                                <p class="subtitle is-4 has-text-grey"><%= razonSocial.NombreEmpresa %></p>
+                                <p class="title is-4 has-text-black">Status:</p>
+                                <% if (contrato.Estatus === 1) { %>
+                                    <p class="subtitle is-4 has-text-grey"> Activo</p>
+                                <% } else { %>
+                                    <p class="subtitle is-4 has-text-grey"> No Activo </p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form action="/contrato/modificarContrato" method="GET">
+                    <button type="submit" class="button is-rounded is-large is-responsive">Modificar otro Contrato</button>
+                </form>
+            <% } %>
+
+            <% if (registrar) { %>
+                <h1 class="title is-2 has-text-centered">Contrato creado con éxito</h1>
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4 has-text-black">ID:</p>
+                                <p class="subtitle is-4 has-text-grey"><%= contrato.IDContrato %></p>
+                                <p class="title is-4 has-text-black">Titulo:</p>
+                                <p class="subtitle is-4 has-text-grey"><%= contrato.Titulo %></p>
+                                <p class="title is-4 has-text-black">Razon Social:</p>
+                                <p class="subtitle is-4 has-text-grey"><%= contrato.IDRazonSocial %></p>
+                                <p class="title is-4 has-text-black">Razon Social Nombre:</p>
+                                <p class="subtitle is-4 has-text-grey"><%= razonSocial.NombreEmpresa %></p>
+                                <p class="title is-4 has-text-black">Status:</p>
+                                <% if (contrato.Estatus === 1) { %>
+                                    <p class="subtitle is-4 has-text-grey"> Activo</p>
+                                <% } else { %>
+                                    <p class="subtitle is-4 has-text-grey"> No Activo </p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form action="/contrato/registrarContrato" method="GET">
+                    <button type="submit" class="button is-rounded is-large is-responsive">Registrar otro Contrato</button>
+                </form>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
