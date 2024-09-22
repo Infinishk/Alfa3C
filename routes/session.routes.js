@@ -10,5 +10,11 @@ const router = express.Router();
 const iniciarSesionController = require('../controllers/session/iniciarSesion.controller');
 router.get('/login', sessionController.get_login);
 */
+const sessionController = require('../controllers/session/iniciarSesion.controller');
+
+
+router.get('/login', sessionController.getLogin);
+router.post('/login', sessionController.postLogin);
+
 
 module.exports = router;
