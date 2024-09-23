@@ -40,6 +40,10 @@ module.exports = class Usuario{
                 throw Error('Nombre de usuario duplicado. Ya existe un usuario con ese nombre.');
             });
     }
+
+    static fetchUser(correo){
+        return db.execute('SELECT IDUsuario FROM Usuario WHERE CorreoElectronico= ?',[correo]);
+    }
     
 
     static fetchOne(IDUsuario) {

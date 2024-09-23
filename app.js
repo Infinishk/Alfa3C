@@ -81,8 +81,8 @@ app.use('/pagos', rutasPagos);
 const rutasSession = require('./routes/session.routes');
 app.use('/auth', rutasSession);
 
-const rutasUsuarios = require('./routes/usuarios.routes');
-app.use('/usuarios', rutasUsuarios);
+// const rutasUsuarios = require('./routes/usuarios.routes');
+// app.use('/usuarios', rutasUsuarios);
 
 // Middleware para verificar si la sesión está activa
 // function checkSession(req, res, next) {
