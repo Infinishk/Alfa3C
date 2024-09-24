@@ -72,3 +72,38 @@ exports.post_reset_password = async (request, response, next) => {
     }
 }
 
+exports.get_set_password = (request, response, next) => {
+    const token = request.query.token;
+    const matricula = request.query.matricula;
+    response.render('set_password', {
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
+        rol: request.session.rol || "",
+        token,
+        matricula
+    });
+}
+
+exports.post_set_password = async (request, response, next) => {
+    const token = request.body.token;
+    const newPassword = request.body.newPassword;
+
+    // Verificar el token JWT
+    jwt.verify(token, config.jwtSecret, async (err, decoded) => {
+        if (err) {
+            console.error('Error al verificar el token JWT:', err);
+            response.redirect('/auth/login'); // Redirigir a la página de inicio de sesión en caso de error
+        } else {
+            // Token válido, proceder con la actualización de la contraseña
+            try {
+                const matricula = decoded.matricula; // Obtener la matrícula del token decodificado
+                const new_user = new Usuario(matricula, newPassword);
+                await new_user.updateContra();
+                response.redirect('/auth/login'); // Redirigir al inicio de sesión después de actualizar la contraseña
+            } catch (error) {
+                console.error('Error al actualizar la contraseña:', error);
+                response.redirect('/auth/login'); // Redirigir a la página de configuración de contraseña en caso de error
+            }
+        }
+    });
+}
