@@ -11,4 +11,8 @@ const iniciarSesionController = require('../controllers/session/iniciarSesion.co
 router.get('/login', sessionController.get_login);
 */
 
+const contrasenaController = require('../controllers/configuracion/updateContrasena.controller');
+
+router.get('/update_password', contrasenaController.get_update_password);
+
 module.exports = router;
