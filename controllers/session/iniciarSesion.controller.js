@@ -1,10 +1,5 @@
 const Usuario = require('../../models/usuario.model');
 
-const sgMail = require('@sendgrid/mail');
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-
 exports.getLogin = (request, response, next) => {
     const error = request.session.error || '';
     request.session.error = '';
