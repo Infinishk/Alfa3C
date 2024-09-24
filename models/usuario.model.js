@@ -26,20 +26,10 @@ module.exports = class Usuario{
             });
     }
 
-    save() {
-        const fechaRegistro = new Date();
-        return bcrypt.hash(this.password, 12)
-            .then((passwordCifrado) => {
-                return db.execute(
-                    'INSERT INTO Usuario (IDUsuario, Contraseña, CorreoElectronico, Status, FechaRegistro) VALUES (?, ?, ?, 1, ?)',
-                    [this.IDUsuario, passwordCifrado, this.correoElectronico, fechaRegistro]
-                );
-            })
-            .catch((error) => {
-                console.log(error);
-                throw Error('Nombre de usuario duplicado. Ya existe un usuario con ese nombre.');
-            });
+    static saveUsuario(IDUsuario,CorreoElectronico){
+        return db.execute('INSERT INTO Usuario (`IDUsuario`, `Status`, `CorreoElectronico`) VALUES (?,0,?)',[IDUsuario,CorreoElectronico]);
     }
+    
     
 
     static fetchOne(IDUsuario) {

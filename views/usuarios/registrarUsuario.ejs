@@ -1,0 +1,28 @@
+<section class="section"></section>
+    <div class="container">
+        
+
+        <div class="container" style="justify-content: center; width: 50%;">
+            <form action="/usuarios/registrarUsuario" method="POST">
+                <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                <div class="field">
+                    <label class="label">Nombre de usuario</label>
+                    <div class="control">
+                        <input class="input" type="text" name="IDUsuario" id="nombreUsuario" required>
+                    </div>
+                    <label class="label">correo</label>
+                    <div class="control">
+                        <input class="input" type="text" name="correoElectronico" id="correoElectronico" required>
+                    </div>
+
+                <button>
+                    <input type="submit" value="Registrar" class="button is-primary">
+                    
+
+        
+      
+            </form>
+        </div>
+    </div>
+</section>
+
