@@ -14,5 +14,7 @@ router.get('/login', sessionController.get_login);
 const contrasenaController = require('../controllers/configuracion/updateContrasena.controller');
 
 router.get('/update_password', contrasenaController.get_update_password);
+router.post('/verify_password', contrasenaController.post_verify_password);
+router.post('/update_password', contrasenaController.post_modificar_contrasena);
 
 module.exports = router;

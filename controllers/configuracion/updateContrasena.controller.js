@@ -1,10 +1,5 @@
 const Usuario = require('../../models/usuario.model');
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer'); // Importa Nodemailer
-const jwt = require('jsonwebtoken');
-const config = require('../../config');
-const dotenv = require('dotenv')
-const secretKey = config.jwtSecret;
 
 exports.get_update_password = (request, response, next) => {
     response.render('configuracion/update_password', { 
@@ -16,10 +11,12 @@ exports.get_update_password = (request, response, next) => {
     });
 }
 
-exports.verify_password = async (request, response, next) => {
-    const { password } = request.body;
-    const user = await Usuario.fetchOne(request.session.IDUsuario);
-    const match = await bcrypt.compare(password, user[0].Contrasena);
+exports.post_verify_password = async (request, response, next) => {
+    const password = request.body.oldPassword;
+    const user = "SBP001";
+    const contrasena = await Usuario.fetchOne(user);
+    
+    const match = await bcrypt.compare(password, contrasena[0][0].Contraseña);
 
     if (match) {
         response.render('configuracion/update_password', {
@@ -39,3 +36,31 @@ exports.verify_password = async (request, response, next) => {
         });
     }
 }
+
+exports.post_modificar_contrasena = async (request, response, next) => {
+    try {
+
+        const IDUsuario = request.session.idUsuario;
+        const contrasena = request.body.contrasena;
+
+        await Usuario.updateContra(contrasena,IDUsuario);
+
+        response.render('configuracion/configuracion', {
+            modificar: true,
+            registrar: false,
+            contrato: contratos[0],
+            razonSocial: razonSocialInfo[0],
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+            rol: request.session.rol || "",
+        });
+
+    } catch (error) {
+        console.log(error);
+        response.status(500).render('500', {
+            username: request.session.username || '',
+            permisos: request.session.permisos || [],
+            rol: request.session.rol || "",
+        });
+    }
+};
