@@ -69,7 +69,7 @@ $gris-mediano: #E1E1E1;
   }
 }
 
-.navbar-item, .navbar-link {
+.navbar-start .navbar-item, .navbar-link {
   border-bottom: 2px solid transparent; 
   transition: border-bottom 0.2s ease, color 0.2s ease;
 

@@ -10322,16 +10322,12 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   border-color: #F0ECE4;
 }
 
-.navbar-item, .navbar-link {
+.navbar-start .navbar-item, .navbar-link {
   border-bottom: 2px solid transparent;
   transition: border-bottom 0.2s ease, color 0.2s ease;
 }
-.navbar-item:hover, .navbar-link:hover {
+.navbar-start .navbar-item:hover, .navbar-link:hover {
   border-bottom: 2px solid #DBB260;
-  color: #F0ECE4 !important;
-  background-color: transparent !important;
-}
-.navbar-item:active, .navbar-link:active {
   color: #F0ECE4 !important;
   background-color: transparent !important;
 }
