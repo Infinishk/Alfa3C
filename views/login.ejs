@@ -89,11 +89,6 @@
           <form action="/auth/login" method="post" class="lg-form">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <br>
-              <% if (error) { %>
-              <div class="notification is-danger">
-                  <strong> <%= error %></strong>
-              </div>
-              <% } %>
             
               <!-- Campo Nombre de usuario-->
               <div class="field">
