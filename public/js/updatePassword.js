@@ -1,45 +1,40 @@
 document.addEventListener("DOMContentLoaded", function() {
     console.log("DOM cargado correctamente");
 
-    // Toggle para contraseña antigua (verificación)
+    // Función para alternar el tipo de input y el ícono
+    function togglePasswordVisibility(passwordField, icon) {
+        icon.addEventListener('click', function() {
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                passwordField.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        });
+    }
+
+    // Toggle para contraseña antigua
     const oldPasswordField = document.getElementById('oldPassword');
-    const toggleOldPasswordCheckbox = document.getElementById('toggleOldPassword');
-
-    if (oldPasswordField && toggleOldPasswordCheckbox) {
-        toggleOldPasswordCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                oldPasswordField.type = 'text';
-            } else {
-                oldPasswordField.type = 'password';
-            }
-        });
+    const toggleOldPasswordIcon = document.getElementById('toggleOldPasswordIcon');
+    if (oldPasswordField && toggleOldPasswordIcon) {
+        togglePasswordVisibility(oldPasswordField, toggleOldPasswordIcon);
     }
 
-    // Toggle para nueva contraseña (actualización)
+    // Toggle para nueva contraseña
     const newPasswordField = document.getElementById('newPassword');
-    const toggleNewPasswordCheckbox = document.getElementById('toggleNewPassword');
-
-    if (newPasswordField && toggleNewPasswordCheckbox) {
-        toggleNewPasswordCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                newPasswordField.type = 'text';
-            } else {
-                newPasswordField.type = 'password';
-            }
-        });
+    const toggleNewPasswordIcon = document.getElementById('toggleNewPasswordIcon');
+    if (newPasswordField && toggleNewPasswordIcon) {
+        togglePasswordVisibility(newPasswordField, toggleNewPasswordIcon);
     }
 
+    // Toggle para confirmar nueva contraseña
     const newPasswordField2 = document.getElementById('newPassword2');
-    const toggleNewPassword2Checkbox = document.getElementById('toggleNewPassword2');
-
-    if (newPasswordField2 && toggleNewPassword2Checkbox) {
-        toggleNewPassword2Checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                newPasswordField2.type = 'text';
-            } else {
-                newPasswordField2.type = 'password';
-            }
-        });
+    const toggleNewPassword2Icon = document.getElementById('toggleNewPassword2Icon');
+    if (newPasswordField2 && toggleNewPassword2Icon) {
+        togglePasswordVisibility(newPasswordField2, toggleNewPassword2Icon);
     }
 
     // Habilitar/deshabilitar el botón de actualización de contraseña
@@ -61,4 +56,3 @@ document.addEventListener("DOMContentLoaded", function() {
     newPasswordField.addEventListener('input', checkPasswords);
     newPasswordField2.addEventListener('input', checkPasswords);
 });
-
