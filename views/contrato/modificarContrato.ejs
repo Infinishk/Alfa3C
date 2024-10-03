@@ -1,64 +1,112 @@
+<%- include('../includes/head.ejs', { permisos: permisos, rol: rol }) %>
+
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-weight: bold;
+            color: #204F7B;
+            text-align: center;
+            font-size: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: black;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        #errorMessage {
+            color: #204F7B;
+            font-size: 0.9em;
+            margin-top: 10px;
+            margin-left: 10px;
+            display: none;
+        }
+    </style>
 
     <body>
-        <section class="section">
-            <div class="container" style="display: flex; justify-content: center;">
-                <% if (fetch) { %>
-                    <p class="title" style="text-align: center;">Buscar Contrato</p>
-                    <form action="/contrato/fetchContrato" method="POST" style="width: 50%; margin-top: 50px;">
-                        <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
-                        <label for="nombre" class="label is-large">Nombre del Contrato:</label>
-                        <input type="text" id="titulo" name="titulo" required class="input is-large">
-                        <br>
-                        <br>
-                        <button type="submit" id="buscarBtn"
-                            class="button is-rounded is-large is-responsive">Buscar</button>
-                        <p id="mensajeValidacion" class="help is-danger"></p>
-                    </form>
-                    <% if (error) { %>
-                        <p class="is-size-4">
-                            <%= error %>
-                        </p>
-                        <% } %>
+
+        <% if (fetch) { %>
+            <p class="title" style="text-align: center;">Buscar Contrato</p>
+            <form action="/contrato/fetchContrato" method="POST" style="width: 50%; margin-top: 50px;">
+                <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                <label for="nombre" class="label is-large">Nombre del Contrato:</label>
+                <input type="text" id="titulo" name="titulo" required class="input is-large">
+                <br>
+                <br>
+                <button type="submit" id="buscarBtn" class="button is-rounded is-large is-responsive">Buscar</button>
+                <p id="mensajeValidacion" class="help is-danger"></p>
+            </form>
+            <% if (error) { %>
+                <p class="is-size-4">
+                    <%= error %>
+                </p>
+                <% } %>
+                    <% } %>
+
+                        <% if (editar) { %>
+                            <div class="form-container">
+                                <h1>Modifica Datos del Contrato</h1>
+                                <form action="/contrato/registrarContrato" method="POST">
+                                    <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+
+                                    <div class="form-group">
+                                        <label for="razonSocial">Razón Social:</label>
+                                        <input type="text" id="razonSocial" name="razonSocial"
+                                            value="<%= razonSocial.ReferenciaBancaria %>" class="inputField" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="nombreEmpresa">Nombre de la Empresa:</label>
+                                        <input type="text" id="nombreEmpresa" name="nombreEmpresa"
+                                            value="<%= razonSocial.NombreEmpresa %>" class="inputField" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="titulo">Título del Contrato:</label>
+                                        <input type="text" id="titulo" name="titulo" class="inputField"
+                                            value="<%= contrato.Titulo %>" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="numMeses">Número de Meses:</label>
+                                        <input type="number" id="numMeses" name="numMeses"
+                                            value="<%= contrato.DuracionMeses %>" class="inputField" required>
+                                    </div>
+
+                                    <!-- Contenedor del botón y el mensaje -->
+                                    <div style="display: flex; align-items: center;">
+                                        <button id="submitBtn" type="submit" class="button is-primary">Registrar
+                                            Contrato</button>
+                                        <span id="errorMessage">Por favor ingresa correctamente todos los datos</span>
+                                    </div>
+                                </form>
+                            </div>
                             <% } %>
 
-
-                                <% if (editar) { %>
-                                    <p class="title" style="text-align: center;">Modificar Contrato</p>
-                                    <form action="/contrato/modificarContrato" method="POST"
-                                        onsubmit="return validateForm()" style="width: 50%; margin-top: 50px;">
-                                        <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
-                                        <input type="hidden" name="idContrato" value="<%= contrato.IDContrato %>">
-                                        <input type="hidden" name="idRazonSocial" value="<%= razonSocial.IDRazonSocial %>">
-                                        <label for="Titulo" class="label is-large">Titulo:</label>
-                                        <input type="text" id="titulo" name="titulo"
-                                            value="<%= contrato.Titulo %>" required class="input is-large">
-
-                                        <label for="numMeses" class="label is-large">Numero de Meses:</label>
-                                        <input type="number" id="numMeses" name="numMeses"
-                                            value="<%= contrato.DuracionMeses %>" step="any" required
-                                            class="input is-large" pattern="^\d+(\.\d+)?$">
-
-                                        <label for="nombreEmpresa" class="label is-large">Nombre Empresa:</label>
-                                        <input type="text" id="nombreEmpresa" name="nombreEmpresa"
-                                            value="<%= razonSocial.NombreEmpresa %>" required class="input is-large">
-
-                                            <label for="razonSocial" class="label is-large">Referencia Bancaria:</label>
-                                            <input type="text" id="razonSocial" name="razonSocial"
-                                                value="<%= razonSocial.ReferenciaBancaria %>" required class="input is-large">
-                                        <br>
-                                        <button type="submit" class="button is-rounded is-large is-responsive">
-                                           <span>Registrar Cambios</span>
-                                           <span class="icon is-large">
-                                               <i class="fa-solid fa-circle-chevron-right" style="color: #ffffff;"></i>
-                                           </span>
-                                        </button>
-                                        <p id="alerta" class="help is-danger" style="display: none;"></p>
-                                    </form>
-                                    <% } %>
-
-            </div>
-        </section>
-        <script type="text/javascript" src="/js/editar_diplomado.js"></script>
     </body>
 
-    </html>
+    <script type="text/javascript" src="/js/modificarContrato.js"></script>
+    <%- include('../includes/foot.ejs') %>
