@@ -1,17 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOM cargado correctamente");
 
-    // Toggle para contraseña antigua (verificación)
-    const PasswordField = document.getElementById('password');
-    const togglePasswordCheckbox = document.getElementById('togglePassword');
+    document.getElementById('togglePasswordIcon').addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        const icon = document.getElementById('togglePasswordIcon');
+        
+        // Alternar entre mostrar y ocultar la contraseña
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        }
+    });
+    
 
-    if (PasswordField && togglePasswordCheckbox) {
-        togglePasswordCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                PasswordField.type = 'text';
-            } else {
-                PasswordField.type = 'password';
-            }
-        });
-    }
 });
