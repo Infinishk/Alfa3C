@@ -56,3 +56,4 @@ document.addEventListener("DOMContentLoaded", function() {
     newPasswordField.addEventListener('input', checkPasswords);
     newPasswordField2.addEventListener('input', checkPasswords);
 });
+
