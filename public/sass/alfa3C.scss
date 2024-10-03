@@ -1,0 +1,131 @@
+// Colores de Alfa3C
+$azul: #204F7B;
+$negro: #101010;
+$dorado: #DBB260;
+$blanco: #F0ECE4;
+$gris-claro: #D6D6D6;
+$gris-mediano: #E1E1E1;
+
+@use "bulma/bulma" with (
+  $family-primary: '"Roboto", sans-serif',
+  $family-sans-serif: '"Roboto", sans-serif',
+  $grey-dark: $gris-mediano,
+  $grey-light: $gris-claro,
+  $primary: $dorado,
+  $link: $azul,
+  $danger: $azul,
+  $info: $negro,
+  $subtitle-color: $negro,
+  $text-strong: $negro,
+  $control-border-width: 2px,
+  $input-border-color: transparent,
+  $input-shadow: none,
+  $body-background-color: $blanco,
+  $footer-background-color: $blanco,
+  $navbar-background-color: $azul,
+  $navbar-item-color: $blanco, 
+  $navbar-dropdown-arrow: $blanco
+);
+
+.button.is-transparent-primary {
+  background-color: transparent;   
+  border: 2px solid bulma.$primary; 
+  color: $blanco;     
+  border-radius: 8px;    
+  border-width: 3px;    
+
+  &:hover {
+    background-color: bulma.$primary;  
+    color: $blanco;  
+    border-color: $blanco; 
+  }
+}
+
+.button.is-transparent-link {
+  background-color: transparent;   
+  border: 2px solid bulma.$link; 
+  color: $blanco;     
+  border-radius: 8px;    
+  border-width: 3px;    
+
+  &:hover {
+    background-color: bulma.$link;
+    color: $blanco; 
+    border-color: $blanco;
+  }
+}
+
+.button.is-transparent-info {
+  background-color: transparent;   
+  border: 2px solid bulma.$info; 
+  color: $blanco;     
+  border-radius: 8px;    
+  border-width: 3px;    
+
+  &:hover {
+    background-color: bulma.$info;  
+    color: $blanco;  
+    border-color: $blanco;
+  }
+}
+
+.navbar-start .navbar-item, .navbar-link {
+  border-bottom: 2px solid transparent; 
+  transition: border-bottom 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    border-bottom: 2px solid $dorado;
+    color: $blanco !important;
+    background-color: transparent !important; 
+  }
+
+}
+
+.navbar-dropdown .navbar-item {
+  color: $negro;
+  
+  &:hover {
+    color: $dorado !important; 
+  }
+}
+
+p {
+  color: $negro !important;
+}
+
+*,
+input,
+select,
+textarea,
+button {
+  font-family: "Roboto", sans-serif;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Garantiza que el contenedor ocupe toda la altura de la ventana */
+}
+
+.section {
+  flex-grow: 1; /* El contenido principal se expandirá para llenar el espacio disponible */
+}
+
+.footer {
+  padding: 1rem;
+  flex-shrink: 0; /* Asegura que el footer no se encoja */
+}
+
+
+// Import the Google Font
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,700");
