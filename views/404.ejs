@@ -1,4 +1,10 @@
-<section class="section"></section>
+<%- include('includes/head.ejs', {
+    username: username,
+    permisos: permisos,
+    rol: rol
+}) %>
+
+<section class="section">
     <div class="container">
         <label class="label is-large has-text-danger has-text-weight-semibold">
             404 - PÁGINA NO ENCONTRADA
@@ -8,3 +14,5 @@
         </div>
     </div>
 </section>
+
+<%- include('./includes/foot.ejs') %>
