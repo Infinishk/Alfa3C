@@ -1,57 +1,225 @@
+<%- include('../includes/head.ejs', {
+    username: username,
+    permisos: permisos,
+    rol: rol
+}) %>
+
 <section>
-    <h2>Usuarios Activos - <span id="textCambio">Sin Cambios</span>
-    </h2>
+    <div class="container">
 
-    <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+        <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
 
-    <ul>
-        <% activeUsers.forEach(function(user) { %>
-        <li>
-            <%= user.IDUsuario %> - <%= user.CorreoElectronico %> - <%= user.Status %>
-            <button class="modify-status-button" data-user-id="<%= user.IDUsuario %>"
-                data-user-status="<%= user.Status %>">
-                <% if (user.Status == 0) { %>
-                    Activar
-                <% } else { %>
-                    Desactivar
-                <% } %>
-            </button>
-        </li>
-        <% }); %>
-    </ul>
+        <div class="columns">
+            <div class="column is-7">
+                 <label class="label is-large has-text-weight-semibold">
+                            CONFIGURACIÓN USUARIOS
+                 </label>
+            </div>
+        </div>
 
-    <h2>Usuarios Inactivos</h2>
-    <ul>
-        <% inactiveUsers.forEach(function(user) { %>
-        <li>
-            <%= user.IDUsuario %> - <%= user.CorreoElectronico %> - <%= user.Status %>
-            <button class="modify-status-button" data-user-id="<%= user.IDUsuario %>"
-                data-user-status="<%= user.Status %>">
-                <% if (user.Status == 0) { %>
-                    Activar
-                <% } else { %>
-                    Desactivar
-                <% } %>
-            </button>
-        </li>
-        <% }); %>
-    </ul>
+        <div id="toast" class="toast is-hidden">
+            <span class="icon is-small"><i class="fa-solid fa-circle-info"></i></span>
+            <span id="toastMessage">Usuario activado/desactivado con éxito</span>
+        </div>
 
-    <h2>Administradores</h2>
-    <ul>
-        <% adminUsers.forEach(function(admin) { %>
-        <li>
-            <%= admin.IDUsuario %> - <%= admin.CorreoElectronico %> - <%= admin.Status %>
-            <button class="modify-status-button" data-user-id="<%= admin.IDUsuario %>"
-                data-user-status="<%= admin.Status %>">
-                <% if (admin.Status == 0) { %>
-                    Activar
-                <% } else { %>
-                    Desactivar
-                <% } %>
-            </button>
-        </li>
-        <% }); %>
-    </ul>
+        <%- include('../components/_alertModal.ejs') %>
+
+        <div class="tabs is-boxed">
+            <ul>
+                <li class="is-active" id="navActivos">
+                    <a>
+                        <span class="icon is-small"><i class="fa-solid fa-users"></i></span>
+                        <span>Usuarios Activos</span>
+                    </a>             
+                </li>
+                <li id="navNoActivos">
+                    <a>
+                        <span class="icon is-small"><i class="fa-regular fa-users-slash"></i></span>
+                        <span>Usuarios Desactivados</span>
+                    </a>
+                </li>
+                <li id="navAdmins">
+                    <a>
+                        <span class="icon is-small"><i class="fa-solid fa-user-shield"></i></span>
+                        <span>Adminstradores</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="usuariosActivos">
+            <div id="searchActivos" class="field">
+                <div class="control">
+                    <input id="searchActivos" class="input" type="text" placeholder="Buscar usuarios activos ...">
+                </div>
+            </div>
+
+            <div id="vacioActivo" class="notification notification-info is-hidden">
+                No hay usuarios activos por el momento.
+            </div>
+                    
+            <div id="resultadoActivo" class="notification notification-info is-hidden">
+                No existen usuarios con los paramétros de busqueda.
+             </div>
+
+            <div id="tablaActivos" class="table-container">
+                <table class="table is-hoverable is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;">
+                                IDUsuario
+                            </th>
+                            <th style="text-align: left;">
+                                Correo Electrónico
+                            </th>
+                            <th style="text-align: left;">
+                                Estatus
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyActivos">
+                    <% activeUsers.forEach(function(user) { %>
+                        <tr class="user-row">
+                            <td>
+                                <%= user.IDUsuario %>
+                            </td>
+                            <td>
+                                <%= user.CorreoElectronico %>
+                            </td>
+                            <td>
+                                <button class="button is-link modify-status-button" data-user-id="<%= user.IDUsuario %>"
+                                    data-user-status="<%= user.Status %>" data-user-admin="0">
+                                <% if (user.Status == 0) { %>
+                                    Activar
+                                 <% } else { %>
+                                    Desactivar
+                                <% } %>
+                                </button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="usuariosNoActivos" class="is-hidden">
+            <div id="searchNoActivos" class="field">
+                <div class="control">
+                    <input id="searchNoActivos" class="input" type="text" placeholder="Buscar usuarios desactivados ...">
+                </div>
+            </div>
+
+            <div id="vacioNoActivo" class="notification notification-info is-hidden">
+                No hay usuarios activos por el momento.
+            </div>
+                    
+            <div id="resultadoNoActivo" class="notification notification-info is-hidden">
+                No existen usuarios con los paramétros de busqueda.
+            </div>
+
+            <div id="tablaNoActivos" class="table-container">
+                <table class="table is-hoverable is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;">
+                                IDUsuario
+                             </th>
+                            <th style="text-align: left;">
+                                Correo Electrónico
+                            </th>
+                            <th style="text-align: left;">
+                                Estatus
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyNoActivos">
+                    <% inactiveUsers.forEach(function(user) { %>
+                        <tr class="user-row">
+                            <td>
+                                <%= user.IDUsuario %>
+                            </td>
+                            <td>
+                                <%= user.CorreoElectronico %>
+                            </td>
+                            <td>
+                                <button class="button is-primary modify-status-button" data-user-id="<%= user.IDUsuario %>"
+                                    data-user-status="<%= user.Status %>" data-user-admin="0">
+                                    <% if (user.Status == 0) { %>
+                                        Activar
+                                    <% } else { %>
+                                        Desactivar
+                                    <% } %>
+                                </button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="usuariosAdmins" class="is-hidden">
+            <% if (adminUsers.length===0) { %>
+                <div class="notification notification-info">
+                    No hay usuarios administradores por el momento.
+                </div>
+            <% } else { %>
+                <div class="field">
+                    <div class="control">
+                        <input id="searchAdmins" class="input" type="text" placeholder="Buscar usuarios administradores ...">
+                    </div>
+                </div>
+                    
+                <div id="resultadoAdmin" class="notification notification-info is-hidden">
+                    No existen usuarios con los paramétros de busqueda.
+                </div>
+
+                <div id="tablaAdmins" class="table-container">
+                    <table class="table is-hoverable is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left;">
+                                    IDUsuario
+                                </th>
+                                <th style="text-align: left;">
+                                    Correo Electrónico
+                                </th>
+                                <th style="text-align: left;">
+                                    Estatus
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyAdmins">
+                        <% adminUsers.forEach(function(admin) { %>
+                            <tr class="user-row">
+                                <td>
+                                    <%= admin.IDUsuario %>
+                                </td>
+                                <td>
+                                    <%= admin.CorreoElectronico %>
+                                </td>
+                                <td>
+                                    <% if (admin.Status == 0) { %>
+                                    <button class="button is-primary modify-status-button" data-user-id="<%= admin.IDUsuario %>"
+                                        data-user-status="<%= admin.Status %>" data-user-admin="1">
+                                        Activar
+                                    <% } else { %>
+                                        <button class="button is-link modify-status-button" data-user-id="<%= admin.IDUsuario %>"
+                                        data-user-status="<%= admin.Status %>" data-user-admin="1">
+                                        Desactivar
+                                    <% } %>
+                                    </button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } %>
+        </div>
+    </div>
 </section>
-<script type="text/javascript" src="/js/usuarios/consultarUsuarios.js"></script>
+<script type="module" src="/js/usuarios/consultarUsuarios.js"></script>
+
+<%- include('../includes/foot.ejs') %>

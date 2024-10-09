@@ -17,6 +17,7 @@ $gris-mediano: #E1E1E1;
   $info: $negro,
   $subtitle-color: $negro,
   $text-strong: $negro,
+  $tabs-boxed-link-hover-background-color: #ffffff,
   $control-border-width: 2px,
   $input-border-color: transparent,
   $input-shadow: none,
@@ -124,6 +125,50 @@ html, body {
 .footer {
   padding: 1rem;
   flex-shrink: 0; /* Asegura que el footer no se encoja */
+}
+
+.tabs {
+  ul {
+    li {
+      &:not(.is-active) {
+        a {
+          span {
+            color: #101010; 
+          }
+        }
+      }
+    }
+  }
+}
+
+.button.is-primary:hover {
+  background-color: #7A3E9D; // Cambia a cualquier color que desees
+}
+
+.notification-success {
+  background-color: #5BBE62;
+  color: #ffffff;
+}
+
+.notification-delete {
+  background-color: #D9534F;
+  color: #ffffff;
+}
+
+.notification-info {
+  background-color: #D1B894;
+  color: #ffffff;
+}
+
+.toast {
+    position: fixed;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
 }
 
 
