@@ -11,4 +11,7 @@ const iniciarSesionController = require('../controllers/session/iniciarSesion.co
 router.get('/login', sessionController.get_login);
 */
 
+const consultarContratosController = require('../controllers/contrato/consultarContratos.controller');
+router.get('/contrato', consultarContratosController.fetch_contratos)
+
 module.exports = router;
