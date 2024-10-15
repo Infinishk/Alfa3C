@@ -1,16 +1,5 @@
 <%- include('../includes/head.ejs', { permisos: permisos, rol: rol}) %>
 
-<style>
-    .pagination-container {
-        margin-top: 20px;
-    }
-
-    .pagination-btn {
-        margin: 0 5px;
-    }
-</style>
-
-
 <body>
     <section class="section">
         <div class="columns is-flex is-justify-content-space-between">
@@ -70,7 +59,7 @@
                     <% } else { %>
                         <% for (let activo of activos) { %>
                         <div class="columns is-flex is-align-items-stretch">
-                            <div class="column">
+                            <div class="column" id="pagination-content">
                                 <div class="box" style="text-align: left;">
                                     <div class="columns is-flex is-justify-content-space-between">
                                         <div class="column is-narrow">
@@ -94,8 +83,18 @@
                         </div>
                         <% } %>
                     <% } %>
+
+                    <!-- Pagination -->
+                    <div class="column is-narrow is-flex is-justify-content-flex-end">
+                        <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+                            <a class="pagination-previous" id="prev-button">Anterior</a>
+                            <a class="pagination-next" id="next-button">Siguiente</a>
+                            <ul class="pagination-list" id="pagination-list">
+                                <div id="pagination-numbers"></div>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
-        
 
         <div id="contratos_inactivos" class="is-hidden">
             <% let count_inactivos = 0 %>
@@ -113,7 +112,7 @@
                     <% } else { %>
                         <% for (let inactivo of inactivos) { %>
                         <div class="columns is-flex is-align-items-stretch">
-                            <div class="column">
+                            <div class="column" id="pagination-content-2">
                                 <div class="box" style="text-align: left;">
                                     <div class="columns is-flex is-justify-content-space-between">
                                         <div class="column is-narrow">
@@ -137,11 +136,24 @@
                         </div>
                         <% } %>
                     <% } %>
+
+                    <!-- Pagination -->
+                    <div class="column is-narrow is-flex is-justify-content-flex-end">
+                        <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+                            <a class="pagination-previous" id="prev-button-2">Anterior</a>
+                            <a class="pagination-next" id="next-button-2">Siguiente</a>
+                            <ul class="pagination-list" id="pagination-list-2">
+                                <div id="pagination-numbers-2"></div>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>        
         </div>
     </section>
-</body>  
+</body>
 
 <script type="text/javascript" src="/js/contrato/consultarContratos.js"></script>
+<script type="text/javascript" src="/js/pagination.js"></script>
+<script type="text/javascript" src="/js/pagination2.js"></script>
 
 <%- include('../includes/foot.ejs') %>
