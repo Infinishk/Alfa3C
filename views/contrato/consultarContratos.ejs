@@ -1,15 +1,147 @@
 <%- include('../includes/head.ejs', { permisos: permisos, rol: rol}) %>
 
 <style>
-    h1 {
-        font-weight: bold;
-        color: #204F7B;
-        font-size: 25px;
+    .pagination-container {
+        margin-top: 20px;
+    }
+
+    .pagination-btn {
+        margin: 0 5px;
     }
 </style>
 
+
 <body>
-    <h1> Contratos </h1>
-</body>
+    <section class="section">
+        <div class="columns is-flex is-justify-content-space-between">
+            <div class="column is-6">
+                <label class="label is-large has-text-strong has-text-weight-semibold">
+                    CONTRATOS
+                </label>
+            </div>
+
+            <div class="column is-narrow is-justify-content-flex-end">
+                <p class="control">
+                    <a class="button is-responsive is-primary" style="font-size: large;"
+                        href="/contrato/registrarContrato">
+                        <span class="icon is-large">
+                            <i class="fa-solid fa-circle-plus" style="color: #FFFF;"></i>
+                        </span>
+                        <span>
+                            Registrar Contrato
+                        </span>
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Estructura / headings de tabs -->
+        <div class="tabs is-boxed">
+            <ul>
+                <li class="is-active" id="tab_activos">
+                    <a>
+                        <span class="icon is-small"><i class="fa-solid fa-file-circle-check"></i></span>
+                        <span> Contratos Activos</span>
+                    </a>
+                </li>
+
+                <li id="tab_inactivos">
+                    <a>
+                        <span class="icon is-small"><i class="fa-solid fa-file-circle-xmark"></i></span>
+                        <h2> Contratos Inactivos</h2>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="contratos_activos">
+            <% let count_activos = 0 %>
+        
+            <% if (activos.length === 0) { %>
+                <div class="columns">
+                    <div class="column is-2">
+                        <div class="column is-8">
+                            <div class="notification" style="background-color: #204F7B; color:#FFFF;">
+                                No hay contratos activos en este momento.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <% } else { %>
+                        <% for (let activo of activos) { %>
+                        <div class="columns is-flex is-align-items-stretch">
+                            <div class="column">
+                                <div class="box" style="text-align: left;">
+                                    <div class="columns is-flex is-justify-content-space-between">
+                                        <div class="column is-narrow">
+                                            <p class="has-text-black has-text-weight-bold is-size-6"><%= activo.Titulo %></p>
+                                        </div>
+                                        <div class="column is-narrow">
+                                            <p class="has-text-grey has-text-weight-medium"><b>Duración:</b> <%= activo.DuracionMeses %> meses</p>
+                                        </div>
+                                        <div class="column is-narrow">
+                                            <p class="has-text-grey has-text-weight-medium"><b>Razón Social:</b> <%= activo.NombreEmpresa %></p>
+                                        </div>
+                                        <div class="column is-narrow">
+                                            <p class="has-text-grey has-text-weight-medium"><b>Inflación:</b> <%= activo.PorcentajeInflacion %>%</p>
+                                        </div>
+                                        <div class="column is-narrow is-flex is-justify-content-flex-end">
+                                            <button class="button is-danger">Detalles</button> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                    <% } %>
+                </div>
+        
+
+        <div id="contratos_inactivos" class="is-hidden">
+            <% let count_inactivos = 0 %>
+        
+            <% if (inactivos.length === 0) { %>
+                <div class="columns">
+                    <div class="column is-2">
+                        <div class="column is-8">
+                            <div class="notification" style="background-color: #204F7B; color:#FFFF;">
+                                No hay contratos inactivos en este momento.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <% } else { %>
+                        <% for (let inactivo of inactivos) { %>
+                        <div class="columns is-flex is-align-items-stretch">
+                            <div class="column">
+                                <div class="box" style="text-align: left;">
+                                    <div class="columns is-flex is-justify-content-space-between">
+                                        <div class="column is-narrow">
+                                            <p class="has-text-black has-text-weight-bold is-size-6"><%= inactivo.Titulo %></p>
+                                        </div>
+                                        <div class="column is-narrow">
+                                            <p class="has-text-grey has-text-weight-medium"><b>Duración:</b> <%= inactivo.DuracionMeses %> meses</p>
+                                        </div>
+                                        <div class="column is-narrow">
+                                            <p class="has-text-grey has-text-weight-medium"><b>Razón Social:</b> <%= inactivo.NombreEmpresa %></p>
+                                        </div>
+                                        <div class="column is-narrow">
+                                            <p class="has-text-grey has-text-weight-medium"><b>Inflación:</b> <%= inactivo.PorcentajeInflacion %>%</p>
+                                        </div>
+                                        <div class="column is-narrow is-flex is-justify-content-flex-end">
+                                            <button class="button is-danger">Modificar</button> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                    <% } %>
+                </div>        
+        </div>
+    </section>
+</body>  
+
+<script type="text/javascript" src="/js/contrato/consultarContratos.js"></script>
 
 <%- include('../includes/foot.ejs') %>

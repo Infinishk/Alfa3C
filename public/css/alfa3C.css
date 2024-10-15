@@ -336,7 +336,7 @@ pre {
 }
 
 body {
-  color: #E1E1E1;
+  color: #101010;
   font-size: 1em;
   font-weight: 400;
   line-height: 1.5;
@@ -437,9 +437,8 @@ table th {
 }
 /* Bulma Elements */
 .box {
-  background-color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 0%, 100%);;
   border-radius: 6px;
-  box-shadow: 0 0.5em 1em -0.125em rgba(10.2, 10.2, 10.2, 0.1), 0 0px 0 1px rgba(10.2, 10.2, 10.2, 0.02);
   color: #E1E1E1;
   display: block;
   padding: 1.25rem;
@@ -472,6 +471,7 @@ a.box:active {
 .button .icon, .button .icon.is-small, .button .icon.is-medium, .button .icon.is-large {
   height: 1.5em;
   width: 1.5em;
+  color:hsl(0, 0%, 0%)
 }
 .button .icon:first-child:not(:last-child) {
   margin-left: calc(-0.5em - 2px);
@@ -5829,7 +5829,7 @@ label.panel-block:hover {
   border-bottom-color: hsl(0, 0%, 86%);
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  color: #E1E1E1;
+  color: #101010;
   display: flex;
   justify-content: center;
   margin-bottom: -1px;
