@@ -16,4 +16,8 @@ module.exports = class Contrato{
     static fetchInactivos(){
         return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Inflacion.PorcentajeInflacion, Contrato.DuracionMeses, Contrato.Titulo FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial JOIN Inflacion ON Contrato.IDInflacion = Inflacion.IDInflacion WHERE Contrato.Estatus = 0');
     }
+
+    static updateEstatus(estatus, id){
+        return db.execute('UPDATE Contrato SET Estatus = ? WHERE IDContrato = ?', [estatus, id])
+    }
 }

@@ -24,6 +24,8 @@
             </div>
         </div>
 
+        <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+
         <!-- Estructura / headings de tabs -->
         <div class="tabs is-boxed">
             <ul>
@@ -43,19 +45,24 @@
             </ul>
         </div>
 
+        <div class="columns">
+            <div class="column is-fullwidth">
+                <div id="banner_estatus" class="notification is-hidden"
+                    style="background-color: #DBB260; color:#ffffff;">
+                    ¡Estatus del contrato modificado! Recargando la página...
+                </div>
+            </div>
+        </div>
+
         <div id="contratos_activos">
-            <% let count_activos = 0 %>
-        
             <% if (activos.length === 0) { %>
                 <div class="columns">
-                    <div class="column is-2">
-                        <div class="column is-8">
-                            <div class="notification" style="background-color: #204F7B; color:#FFFF;">
-                                No hay contratos activos en este momento.
-                            </div>
+                    <div class="column is-fullwidth">
+                        <div class="notification" style="background-color: #204F7B; color:#ffffff;">
+                            No hay contratos activos en este momento.
                         </div>
                     </div>
-                    
+                </div>    
                     <% } else { %>
                         <% for (let activo of activos) { %>
                         <div class="columns is-flex is-align-items-stretch">
@@ -78,19 +85,17 @@
                                             <div class="column is-flex is-flex-direction-column is-align-items-center is-justify-content-center"> 
                                                 <div class="field mb-2">
                                                     <input type="checkbox" id="estatus-<%= activo.IDContrato %>" 
-                                                    class="switch is-rounded" checked="checked">
+                                                    class="switch is-rounded estatus-switch" checked="checked">
                                                     <label for="estatus-<%= activo.IDContrato %>"></label>
                                                 </div>
                                                 <button class="button is-danger">Detalles</button> 
                                             </div>
                                         </div>
-                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <% } %>
-                    <% } %>
 
                     <!-- Pagination -->
                     <div class="column is-narrow is-flex is-justify-content-flex-end">
@@ -102,20 +107,18 @@
                             </ul>
                         </nav>
                     </div>
+                    <% } %>
                 </div>
 
         <div id="contratos_inactivos" class="is-hidden">
-            <% let count_inactivos = 0 %>
-        
             <% if (inactivos.length === 0) { %>
                 <div class="columns">
-                    <div class="column is-2">
-                        <div class="column is-8">
-                            <div class="notification" style="background-color: #204F7B; color:#FFFF;">
-                                No hay contratos inactivos en este momento.
-                            </div>
+                    <div class="column is-fullwidth">
+                        <div class="notification" style="background-color: #204F7B; color:#ffffff;">
+                            No hay contratos inactivos en este momento.
                         </div>
                     </div>
+                </div>  
                     
                     <% } else { %>
                         <% for (let inactivo of inactivos) { %>
@@ -139,19 +142,17 @@
                                             <div class="column is-narrow is-flex is-flex-direction-column is-align-items-center is-justify-content-center"> 
                                                 <div class="field mb-2">
                                                     <input type="checkbox" id="estatus-<%= inactivo.IDContrato %>" 
-                                                    class="switch is-rounded">
+                                                    class="switch is-rounded estatus-switch">
                                                     <label for="estatus-<%= inactivo.IDContrato %>"></label>
                                                 </div>
                                                 <button class="button is-danger">Detalles</button> 
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <% } %>
-                    <% } %>
 
                     <!-- Pagination -->
                     <div class="column is-narrow is-flex is-justify-content-flex-end">
@@ -163,12 +164,14 @@
                             </ul>
                         </nav>
                     </div>
+                    <% } %>
                 </div>        
         </div>
     </section>
 </body>
 
 <script type="text/javascript" src="/js/contrato/consultarContratos.js"></script>
+<script type="text/javascript" src="/js/contrato/desactivarContrato.js"></script>
 <script type="text/javascript" src="/js/pagination.js"></script>
 <script type="text/javascript" src="/js/pagination2.js"></script>
 
