@@ -74,9 +74,17 @@
                                         <div class="column is-narrow">
                                             <p class="has-text-grey has-text-weight-medium"><b>Inflación:</b> <%= activo.PorcentajeInflacion %>%</p>
                                         </div>
-                                        <div class="column is-narrow is-flex is-justify-content-flex-end">
-                                            <button class="button is-danger">Detalles</button> 
+                                        <div class="columns">
+                                            <div class="column is-flex is-flex-direction-column is-align-items-center is-justify-content-center"> 
+                                                <div class="field mb-2">
+                                                    <input type="checkbox" id="estatus-<%= activo.IDContrato %>" 
+                                                    class="switch is-rounded" checked="checked">
+                                                    <label for="estatus-<%= activo.IDContrato %>"></label>
+                                                </div>
+                                                <button class="button is-danger">Detalles</button> 
+                                            </div>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -127,9 +135,17 @@
                                         <div class="column is-narrow">
                                             <p class="has-text-grey has-text-weight-medium"><b>Inflación:</b> <%= inactivo.PorcentajeInflacion %>%</p>
                                         </div>
-                                        <div class="column is-narrow is-flex is-justify-content-flex-end">
-                                            <button class="button is-danger">Modificar</button> 
+                                        <div class="columns">
+                                            <div class="column is-narrow is-flex is-flex-direction-column is-align-items-center is-justify-content-center"> 
+                                                <div class="field mb-2">
+                                                    <input type="checkbox" id="estatus-<%= inactivo.IDContrato %>" 
+                                                    class="switch is-rounded">
+                                                    <label for="estatus-<%= inactivo.IDContrato %>"></label>
+                                                </div>
+                                                <button class="button is-danger">Detalles</button> 
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>

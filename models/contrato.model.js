@@ -10,10 +10,10 @@ module.exports = class Contrato{
     }
 
     static fetchActivos(){
-        return db.execute('SELECT RazonSocial.NombreEmpresa, Inflacion.PorcentajeInflacion, Contrato.DuracionMeses, Contrato.Titulo FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial JOIN Inflacion ON Contrato.IDInflacion = Inflacion.IDInflacion WHERE Contrato.Estatus = 1');
+        return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Inflacion.PorcentajeInflacion, Contrato.DuracionMeses, Contrato.Titulo FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial JOIN Inflacion ON Contrato.IDInflacion = Inflacion.IDInflacion WHERE Contrato.Estatus = 1');
     }
 
     static fetchInactivos(){
-        return db.execute('SELECT RazonSocial.NombreEmpresa, Inflacion.PorcentajeInflacion, Contrato.DuracionMeses, Contrato.Titulo FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial JOIN Inflacion ON Contrato.IDInflacion = Inflacion.IDInflacion WHERE Contrato.Estatus = 0');
+        return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Inflacion.PorcentajeInflacion, Contrato.DuracionMeses, Contrato.Titulo FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial JOIN Inflacion ON Contrato.IDInflacion = Inflacion.IDInflacion WHERE Contrato.Estatus = 0');
     }
 }
