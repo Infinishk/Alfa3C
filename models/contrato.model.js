@@ -28,4 +28,11 @@ module.exports = class Contrato{
     static updateEstatus(estatus, id){
         return db.execute('UPDATE Contrato SET Estatus = ? WHERE IDContrato = ?', [estatus, id]);
     }
+
+    static save(idRazonSocial, titulo,numMeses) {
+        return db.execute(
+            `INSERT INTO Contrato (IDRazonSocial, Titulo, DuracionMeses, Estatus) VALUES (?,?, ?, 1)`,
+            [idRazonSocial, titulo,numMeses]
+        );
+    }
 }
