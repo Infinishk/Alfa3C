@@ -39,4 +39,15 @@ module.exports = class Contrato{
             [idRazonSocial,idInflacion,titulo,numMeses]
         );
     }
+
+    static fetchOne(titulo){
+        return db.execute('Select * from Contrato WHERE Titulo = ?',[titulo]);
+    }
+
+    static update(idRazonSocial, titulo,numMeses,idContrato) {
+        return db.execute(
+            `UPDATE Contrato SET IDRazonSocial=?, Titulo=?, DuracionMeses=? WHERE IDContrato=?`,
+            [idRazonSocial, titulo, numMeses, idContrato] 
+        );
+    }
 }
