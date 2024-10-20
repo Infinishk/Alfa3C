@@ -1,0 +1,171 @@
+<%- include('../includes/head.ejs', { permisos: permisos, rol: rol}) %>
+
+<body>
+    <section class="section">
+        <div class="columns is-flex is-justify-content-space-between">
+            <div class="column is-6">
+                <label class="label is-large has-text-strong has-text-weight-semibold">
+                    CONTRATO: <%= contrato[0].Titulo %>
+                </label>
+            </div>
+
+        <% if (clientes.length === 0) { %>
+            <div class="column is-narrow is-justify-content-flex-end">
+                <form action="/contrato/modificarContrato" method="POST">
+                    <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" value="<%= contrato[0].IDContrato %>" name="id" id="id">
+                    <p class="control">
+                        <a class="button is-responsive is-primary" style="font-size: large;" type="submit">
+                            <span class="icon is-large">
+                                <i class="fa-solid fa-circle-plus" style="color: #FFFF;"></i>
+                            </span>
+                            <span> Modificar Contrato </span>
+                        </a>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <div class="columns is-flex is-align-items-stretch" id="noClientesInfo">
+            <div class="column">
+                <div class="box" style="text-align: center;">
+                    <p class="has-text-grey has-text-weight-medium">ID</p>
+                    <p class="has-text-black has-text-weight-bold is-size-5">
+                        <%= contrato[0].IDContrato %></p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="box" style="text-align: center;">
+                    <p class="has-text-grey has-text-weight-medium">DURACIÓN</p>
+                    <p class="has-text-black has-text-weight-bold is-size-5">
+                        <%= contrato[0].DuracionMeses %> meses</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="box" style="text-align: center;">
+                    <p class="has-text-grey has-text-weight-medium">RAZÓN SOCIAL</p>
+                    <p class="has-text-black has-text-weight-bold is-size-5">
+                        <%= contrato[0].NombreEmpresa %></p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="box" style="text-align: center;">
+                    <p class="has-text-grey has-text-weight-medium">INFLACIÓN</p>
+                    <p class="has-text-black has-text-weight-bold is-size-5">
+                        <%= contrato[0].PorcentajeInflacion %>%</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="box" style="text-align: center;">
+                    <p class="has-text-grey has-text-weight-medium">ESTATUS</p>
+                    <p class="has-text-black has-text-weight-bold is-size-5">
+                        <% if (contrato[0].Estatus == 1) { %> Activo 
+                        <% } else  { %> Inactivo <% } %> </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column is-fullwidth">
+                    <div class="notification" style="background-color: #204F7B; color:#ffffff;">
+                        No hay clientes asignados a este contrato.
+                    </div>
+                </div>
+            </div>  
+
+        <% } else { %>
+
+        </div>
+
+        <div class="container">
+            <div class="columns is-flex is-align-items-flex-start" id="contratoInfo">
+                <!-- Columna vertical para datos de contrato -->
+                <div class="columns is-flex is-flex-direction-column is-align-items-flex-start" id="conClientesInfo">
+                    <div class="column">
+                        <div class="box" style="text-align: center; width: 200px">
+                            <p class="has-text-grey has-text-weight-medium">ID</p>
+                            <p class="has-text-black has-text-weight-bold is-size-5">
+                                <%= contrato[0].IDContrato %></p>
+                            </div>
+                        </div>
+                    <div class="column">
+                        <div class="box" style="text-align: center; width: 200px">    
+                            <p class="has-text-grey has-text-weight-medium">DURACIÓN</p>
+                            <p class="has-text-black has-text-weight-bold is-size-5">
+                                <%= contrato[0].DuracionMeses %> meses</p>
+                            </div>
+                        </div>
+                    <div class="column">
+                        <div class="box" style="text-align: center; width: 200px">
+                            <p class="has-text-grey has-text-weight-medium">RAZÓN SOCIAL</p>
+                            <p class="has-text-black has-text-weight-bold is-size-5">
+                                <%= contrato[0].NombreEmpresa %></p>
+                            </div>
+                        </div>
+                    <div class="column">
+                        <div class="box" style="text-align: center; width: 200px">
+                            <p class="has-text-grey has-text-weight-medium">INFLACIÓN</p>
+                            <p class="has-text-black has-text-weight-bold is-size-5">
+                                <%= contrato[0].PorcentajeInflacion %>%</p>
+                            </div>
+                        </div>
+                    <div class="column">
+                        <div class="box" style="text-align: center; width: 200px">
+                            <p class="has-text-grey has-text-weight-medium">ESTATUS</p>
+                            <p class="has-text-black has-text-weight-bold is-size-5">
+                                <% if (contrato[0].Estatus == 1) { %>
+                                    Activo 
+                                <% } else  { %>
+                                    Inactivo 
+                                <% } %> </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna horizontal para datos de clientes -->
+                <div class="column">
+                    <div id="clientesInfo" class="columns is-flex is-flex-direction-column" style="margin-left: 7px;">
+                    <% for (let cliente of clientes) { %>
+                        <div class="columns is-flex is-align-items-stretch">
+                            <div class="column" id="pagination-content">
+                                <div class="box" style="text-align: left;">
+                                    <div class="columns is-flex is-justify-content-space-between">
+                                        <div class="column is-narrow">
+                                            <p class="has-text-black has-text-weight-bold is-size-6"><%= cliente.Nombre %> <%= cliente.Apellidos %></p>
+                                        </div>
+                                        <div class="column is-narrow">
+                                            <p class="has-text-grey has-text-weight-medium"><b>ID:</b> <%= cliente.IDCliente %></p>
+                                        </div>
+                                        <div class="column is-narrow">
+                                            <p class="has-text-grey has-text-weight-medium"><b>Tipo de Cliente:</b> <%= cliente.TipoCliente %></p>
+                                        </div>
+                                        <div class="column is-narrow">
+                                            <p class="has-text-grey has-text-weight-medium"><b>Interés:</b> <%= cliente.PorcentajeInteres %>%</p>
+                                        </div>
+                                        <div class="column is-narrow">
+                                            <p class="has-text-grey has-text-weight-medium"><b>Monto de Retención:</b> $<%= cliente.MontoRetencion %></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+
+                    <!-- Pagination -->
+                    <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+                        <a class="pagination-previous" id="prev-button">Anterior</a>
+                        <a class="pagination-next" id="next-button">Siguiente</a>
+                        <ul class="pagination-list" id="pagination-list">
+                            <div id="pagination-numbers">
+                            </div>
+                        </ul>
+                    </nav> 
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </section>
+</body>
+
+<script type="text/javascript" src="/js/pagination.js"></script>
+<%- include('../includes/foot.ejs') %>

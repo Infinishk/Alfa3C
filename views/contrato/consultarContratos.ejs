@@ -9,6 +9,8 @@
                 </label>
             </div>
 
+            <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+
             <div class="column is-narrow is-justify-content-flex-end">
                 <p class="control">
                     <a class="button is-responsive is-primary" style="font-size: large;"
@@ -17,14 +19,12 @@
                             <i class="fa-solid fa-circle-plus" style="color: #FFFF;"></i>
                         </span>
                         <span>
-                            Registrar Contrato
+                            Agregar Contrato
                         </span>
                     </a>
                 </p>
             </div>
         </div>
-
-        <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
 
         <!-- Estructura / headings de tabs -->
         <div class="tabs is-boxed">
@@ -88,7 +88,15 @@
                                                     class="switch is-rounded estatus-switch" checked="checked">
                                                     <label for="estatus-<%= activo.IDContrato %>"></label>
                                                 </div>
-                                                <button class="button is-danger">Detalles</button> 
+                                                <form action="/contrato/detallesContrato" method="POST">
+                                                    <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                                                    <input type="hidden" value="<%= activo.IDContrato %>" name="id" id="id">
+                                                    <button class="button is-responsive is-danger" type="sumbit">
+                                                        <span>
+                                                            Detalles
+                                                        </span>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -98,15 +106,13 @@
                         <% } %>
 
                     <!-- Pagination -->
-                    <div class="column is-narrow is-flex is-justify-content-flex-end">
-                        <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
-                            <a class="pagination-previous" id="prev-button">Anterior</a>
-                            <a class="pagination-next" id="next-button">Siguiente</a>
-                            <ul class="pagination-list" id="pagination-list">
-                                <div id="pagination-numbers"></div>
-                            </ul>
-                        </nav>
-                    </div>
+                    <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+                        <a class="pagination-previous" id="prev-button">Anterior</a>
+                        <a class="pagination-next" id="next-button">Siguiente</a>
+                        <ul class="pagination-list" id="pagination-list">
+                            <div id="pagination-numbers"></div>
+                        </ul>
+                    </nav>
                     <% } %>
                 </div>
 
@@ -145,7 +151,15 @@
                                                     class="switch is-rounded estatus-switch">
                                                     <label for="estatus-<%= inactivo.IDContrato %>"></label>
                                                 </div>
-                                                <button class="button is-danger">Detalles</button> 
+                                                <form action="/contrato/detallesContrato" method="POST">
+                                                    <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                                                    <input type="hidden" value="<%= inactivo.IDContrato %>" name="id" id="id">
+                                                    <button class="button is-responsive is-danger" type="sumbit">
+                                                        <span>
+                                                            Detalles
+                                                        </span>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -155,15 +169,13 @@
                         <% } %>
 
                     <!-- Pagination -->
-                    <div class="column is-narrow is-flex is-justify-content-flex-end">
-                        <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
-                            <a class="pagination-previous" id="prev-button-2">Anterior</a>
-                            <a class="pagination-next" id="next-button-2">Siguiente</a>
-                            <ul class="pagination-list" id="pagination-list-2">
-                                <div id="pagination-numbers-2"></div>
-                            </ul>
-                        </nav>
-                    </div>
+                    <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+                        <a class="pagination-previous" id="prev-button-2">Anterior</a>
+                        <a class="pagination-next" id="next-button-2">Siguiente</a>
+                        <ul class="pagination-list" id="pagination-list-2">
+                            <div id="pagination-numbers-2"></div>
+                        </ul>
+                    </nav>
                     <% } %>
                 </div>        
         </div>
