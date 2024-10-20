@@ -1,3 +1,4 @@
+<%- include('../includes/head.ejs', { permisos: permisos, rol: rol }) %>
 
 <body>
     <div class="container" style="display: flex; justify-content: center;">
@@ -13,9 +14,11 @@
                                 <p class="title is-4 has-text-black">Titulo:</p>
                                 <p class="subtitle is-4 has-text-grey"><%= contrato.Titulo %></p>
                                 <p class="title is-4 has-text-black">ID Razon Social:</p>
-                                <p class="subtitle is-4 has-text-grey"><%= contrato.IDRazonSocial %></p>
+                                <p class="subtitle is-4 has-text-grey"><%= razonSocial.IDRazonSocial %></p>
                                 <p class="title is-4 has-text-black">Razon Social Nombre:</p>
                                 <p class="subtitle is-4 has-text-grey"><%= razonSocial.NombreEmpresa %></p>
+                                <p class="title is-4 has-text-black">Porcentaje de Inflacion:</p>
+                                <p class="subtitle is-4 has-text-grey"><%= contrato.Inflacion %></p>
                                 <p class="title is-4 has-text-black">Status:</p>
                                 <% if (contrato.Estatus === 1) { %>
                                     <p class="subtitle is-4 has-text-grey"> Activo</p>
@@ -41,10 +44,14 @@
                                 <p class="subtitle is-4 has-text-grey"><%= contrato.IDContrato %></p>
                                 <p class="title is-4 has-text-black">Titulo:</p>
                                 <p class="subtitle is-4 has-text-grey"><%= contrato.Titulo %></p>
-                                <p class="title is-4 has-text-black">Razon Social:</p>
-                                <p class="subtitle is-4 has-text-grey"><%= contrato.IDRazonSocial %></p>
+                                <p class="title is-4 has-text-black">ID Razon Social:</p>
+                                <p class="subtitle is-4 has-text-grey"><%= razonSocial.IDRazonSocial %></p>
                                 <p class="title is-4 has-text-black">Razon Social Nombre:</p>
                                 <p class="subtitle is-4 has-text-grey"><%= razonSocial.NombreEmpresa %></p>
+                                <p class="title is-4 has-text-black">Porcentaje de Inflacion:</p>
+                                <p class="subtitle is-4 has-text-grey">
+                                    <%= contrato.PorcentajeInflacion ? contrato.PorcentajeInflacion + ' %' : 'N/A' %>
+                                </p>
                                 <p class="title is-4 has-text-black">Status:</p>
                                 <% if (contrato.Estatus === 1) { %>
                                     <p class="subtitle is-4 has-text-grey"> Activo</p>

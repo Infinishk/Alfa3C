@@ -21,6 +21,10 @@ module.exports = class Contrato{
         return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Inflacion.PorcentajeInflacion, Contrato.DuracionMeses, Contrato.Titulo, Contrato.Estatus FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial JOIN Inflacion ON Contrato.IDInflacion = Inflacion.IDInflacion WHERE Contrato.IDContrato = ?', [id]);
     }
 
+    static fetchName(nombre) {
+        return db.execute('SELECT Contrato.IDContrato FROM Contrato WHERE Contrato.Titulo = ?', [nombre]);
+    }
+
     static fetchClientes(id){
         return db.execute('SELECT DISTINCT Cliente.IDCliente, Cliente.Nombre, Cliente.Apellidos, Cliente.TipoCliente, Cliente.MontoRetencion, Cliente.PorcentajeInteres FROM Cliente JOIN Renta on Cliente.IDCliente = Renta.IDCliente JOIN Contrato ON Renta.IDContrato = Contrato.IDContrato WHERE Contrato.IDContrato = ?', [id]);
     }
@@ -29,10 +33,10 @@ module.exports = class Contrato{
         return db.execute('UPDATE Contrato SET Estatus = ? WHERE IDContrato = ?', [estatus, id]);
     }
 
-    static save(idRazonSocial, titulo,numMeses) {
+    static save(idRazonSocial,idInflacion, titulo,numMeses) {
         return db.execute(
-            `INSERT INTO Contrato (IDRazonSocial, Titulo, DuracionMeses, Estatus) VALUES (?,?, ?, 1)`,
-            [idRazonSocial, titulo,numMeses]
+            `INSERT INTO Contrato (IDRazonSocial, IDInflacion, Titulo, DuracionMeses, Estatus) VALUES (?, ?, ?, ?, 1)`,
+            [idRazonSocial,idInflacion,titulo,numMeses]
         );
     }
 }

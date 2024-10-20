@@ -22,7 +22,7 @@
         color: black;
     }
     input[type="text"],
-    input[type="number"] {
+    input[type="number"]{
         width: 100%;
         padding: 10px;
         margin-bottom: 20px;
@@ -70,6 +70,11 @@
                 <input type="number" id="numMeses" name="numMeses" class="inputField" required>
             </div>
 
+            <div class="form-group">
+                <label for="inflacion">Porcentaje de Inflación:</label>
+                <input type="number" id="inflacion" name="inflacion" class="inputField" step="0.01" min="0" required>
+            </div>
+            
             <!-- Contenedor del botón y el mensaje -->
             <div style="display: flex; align-items: center;">
                 <button id="submitBtn" type="submit" class="button is-primary" disabled>Registrar Contrato</button>
@@ -80,5 +85,5 @@
 
 </body>
 
-<script type="text/javascript" src="/js/registrarContrato.js"></script>
+<script type="text/javascript" src="/js/contrato/registrarContrato.js"></script>
 <%- include('../includes/foot.ejs') %>

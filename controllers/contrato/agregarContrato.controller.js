@@ -1,5 +1,6 @@
 const Contrato = require('../../models/contrato.model');
 const RazonSocial = require('../../models/razon_social.model');
+const Inflacion = require('../../models/inflacion.model');
 
 exports.get_registrar_contrato = (request, response, next) => {
     response.render('contrato/registrarContrato', {
@@ -15,8 +16,9 @@ exports.post_registrar_contrato = async (request, response, next) => {
         const nombreEmpresa = request.body.nombreEmpresa;
         const titulo = request.body.titulo;
         const numMeses = request.body.numMeses;
+        const inflacion = request.body.inflacion;
 
-        if (!razonSocial || !nombreEmpresa || !titulo || !numMeses) {
+        if (!razonSocial || !nombreEmpresa || !titulo || !numMeses || !inflacion) {
             return response.status(400).send('Faltan datos requeridos');
         }
 
@@ -44,11 +46,17 @@ exports.post_registrar_contrato = async (request, response, next) => {
             return response.status(500).send('ID de razón social no válido');
         }
 
+        await Inflacion.save(inflacion);
+
+        const IDInflacion = await Inflacion.fetchOne(inflacion);
+
         // Guardar el contrato
-        await Contrato.save(IDRazon, titulo, numMeses);
+        await Contrato.save(IDRazon, IDInflacion[0][0].IDInflacion, titulo, numMeses);
+
+        const IDContrato = await Contrato.fetchName(titulo);
 
         // Obtener el contrato recién creado
-        const [contratos] = await Contrato.fetchOne(titulo);
+        const [contratos] = await Contrato.fetchOne(IDContrato[0][0].IDContrato);
 
         // Obtener la razón social asociada
         const [razonSocialInfo] = await RazonSocial.fetchOne(razonSocial);
