@@ -18,7 +18,7 @@ module.exports = class RazonSocial{
         return db.execute('Select * from RazonSocial WHERE ReferenciaBancaria = ?',[referenciaBancaria]);
     }
 
-    static fetchOne(referenciaBancaria){
-        return db.execute('Select * from RazonSocial WHERE ReferenciaBancaria = ?',[referenciaBancaria]);
+    static fetchOneName(nombreEmpresa){
+        return db.execute('Select * from RazonSocial WHERE NombreEmpresa = ?',[nombreEmpresa]);
     }
 }

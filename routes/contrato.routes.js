@@ -13,7 +13,6 @@ router.post('/modificarEstatus', desactivarContratoController.post_modificar_est
 router.post('/detallesContrato', detallesContratoController.post_detalles_contrato)
 router.get('/registrarContrato', agregarContratoController.get_registrar_contrato);
 router.post('/registrarContrato', agregarContratoController.post_registrar_contrato);
-router.get('/modificarContrato', modificarContratoController.get_modificar_contrato);
 router.post('/fetchContrato', modificarContratoController.post_fetch_contrato);
 router.post('/modificarContrato', modificarContratoController.post_modificar_contrato);
 
