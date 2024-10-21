@@ -34,12 +34,8 @@ exports.post_reset_password = async (request, response, next) => {
     const correo = request.body.correo;
     const matricula = await Usuario.fetchUser(correo);
 
-    console.log(process.env.SMTP_USER); // Debería mostrar tu correo electrónico
-    console.log(process.env.SMTP_PASSWORD); // Debería mostrar tu contraseña
-
     if (matricula && matricula[0] && matricula[0][0] && typeof matricula[0][0].IDUsuario !== 'undefined') {
         const user = matricula[0][0].IDUsuario;
-        console.log(user);
 
         // Generar token JWT con la matrícula del usuario
         const token = jwt.sign({ matricula: user }, secretKey, { expiresIn: '1h' });
