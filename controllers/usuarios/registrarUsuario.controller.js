@@ -53,7 +53,7 @@ exports.postRegistrarUsuario = async (req, res) => {
         await Usuario.saveUsuario(IDUsuario, correoElectronico);
 
         // Generar token JWT con el nombre de usuario (IDUsuario)
-        const token = jwt.sign({ username: IDUsuario }, secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ IDUsuario: IDUsuario }, secretKey, { expiresIn: '1h' });
 
         // Enlace con el token incluido
         const setPasswordLink = `http://localhost:5050/auth/set_password?token=${token}`;
@@ -81,39 +81,5 @@ exports.postRegistrarUsuario = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Hubo un error al registrar el usuario.');
-    }
-};
-
-// Controller to handle password setup page
-exports.getSetPassword = (req, res) => {
-    const token = req.query.token;
-
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        res.render('usuarios/set_password', {
-            csrfToken: req.csrfToken(),
-            username: decoded.username, // Pass the username decoded from the token
-            token: token // Pass the token to be used in form submission
-        });
-    } catch (error) {
-        return res.status(400).send('El enlace para restablecer la contraseña no es válido o ha expirado.');
-    }
-};
-
-// Controller to update the user's password
-exports.postSetPassword = async (req, res) => {
-    const { token, newPassword } = req.body;
-
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-        // Update the user's password in the database
-        await Usuario.updatePassword(decoded.username, hashedPassword);
-
-        res.redirect('/auth/login');
-    } catch (error) {
-        console.error('Error al actualizar la contraseña:', error);
-        res.status(500).send('Hubo un error al actualizar la contraseña.');
     }
 };

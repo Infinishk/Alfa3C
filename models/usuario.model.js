@@ -10,19 +10,19 @@ module.exports = class Usuario{
 
     //Este método servirá para guardar de manera persistente el nuevo objeto. 
     updateContra() {
-        //Dentro del método del modelo que crea el usuario
-        //El segundo argumento es el número de veces que se aplica el algoritmo, actualmente 12 se considera un valor seguro
-        //El código es asíncrono, por lo que hay que regresar la promesa
         return bcrypt.hash(this.password, 12)
             .then((passwordCifrado) => {
                 return db.execute(
-                    'UPDATE Usuario SET `Contraseña`=?,`usuarioActivo`=1 WHERE IDUsuario=?',
-                    [passwordCifrado,this.IDUsuario]
+                    'UPDATE Usuario SET `Contraseña`=?, `Status`=1 WHERE IDUsuario=?',
+                    [passwordCifrado, this.IDUsuario]
                 );
+            })
+            .then((result) => {
+                return result;
             })
             .catch((error) => {
                 console.log(error);
-                throw Error('Nombre de usuario duplicado. Ya existe un usuario con ese nombre.');
+                throw Error('Error al actualizar la contraseña.');
             });
     }
 
