@@ -1,0 +1,18 @@
+<div class="columns">
+    <% if (showBackButton) { %>
+    <div class="column is-narrow">
+        <form action="<%= backLink %>" method="GET" class="form-button">
+            <a type="submit" class="is-responsive">
+                <span class="icon has-text-primary">
+                    <i class="fas fa-arrow-left fa-2x" style="margin-top: 0.5em;"></i>
+                </span>
+            </a>
+        </form>
+    </div>
+    <% } %>
+    <div class="column">
+        <label class="label is-large has-text-weight-semibold">
+            <%= title %>
+        </label>
+    </div>
+</div>

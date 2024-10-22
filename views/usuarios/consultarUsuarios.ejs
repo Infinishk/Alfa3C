@@ -9,13 +9,11 @@
 
         <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
 
-        <div class="columns">
-            <div class="column is-7">
-                 <label class="label is-large has-text-weight-semibold">
-                            CONFIGURACIÓN USUARIOS
-                 </label>
-            </div>
-        </div>
+        <%- include('../components/title.ejs', {
+            title: 'CONFIGURACIÓN USUARIOS',
+            showBackButton: false,
+            backLink: ''
+        }) %>
 
         <div id="toast" class="toast is-hidden">
             <span class="icon is-small"><i class="fa-solid fa-circle-info"></i></span>
@@ -217,6 +215,23 @@
                     </table>
                 </div>
             <% } %>
+        </div>
+
+        <div class="column">
+            <form method="POST" action="/pagos/fetchRegistrarPagoManual">
+                <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                <input type="hidden" value="Ana Torres Lopez | ANTO650716L88" name="buscar">
+                <p class="control">
+                    <button class="button is-responsive" style="font-size: large;" type="submit">
+                        <span class="icon is-large">
+                            <i class="fa-solid fa-circle-plus"></i>
+                        </span>
+                        <span>
+                            Registrar Pago Manual
+                        </span>
+                    </button>
+                </p>
+            </form>
         </div>
     </div>
 </section>

@@ -1,0 +1,35 @@
+<%- include('../includes/head.ejs', {
+    username: username,
+    permisos: permisos,
+    rol: rol
+}) %>
+
+<section>
+    <div class="container">
+        <%- include('../components/title.ejs', {
+            title: 'REGISTRAR PAGO MANUAL',
+            showBackButton: true,
+            backLink: ''
+        }) %>
+
+        <div class="columns is-centered">
+            <div class="column is-one-quarter">
+                <%- include('../components/pagoActualCard.ejs', {
+                    showNameSection: true, 
+                    nombre: cliente.Nombre + ' ' + cliente.Apellidos,
+                    rfc: cliente.RFC,
+                    fechaLimite: renta.FechaLimite, 
+                    montoAPagar: Number(renta.MontoAPagar),
+                    montoPagado: Number(renta.MontoPagado), 
+                    montoPendiente: (renta.MontoAPagar - renta.MontoPagado)
+                }) %>
+            </div>
+
+            <div class="column is-offset-1">
+                <p>Hola</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('../includes/foot.ejs') %>
