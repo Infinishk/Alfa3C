@@ -68,6 +68,9 @@ const modifyStatus = (userID, status) => {
         })
         .catch(error => {
             console.error('Error en la petición fetch:', error);
+            showAlertModal(
+                'Hubo un error al modificar el estatus del usuario. Por favor, verifica tu conexión a internet o intenta nuevamente más tarde.', 
+                '¡Error!');
         });
 };
 

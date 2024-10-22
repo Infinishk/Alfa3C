@@ -10381,7 +10381,11 @@ html, body {
 }
 
 .button.is-primary:hover {
-  background-color: #D3D3D3;
+  background-color: #D2653B;
+}
+
+.button.is-link:hover {
+  background-color: #D2653B;
 }
 
 .notification-success {

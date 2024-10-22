@@ -34,15 +34,15 @@ const showAlertModal = (message, title) => {
     document.getElementById('modalMessage').textContent = message; 
     document.getElementById('modalTitle').textContent = title; 
     document.getElementById('alertModal').classList.add('is-active'); 
-};
 
-// Cerrar el modal
-document.getElementById('closeModal').onclick = function() {
-    document.getElementById('alertModal').classList.remove('is-active');
-};
+    // Cerrar el modal
+    document.getElementById('closeModal').onclick = function() {
+        document.getElementById('alertModal').classList.remove('is-active');
+    };
 
-document.querySelector('.modal-background').onclick = function() {
-    document.getElementById('alertModal').classList.remove('is-active');
+    document.querySelector('.modal-background').onclick = function() {
+        document.getElementById('alertModal').classList.remove('is-active');
+    };
 };
 
 export { showToast, showAlertModal };

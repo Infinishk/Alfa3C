@@ -142,7 +142,11 @@ html, body {
 }
 
 .button.is-primary:hover {
-  background-color: #7A3E9D; // Cambia a cualquier color que desees
+  background-color: #D2653B; // Cambia a cualquier color que desees
+}
+
+.button.is-link:hover {
+  background-color: #D2653B; // Cambia a cualquier color que desees
 }
 
 .notification-success {
