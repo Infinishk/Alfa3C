@@ -44,7 +44,7 @@ module.exports = class Usuario{
 
     static getPermisos(IDUsuario) {
         return db.execute(
-            `SELECT funcion
+            `SELECT Ca.IDCasoUso
             FROM Usuario U, Posee P, Rol R, Contiene C, CasoUso Ca
             WHERE U.IDUsuario = ? AND U.IDUsuario = P.IDUsuario
             AND P.IDRol = R.IDRol AND R.IDRol = C.IDRol 
@@ -53,7 +53,7 @@ module.exports = class Usuario{
     }
 
     static getRol(IDUsuario) {
-        return db.execute(`SELECT Ca.funcion, P.IDRol
+        return db.execute(`SELECT P.IDRol
         FROM Usuario U
         JOIN Posee P ON U.IDUsuario = P.IDUsuario
         JOIN Rol R ON P.IDRol = R.IDRol
@@ -88,5 +88,10 @@ module.exports = class Usuario{
             [`%${consulta}%`]
         );
     }
+
+    static saveRol(IDUsuario, IDRol) {
+        return db.execute('INSERT INTO Posee (IDUsuario, IDRol) VALUES (?, ?)', [IDUsuario, IDRol]);
+    }
+    
 
 };

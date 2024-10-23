@@ -1,5 +1,5 @@
 const Usuario = require('../../models/usuario.model');
-
+const bcrypt = require('bcryptjs');
 
 exports.getLogin = (request, response, next) => {
     const error = request.session.error || '';
@@ -16,13 +16,15 @@ exports.getLogin = (request, response, next) => {
 
 exports.postLogin = (request, response, next) => {
     Usuario.fetchOne(request.body.IDUsuario)
-        .then(([users, fieldData]) => {
+        .then(async ([users, fieldData]) => {
             if (users.length == 1) {
                 const user = users[0];
                 
-                // HAY QUE CIFRAR
-                if (request.body.password === user.Contraseña) {
-                    if (user.usuarioActivo == 1) {
+                // Use bcrypt to compare passwords
+                const match = await bcrypt.compare(request.body.password, user.Contraseña);
+
+                if (match) {
+                    if (user.Status == 1) {
                         Usuario.getPermisos(user.IDUsuario)
                             .then(([permisos, fieldData]) => {
                                 Usuario.getRol(user.IDUsuario)
@@ -32,7 +34,7 @@ exports.postLogin = (request, response, next) => {
                                         request.session.rol = rol[0].IDRol;
                                         request.session.username = user.IDUsuario;
                                         return request.session.save(err => {
-                                            response.redirect('/');
+                                            response.redirect('/entraste');
                                         });
                                     })
                                     .catch((error) => {

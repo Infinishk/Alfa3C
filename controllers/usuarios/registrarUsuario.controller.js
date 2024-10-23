@@ -1,7 +1,6 @@
 const Usuario = require('../../models/usuario.model');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const config = require('../../config');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -36,12 +35,12 @@ exports.getRegistrarUsuario = (request, response, next) => {
 };
 
 exports.postRegistrarUsuario = async (req, res) => {
-    const { IDUsuario, correoElectronico } = req.body;
+    const { IDUsuario, correoElectronico, rol } = req.body;
 
     try {
         // Verificar si el usuario ya existe
         const [usuarioExistente] = await Usuario.fetchOne(IDUsuario);
-        
+
         if (usuarioExistente.length > 0) {
             return res.render('usuarios/registrarUsuario', {
                 csrfToken: req.csrfToken(),
@@ -51,6 +50,12 @@ exports.postRegistrarUsuario = async (req, res) => {
 
         // Guardar el usuario en la base de datos
         await Usuario.saveUsuario(IDUsuario, correoElectronico);
+
+        // Asignar el rol según la selección
+        const IDRol = rol === 'Admin' ? 'ROL01' : 'ROL02';
+
+        // Guardar el rol en la tabla "posee"
+        await Usuario.saveRol(IDUsuario, IDRol);
 
         // Generar token JWT con el nombre de usuario (IDUsuario)
         const token = jwt.sign({ IDUsuario: IDUsuario }, secretKey, { expiresIn: '1h' });
@@ -62,7 +67,7 @@ exports.postRegistrarUsuario = async (req, res) => {
         const mailOptions = {
             from: {
                 name: 'Alfa3C',
-                address: 'Infinishk@gmail.com', // Cambia esta dirección por la tuya
+                address: 'Infinishk@gmail.com',
             },
             to: correoElectronico,
             subject: 'Reestablecer contraseña de Alfa3C',
@@ -77,7 +82,7 @@ exports.postRegistrarUsuario = async (req, res) => {
         }
 
         // Redirección después de registrar al usuario
-        res.redirect('/configuracion/consultar_usuario');
+        res.redirect('/auth/login');
     } catch (error) {
         console.error(error);
         res.status(500).send('Hubo un error al registrar el usuario.');
