@@ -1,0 +1,20 @@
+<div class="columns">
+    <div class="column is-3">
+        <label class="label is-medium" for="<%= id %>" style="display: flex; align-items: center; height: 100%;">
+            <%= label %>:
+        </label>
+    </div>
+    <div class="column">
+        <div class="field">
+            <div class="control has-icons-left">
+                <input type="text" id="<%= id %>" name="<%= name %>" class="input is-medium" 
+                       placeholder="<%= placeholder %>" value="<%= value %>" />
+                <% if (icon) { %>
+                    <span class="icon is-small is-left <%= iconColor %>">
+                        <i class="<%= icon %>"></i>
+                    </span>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

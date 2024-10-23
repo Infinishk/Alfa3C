@@ -26,7 +26,57 @@
             </div>
 
             <div class="column is-offset-1">
-                <p>Hola</p>
+                <form action="/pagos/registrar_pago_manual/colegiatura" method="POST">
+                    <input type="hidden" name="IDRenta" value="<%= renta.IDRenta %>"/>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <%- include('../components/inputs/textInput.ejs', {
+                        id: 'motivoPago',
+                        name: 'motivo',
+                        label: 'Motivo',
+                        placeholder: 'Concepto del pago',
+                        value: 'Pago de Renta',
+                        icon: 'fa-solid fa-circle-info', 
+                        iconColor: 'has-text-primary'
+                    }) %>
+
+                    <%- include('../components/inputs/numberInput.ejs', {
+                        id: 'montoPago',
+                        name: 'monto',
+                        label: 'Monto',
+                        placeholder: 'Monto pagado',
+                        value: Number(renta.MontoAPagar - renta.MontoPagado),
+                        icon: 'fa-solid fa-dollar-sign',
+                        iconColor: 'has-text-primary'
+                    }) %>
+
+                    <%- include('../components/inputs/selectInput', {
+                        id: 'metodoPago',
+                        name: 'metodo',
+                        label: 'Método de Pago',
+                        options: [
+                            { value: 'Efectivo', text: 'Efectivo' },
+                            { value: 'Terminal', text: 'Terminal' },
+                            { value: 'Transferencia', text: 'Transferencia' }
+                        ],
+                        selectedValue: 'Efectivo',
+                        icon: 'fa-solid fa-wallet',
+                        iconColor: 'has-text-primary' 
+                    }) %>
+
+                    <%- include('../components/inputs/textareaInput', {
+                        id: 'notaPago',
+                        name: 'nota',
+                        label: 'Nota (opcional)',
+                        placeholder: 'Escribe tu nota aquí.',
+                        value: ''
+                    }) %>
+
+                    <div class="columns">
+                        <div class="column is-6 is-offset-6">
+                            
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
