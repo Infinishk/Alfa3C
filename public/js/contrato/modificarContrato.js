@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const form = document.querySelector("form");
     const tituloInput = document.getElementById("titulo");
     const numMesesInput = document.getElementById("numMeses");
-    const inflacionInput = document.getElementById("inflacion");
     const nombreEmpresaInput = document.getElementById("nombreEmpresa");
     const razonSocialInput = document.getElementById("razonSocial");
     const submitButton = form.querySelector("button[type='submit']");
@@ -23,11 +22,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Validar campo Número de Meses
         const numberValue = parseFloat(numberInput.value);
         if (isNaN(numberValue) || numberValue <= 0 || /e/i.test(numberInput.value)) {
-            isValid = false;
-        }
-
-        const inflacionValue = parseFloat(inflacionInput.value);
-        if (isNaN(inflacionValue) || inflacionValue <= 0 || /e/i.test(inflacionInput.value)) {
             isValid = false;
         }
 
@@ -58,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function() {
     numMesesInput.addEventListener("input", validateForm);
     nombreEmpresaInput.addEventListener("input", validateForm);
     razonSocialInput.addEventListener("input", validateForm);
-    inflacionInput.addEventListener("input", validateForm);
 
     // Validar el formulario al enviar
     form.addEventListener("submit", function(event) {

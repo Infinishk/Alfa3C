@@ -33,10 +33,10 @@ module.exports = class Contrato{
         return db.execute('UPDATE Contrato SET Estatus = ? WHERE IDContrato = ?', [estatus, id]);
     }
 
-    static save(idRazonSocial,idInflacion, titulo,numMeses) {
+    static save(idRazonSocial, titulo,numMeses) {
         return db.execute(
-            `INSERT INTO Contrato (IDRazonSocial, IDInflacion, Titulo, DuracionMeses, Estatus) VALUES (?, ?, ?, ?, 1)`,
-            [idRazonSocial,idInflacion,titulo,numMeses]
+            `INSERT INTO Contrato (IDRazonSocial, Titulo, DuracionMeses, Estatus) VALUES (?, ?, ?, 1)`,
+            [idRazonSocial,titulo,numMeses]
         );
     }
 

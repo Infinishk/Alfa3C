@@ -16,9 +16,8 @@ exports.post_registrar_contrato = async (request, response, next) => {
         const nombreEmpresa = request.body.nombreEmpresa;
         const titulo = request.body.titulo;
         const numMeses = request.body.numMeses;
-        const inflacion = request.body.inflacion;
 
-        if (!razonSocial || !nombreEmpresa || !titulo || !numMeses || !inflacion) {
+        if (!razonSocial || !nombreEmpresa || !titulo || !numMeses ) {
             return response.status(400).send('Faltan datos requeridos');
         }
 
@@ -46,12 +45,8 @@ exports.post_registrar_contrato = async (request, response, next) => {
             return response.status(500).send('ID de razón social no válido');
         }
 
-        await Inflacion.save(inflacion);
-
-        const IDInflacion = await Inflacion.fetchOne(inflacion);
-
         // Guardar el contrato
-        await Contrato.save(IDRazon, IDInflacion[0][0].IDInflacion, titulo, numMeses);
+        await Contrato.save(IDRazon, titulo, numMeses);
 
         const IDContrato = await Contrato.fetchName(titulo);
 
