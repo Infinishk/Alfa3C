@@ -65,7 +65,10 @@
                     <thead>
                         <tr>
                             <th style="text-align: left;">
-                                IDUsuario
+                                Nombre
+                            </th>
+                            <th style="text-align: left;">
+                                RFC
                             </th>
                             <th style="text-align: left;">
                                 Correo Electrónico
@@ -79,7 +82,10 @@
                     <% activeUsers.forEach(function(user) { %>
                         <tr class="user-row">
                             <td>
-                                <%= user.IDUsuario %>
+                                <%= user.Nombre %> <%= user.Apellidos %>
+                            </td>
+                            <td>
+                                <%= user.RFC %>
                             </td>
                             <td>
                                 <%= user.CorreoElectronico %>
@@ -121,8 +127,11 @@
                     <thead>
                         <tr>
                             <th style="text-align: left;">
-                                IDUsuario
-                             </th>
+                                Nombre
+                            </th>
+                            <th style="text-align: left;">
+                                    RFC
+                                </th>
                             <th style="text-align: left;">
                                 Correo Electrónico
                             </th>
@@ -135,7 +144,10 @@
                     <% inactiveUsers.forEach(function(user) { %>
                         <tr class="user-row">
                             <td>
-                                <%= user.IDUsuario %>
+                                <%= user.Nombre %> <%= user.Apellidos %>
+                            </td>
+                            <td>
+                                <%= user.RFC %>
                             </td>
                             <td>
                                 <%= user.CorreoElectronico %>
@@ -178,7 +190,7 @@
                         <thead>
                             <tr>
                                 <th style="text-align: left;">
-                                    IDUsuario
+                                    Nombre
                                 </th>
                                 <th style="text-align: left;">
                                     Correo Electrónico
@@ -192,7 +204,7 @@
                         <% adminUsers.forEach(function(admin) { %>
                             <tr class="user-row">
                                 <td>
-                                    <%= admin.IDUsuario %>
+                                    <%= admin.Nombre %> <%= admin.Apellidos %>
                                 </td>
                                 <td>
                                     <%= admin.CorreoElectronico %>
