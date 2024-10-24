@@ -18,17 +18,37 @@
                     showNameSection: true, 
                     nombre: cliente.Nombre + ' ' + cliente.Apellidos,
                     rfc: cliente.RFC,
-                    fechaLimite: renta.FechaLimite, 
-                    montoAPagar: Number(renta.MontoAPagar),
-                    montoPagado: Number(renta.MontoPagado), 
-                    montoPendiente: (renta.MontoAPagar - renta.MontoPagado)
+                    fechaLimite: renta[0].FechaLimite, 
+                    montoAPagar: Number(renta[0].MontoAPagar),
+                    montoPagado: Number(renta[0].MontoPagado), 
+                    recargos: Number(renta[0].Recargos),
+                    montoPendiente: (renta[0].MontoAPagar - renta[0].MontoPagado),
                 }) %>
             </div>
 
             <div class="column is-offset-1">
                 <form action="/pagos/registrar_pago_manual/colegiatura" method="POST">
-                    <input type="hidden" name="IDRenta" value="<%= renta.IDRenta %>"/>
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                    <%- include('../components/inputs/selectInput', {
+                        id: 'contratoPago',
+                        name: 'contrato',
+                        label: 'Contrato',
+                        options: renta.map(function(item) {
+                            return {
+                                value: item.IDDetalleContrato,
+                                text: item.Nombre
+                            };
+                        }),
+                        selectedValue: renta[0].IDDetalleContrato,
+                        extraAttributes: renta.reduce((obj, item) => {
+                            obj[item.IDDetalleContrato] = `data-monto="${Number(item.MontoAPagar)}" data-fecha-limite="${item.FechaLimite}"`;
+                            return obj;
+                        }, {}),
+                        icon: 'fa-solid fa-file-contract',
+                        iconColor: 'has-text-primary'
+                    }) %>
+
                     <%- include('../components/inputs/textInput.ejs', {
                         id: 'motivoPago',
                         name: 'motivo',
@@ -44,7 +64,7 @@
                         name: 'monto',
                         label: 'Monto',
                         placeholder: 'Monto pagado',
-                        value: Number(renta.MontoAPagar - renta.MontoPagado),
+                        value: Number(renta[0].MontoAPagar - renta[0].MontoPagado),
                         icon: 'fa-solid fa-dollar-sign',
                         iconColor: 'has-text-primary'
                     }) %>
@@ -81,5 +101,6 @@
         </div>
     </div>
 </section>
+<script type="module" src="/js/pagos/registrarPagoManual.js"></script>
 
 <%- include('../includes/foot.ejs') %>

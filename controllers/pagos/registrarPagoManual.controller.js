@@ -28,7 +28,7 @@ exports.fetchRegistrarPagoManual = async (request, response, next) => {
             response.render('pagos/registrarPagoManual', {
                 csrfToken: request.csrfToken(),
                 cliente: cliente,
-                renta: primerRentaNoPagada[0],
+                renta: primerRentaNoPagada,
                 username: request.session.username || '',
                 permisos: request.session.permisos || [],
                 rol: request.session.rol || ''

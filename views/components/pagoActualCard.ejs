@@ -27,7 +27,7 @@
             <p class="has-text-danger has-text-weight-semibold" style="margin: 5px 0">
                 FECHA LÍMITE
             </p>
-            <p class="has-text-black has-text-weight-bold" style="margin: 5px 0">
+            <p class="has-text-black has-text-weight-bold" id="fechaLimiteCard" style="margin: 5px 0">
                 <%= fechaLimite %>
             </p>
         </td>
@@ -35,40 +35,91 @@
     <tr>
         <td style="padding: 5px 15px">
             <p class="has-text-danger has-text-weight-semibold" style="margin: 5px 0">
-                MONTO A PAGAR
+                BALANCE ACTUAL
             </p>
-            <p class="has-text-black has-text-weight-bold" style="margin: 5px 0">
-                $<%= montoAPagar.toLocaleString('mx', {
-                    minimumFractionDigits: 2,
-                     maximumFractionDigits: 2
-                }) %>
-            </p>
-        </td>
-    </tr>
-    <tr>
-        <td style="padding: 5px 15px">
-            <p class="has-text-danger has-text-weight-semibold" style="margin: 5px 0">
-                MONTO PAGADO
-            </p>
-            <p class="has-text-black has-text-weight-bold" style="margin: 5px 0">
-                $<%= montoPagado.toLocaleString('mx', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }) %>
-            </p>
-        </td>
-    </tr>
-    <tr>
-        <td style="padding: 5px 15px">
-            <p class="has-text-danger has-text-weight-semibold" style="margin: 5px 0">
-                MONTO PENDIENTE
-            </p>
-            <p class="has-text-black has-text-weight-bold" style="margin: 5px 0">
-                $<%= montoPendiente.toLocaleString('mx', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }) %>
-            </p>
+            <div class="columns is-mobile">
+                <div class="column is-6">
+                    <p class="has-text-black has-text-weight-medium">
+                        Monto a Pagar
+                    </p>
+                </div>
+                <div class="column is-6">
+                    <p class="has-text-black">
+                        <span class="has-text-weight-bold">
+                            $<%= montoAPagar.toLocaleString('mx', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                        </span>
+                        <span class="has-text-weight-light is-size-7">
+                            MXN
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="columns is-mobile">
+                <div class="column is-6">
+                    <p class="has-text-black has-text-weight-medium">
+                        Pagado
+                    </p>
+                </div>
+                <div class="column is-6">
+                    <p class="has-text-black">
+                        <span class="has-text-weight-semibold">
+                            -$<%= montoPagado.toLocaleString('mx', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                        </span>
+                        <span class="has-text-weight-light is-size-7">
+                            MXN
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+            <% if (typeof recargos !== 'undefined' && recargos > 0) { %>
+                <div class="columns is-mobile">
+                    <div class="column is-6">
+                        <p class="has-text-black has-text-weight-medium">Recargos</p>
+                    </div>
+                    <div class="column is-6">
+                        <p class="has-text-black">
+                            <span class="has-text-weight-semibold">$<%= recargos.toLocaleString('mx', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span>
+                            <span class="has-text-weight-light is-size-7">MXN</span>
+                        </p>
+                    </div>
+                </div>
+            <% } %>
+
+            <% if (typeof inflacion !== 'undefined' && inflacion > 0) { %>
+                <div class="columns is-mobile">
+                    <div class="column is-6">
+                        <p class="has-text-black has-text-weight-medium">Inflación</p>
+                    </div>
+                    <div class="column is-6">
+                        <p class="has-text-black">
+                            <span class="has-text-weight-semibold">$<%= inflacion.toLocaleString('mx', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span>
+                            <span class="has-text-weight-light is-size-7">MXN</span>
+                        </p>
+                    </div>
+                </div>
+            <% } %>
+
+            <div class="columns is-mobile">
+                <div class="column is-6">
+                    <strong>
+                        <p class="has-text-danger has-text-weight-semibold">
+                            Pendiente
+                        </p>
+                    </strong>
+                </div>
+                <div class="column is-6">
+                    <p class="has-text-danger">
+                        <span class="has-text-weight-bold">
+                            $<%= montoPendiente.toLocaleString('mx', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                        </span>
+                        <span class="has-text-weight-light is-size-7">
+                            MXN
+                        </span>
+                    </p>
+                </div>
+            </div>
         </td>
     </tr>
 </table>

@@ -10,7 +10,13 @@
                 <div class="select is-medium">
                     <select id="<%= id %>" name="<%= name %>">
                         <% options.forEach(function(option) { %>
-                            <option value="<%= option.value %>" <%= option.value === selectedValue ? 'selected' : '' %>><%= option.text %></option>
+                            <option value="<%= option.value %>"
+                                <% if (typeof extraAttributes !== 'undefined' && extraAttributes[option.value]) { %>
+                                    <%- extraAttributes[option.value] %>
+                                <% } %>
+                                <%= option.value === selectedValue ? 'selected' : '' %>>
+                                <%= option.text %>
+                            </option>
                         <% }); %>
                     </select>
                 </div>
