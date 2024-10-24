@@ -20,7 +20,7 @@ exports.setRecargos = (request, response, next) => {
             // Calculas los recargos del inquilino
             const montoRecargo = new Decimal(montoPagar).times((cliente[0].PorcentajeInteres / 100));
     
-            Renta.setRecargosDeuda(renta.IDRenta, montoRecargo.toFixed(2));
+            Renta.setRecargosRenta(renta.IDRenta, montoRecargo.toFixed(2));
         }
     });
 };

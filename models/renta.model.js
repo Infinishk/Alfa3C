@@ -11,8 +11,8 @@ module.exports = class Renta {
         return db.execute('SELECT PorcentajeInteres FROM cliente WHERE IDCliente = ?', [IDCliente]);
     }
 
-    static setRecargosDeuda(IDRenta, montoRecargo) {
-        db.execute('UPDATE Renta SET Recargos = ?, TieneRecargos = 1 WHERE IDRenta = ?', 
+    static setRecargosRenta(IDRenta, montoRecargo) {
+        db.execute('UPDATE renta SET Recargos = ?, TieneRecargos = 1 WHERE IDRenta = ?', 
             [montoRecargo, IDRenta]);
     }
 
