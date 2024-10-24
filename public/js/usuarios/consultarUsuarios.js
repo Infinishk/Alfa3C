@@ -155,10 +155,12 @@ document.addEventListener('DOMContentLoaded', function () {
             let found = false;
 
             Array.from(userRows).forEach(row => {
-                const userId = row.cells[0].textContent.toLowerCase();
-                const email = row.cells[1].textContent.toLowerCase();
+                const userName = row.cells[0].textContent.toLowerCase();
+                const rfc = row.cells[1].textContent.toLowerCase();
+                const email = row.cells[2].textContent.toLowerCase();
 
-                if (userId.includes(searchTerm) || email.includes(searchTerm)) {
+                if (userName.includes(searchTerm)|| rfc.includes(searchTerm) 
+                    || email.includes(searchTerm)) {
                     row.style.display = '';
                     found = true;
                 } else {
@@ -188,10 +190,12 @@ document.addEventListener('DOMContentLoaded', function () {
             let found = false;
 
             Array.from(userRows).forEach(row => {
-                const userId = row.cells[0].textContent.toLowerCase();
-                const email = row.cells[1].textContent.toLowerCase();
+                const userName = row.cells[0].textContent.toLowerCase();
+                const rfc = row.cells[1].textContent.toLowerCase();
+                const email = row.cells[2].textContent.toLowerCase();
 
-                if (userId.includes(searchTerm) || email.includes(searchTerm)) {
+                if (userName.includes(searchTerm) || rfc.includes(searchTerm) 
+                    || email.includes(searchTerm)) {
                     row.style.display = '';
                     found = true;
                 } else {
