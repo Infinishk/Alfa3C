@@ -17,8 +17,16 @@
             </div>
         </div>
         <div class="columns">
-            <div class="column is-1 is-offset-10">
-                <p class="help is-info" id="<%= id %>-counter" style="margin-top: -5px;">
+            <div class="column is-10">
+                <p class="help notification-error has-text-white is-hidden" id="<%= id %>-warning" style="margin-top: -6px;">
+                    <span class="icon">
+                        <i class="fa-solid fa-triangle-exclamation" style="color: #ffffff"></i>
+                    </span>
+                    <span id="<%= id %>-warning-text"></span>
+                </p>
+            </div>
+            <div class="column is-1">
+                <p class="help is-info" id="<%= id %>-counter">
                    <span id="<%= id %>-count">0</span>/<%= maxChars %>
                 </p>
             </div>

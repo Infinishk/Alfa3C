@@ -18,6 +18,8 @@ const montoPagoInput = document.getElementById('montoPago');
 const motivoPagoInput = document.getElementById('motivoPago');
 const openModal = document.getElementById('openModal');
 const notaModal = document.getElementById('notaModal');
+const motivoPagoWarning = document.getElementById('motivoPago-warning');
+const motivoPagoWarningText = document.getElementById('motivoPago-warning-text');
 
 if (contratoPago) {
     contratoPago.addEventListener('change', function () {
@@ -83,6 +85,13 @@ function checarContenido() {
     const montoLimpio = parseFloat(montoPagoInput.value.replace(/[^0-9.-]+/g, ''));
     openModal.disabled = motivoPagoInput.value.length === 0 || montoPagoInput.value.length === 0 ||
         isNaN(montoLimpio) || montoLimpio <= 0;
+
+    if (motivoPagoInput.value.length === 0) {
+        motivoPagoWarning.classList.remove('is-hidden');
+        motivoPagoWarningText.textContent = 'Por favor ingresa un motivo de pago.';
+    } else {
+        motivoPagoWarning.classList.add('is-hidden');
+    }
 }
 
 motivoPagoInput.addEventListener('input', checarContenido);
