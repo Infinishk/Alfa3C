@@ -11,7 +11,7 @@ module.exports = class Renta {
         return db.execute('SELECT PorcentajeInteres FROM cliente WHERE IDCliente = ?', [IDCliente]);
     }
 
-    static setRecargosDeuda(IDRenta, montoRecargo) {
+    static setRecargosRenta(IDRenta, montoRecargo) {
         db.execute('UPDATE renta SET Recargos = ?, TieneRecargos = 1 WHERE IDRenta = ?', 
             [montoRecargo, IDRenta]);
     }
@@ -19,7 +19,7 @@ module.exports = class Renta {
     static fetchPrimerRentaNoPagada(IDCliente) {
         return db.execute(`SELECT * FROM 
 
-            (SELECT R.IDRenta, R.MontoPagado, R.MontoAPagar, R.FechaLimite, R.Recargos,
+            (SELECT R.IDRenta, R.MontoPagado, R.MontoAPagar, R.FechaLimite, R.Recargos, R.MontoInflacion,
             C.ReferenciaBancaria, C.IDCliente, C.TipoCliente, R.IDDetalleContrato, AC.Nombre,
             ROW_NUMBER() OVER (PARTITION BY R.IDDetalleContrato ORDER BY R.FechaLimite ASC) AS RentaContratos
             FROM renta AS R, cliente AS C, usuario AS U, asignacionContrato AS AC

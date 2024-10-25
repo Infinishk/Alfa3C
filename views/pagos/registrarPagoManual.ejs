@@ -13,7 +13,7 @@
         }) %>
 
         <div class="columns is-centered">
-            <div class="column is-one-quarter">
+            <div class="column is-one-third">
                 <%- include('../components/pagoActualCard.ejs', {
                     showNameSection: true, 
                     nombre: cliente.Nombre + ' ' + cliente.Apellidos,
@@ -22,7 +22,9 @@
                     montoAPagar: Number(renta[0].MontoAPagar),
                     montoPagado: Number(renta[0].MontoPagado), 
                     recargos: Number(renta[0].Recargos),
-                    montoPendiente: (renta[0].MontoAPagar - renta[0].MontoPagado),
+                    inflacion: Number(renta[0].MontoInflacion),
+                    montoPendiente: Number(renta[0].MontoAPagar) - Number(renta[0].MontoPagado) 
+                    + Number(renta[0].Recargos) + Number(renta[0].MontoInflacion),
                 }) %>
             </div>
 
@@ -42,7 +44,11 @@
                         }),
                         selectedValue: renta[0].IDDetalleContrato,
                         extraAttributes: renta.reduce((obj, item) => {
-                            obj[item.IDDetalleContrato] = `data-monto="${Number(item.MontoAPagar)}" data-fecha-limite="${item.FechaLimite}"`;
+                            obj[item.IDDetalleContrato] = `data-monto="${Number(item.MontoAPagar)}" 
+                            data-fecha-limite="${item.FechaLimite}"
+                            data-monto-pagado="${Number(item.MontoPagado)}"
+                            data-recargos="${Number(item.Recargos)}"
+                            data-inflacion="${Number(item.MontoInflacion)}"`;
                             return obj;
                         }, {}),
                         icon: 'fa-solid fa-file-contract',
@@ -54,7 +60,7 @@
                         name: 'motivo',
                         label: 'Motivo',
                         placeholder: 'Concepto del pago',
-                        value: 'Pago de Renta',
+                        value: 'Pago de Renta: ' + renta[0].Nombre,
                         icon: 'fa-solid fa-circle-info', 
                         iconColor: 'has-text-primary'
                     }) %>
@@ -64,7 +70,8 @@
                         name: 'monto',
                         label: 'Monto',
                         placeholder: 'Monto pagado',
-                        value: Number(renta[0].MontoAPagar - renta[0].MontoPagado),
+                        value: Number(renta[0].MontoAPagar) - Number(renta[0].MontoPagado) 
+                        + Number(renta[0].Recargos) + Number(renta[0].MontoInflacion),
                         icon: 'fa-solid fa-dollar-sign',
                         iconColor: 'has-text-primary'
                     }) %>
