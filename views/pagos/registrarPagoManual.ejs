@@ -62,7 +62,8 @@
                         placeholder: 'Concepto del pago',
                         value: 'Pago de Renta: ' + renta[0].Nombre,
                         icon: 'fa-solid fa-circle-info', 
-                        iconColor: 'has-text-primary'
+                        iconColor: 'has-text-primary',
+                        maxChars: 200
                     }) %>
 
                     <%- include('../components/inputs/numberInput.ejs', {
@@ -95,12 +96,64 @@
                         name: 'nota',
                         label: 'Nota (opcional)',
                         placeholder: 'Escribe tu nota aquí.',
-                        value: ''
+                        value: '', 
+                        maxChars: 500
                     }) %>
 
                     <div class="columns">
                         <div class="column is-6 is-offset-6">
-                            
+                            <button class="button is-primary" type="button" id="openModal">Registrar Pago</button>
+                        </div>
+                    </div>
+
+                    <div id="confirmationModal" class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head has-background-link">
+                                <p class="modal-card-title has-text-white has-text-weight-semibold">
+                                    Confirmar Datos de Pago
+                                </p>
+                                <button class="delete" type="button" aria-label="close" id="closeModal"></button>
+                            </header>
+                            <section class="modal-card-body">
+                                <div class="content">
+                                    <div class="columns is-multiline">
+                                        <div class="column is-half">
+                                            <div class="box has-background-grey-lighter" style="border-left: 4px solid #D2653B;">
+                                                <p class="has-text-weight-semibold">Contrato:</p>
+                                                <p id="contractValue" class="is-size-5 has-text-dark"></p>
+                                            </div>
+                                        </div>
+                                        <div class="column is-half">
+                                            <div class="box has-background-grey-lighter" style="border-left: 4px solid #D2653B;">
+                                                <p class="has-text-weight-semibold">Motivo:</p>
+                                                <p id="reasonValue" class="is-size-5 has-text-dark"></p>
+                                            </div>
+                                        </div>
+                                        <div class="column is-half">
+                                            <div class="box has-background-grey-lighter" style="border-left: 4px solid #D2653B;">
+                                                <p class="has-text-weight-semibold">Monto:</p>
+                                                <p id="amountValue" class="is-size-5 has-text-dark"></p>
+                                            </div>
+                                        </div>
+                                        <div class="column is-half">
+                                            <div class="box has-background-grey-lighter" style="border-left: 4px solid #D2653B;">
+                                                <p class="has-text-weight-semibold">Método de Pago:</p>
+                                                <p id="paymentMethodValue" class="is-size-5 has-text-dark"></p>
+                                            </div>
+                                        </div>
+                                        <div class="column is-full" id="notaModal">
+                                            <div class="box has-background-grey-lighter" style="border-left: 4px solid #D2653B;">
+                                                <p class="has-text-weight-semibold">Nota:</p>
+                                                <p id="noteValue" class="is-size-5 has-text-dark"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <footer class="modal-card-foot">
+                                <button class="button is-primary" type="submit">Confirmar</button>
+                            </footer>
                         </div>
                     </div>
                 </form>

@@ -1,5 +1,10 @@
+import { textareaCounter } from '../components/textAreaCounter.js';
+import { textInputCounter } from '../components/textInputCounter.js';
+
+textareaCounter('notaPago');
+textInputCounter('motivoPago');
+
 const contratoPago = document.getElementById('contratoPago');
-const montoPagoInput = document.getElementById('montoPago');
 const fecheLimiteCard = document.getElementById('fechaLimiteCard');
 const montoAPagarCard = document.getElementById('montoAPagarCard');
 const montoPagadoCard = document.getElementById('montoPagadoCard');
@@ -8,7 +13,10 @@ const recargosColumn = document.getElementById('recargosColumn');
 const inflacionCard = document.getElementById('inflacionCard');
 const inflacionColumn = document.getElementById('inflacionColumn');
 const montoPendienteCard = document.getElementById('montoPendienteCard');
+const montoPagoInput = document.getElementById('montoPago');
 const motivoPagoInput = document.getElementById('motivoPago');
+const openModal = document.getElementById('openModal');
+const notaModal = document.getElementById('notaModal');
 
 if (contratoPago) {
     contratoPago.addEventListener('change', function () {
@@ -61,6 +69,47 @@ if (contratoPago) {
             montoPagoInput.value = montoPendiente;
 
             motivoPagoInput.value = 'Pago de Renta: ' + selectedOption.text;
+            textInputCounter('motivoPago');
+            checarContenido();
         }
     });
 }
+
+function checarContenido() {
+    openModal.disabled = motivoPagoInput.value.length === 0 || montoPagoInput.value.length === 0 ||
+        parseFloat(montoPagoInput.value) <= 0 || montoPagoInput.value.includes('e') || montoPagoInput.value.includes('E');
+}
+
+motivoPagoInput.addEventListener('input', checarContenido);
+montoPagoInput.addEventListener('input', checarContenido);
+
+document.getElementById('openModal').addEventListener('click', function() {
+
+    const montoSinFormato = parseFloat(document.querySelector('input[name="monto"]').value);
+    const montoFormato = montoSinFormato.toLocaleString('mx', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            });
+
+    document.getElementById('contractValue').innerText = document.querySelector('select[name="contrato"]').selectedOptions[0].text;
+    document.getElementById('reasonValue').innerText = document.querySelector('input[name="motivo"]').value;
+    document.getElementById('amountValue').innerText = '$' + montoFormato;
+    document.getElementById('paymentMethodValue').innerText = document.querySelector('select[name="metodo"]').value;
+    document.getElementById('noteValue').innerText = document.querySelector('textarea[name="nota"]').value;
+
+    if (document.querySelector('textarea[name="nota"]').value === '') {
+        notaModal.classList.add('is-hidden');
+    } else {
+        notaModal.classList.remove('is-hidden');
+    }
+
+    document.getElementById('confirmationModal').classList.add('is-active');
+});
+
+document.getElementById('closeModal').onclick = function() {
+    document.getElementById('confirmationModal').classList.remove('is-active');
+};
+
+document.querySelector('.modal-background').onclick = function() {
+    document.getElementById('confirmationModal').classList.remove('is-active');
+};
