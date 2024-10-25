@@ -1,5 +1,6 @@
 import { textareaCounter } from '../components/textAreaCounter.js';
 import { textInputCounter } from '../components/textInputCounter.js';
+import { formatNumberCommas } from '../components/numberInputFormat.js';
 
 textareaCounter('notaPago');
 textInputCounter('motivoPago');
@@ -66,7 +67,10 @@ if (contratoPago) {
                 maximumFractionDigits: 2 
             });
 
-            montoPagoInput.value = montoPendiente;
+            montoPagoInput.value = montoPendiente.toLocaleString('mx', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            });
 
             motivoPagoInput.value = 'Pago de Renta: ' + selectedOption.text;
             textInputCounter('motivoPago');
@@ -76,24 +80,18 @@ if (contratoPago) {
 }
 
 function checarContenido() {
+    const montoLimpio = parseFloat(montoPagoInput.value.replace(/[^0-9.-]+/g, ''));
     openModal.disabled = motivoPagoInput.value.length === 0 || montoPagoInput.value.length === 0 ||
-        parseFloat(montoPagoInput.value) <= 0 || montoPagoInput.value.includes('e') || montoPagoInput.value.includes('E');
+        isNaN(montoLimpio) || montoLimpio <= 0;
 }
 
 motivoPagoInput.addEventListener('input', checarContenido);
 montoPagoInput.addEventListener('input', checarContenido);
 
 document.getElementById('openModal').addEventListener('click', function() {
-
-    const montoSinFormato = parseFloat(document.querySelector('input[name="monto"]').value);
-    const montoFormato = montoSinFormato.toLocaleString('mx', { 
-                minimumFractionDigits: 2, 
-                maximumFractionDigits: 2 
-            });
-
     document.getElementById('contractValue').innerText = document.querySelector('select[name="contrato"]').selectedOptions[0].text;
     document.getElementById('reasonValue').innerText = document.querySelector('input[name="motivo"]').value;
-    document.getElementById('amountValue').innerText = '$' + montoFormato;
+    document.getElementById('amountValue').innerText = '$' + (document.querySelector('input[name="monto"]').value);
     document.getElementById('paymentMethodValue').innerText = document.querySelector('select[name="metodo"]').value;
     document.getElementById('noteValue').innerText = document.querySelector('textarea[name="nota"]').value;
 
@@ -113,3 +111,5 @@ document.getElementById('closeModal').onclick = function() {
 document.querySelector('.modal-background').onclick = function() {
     document.getElementById('confirmationModal').classList.remove('is-active');
 };
+
+formatNumberCommas('montoPago');
