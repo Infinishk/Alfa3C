@@ -1,0 +1,27 @@
+<form action="/usuarios/registrarUsuario" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="field">
+        <label class="label">Nombre de usuario</label>
+        <div class="control">
+            <input class="input" type="text" name="IDUsuario" id="nombreUsuario" required>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Correo Electrónico</label>
+        <div class="control">
+            <input class="input" type="email" name="correoElectronico" id="correoElectronico" required>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Selecciona el rol</label>
+        <div class="control">
+            <div class="select">
+                <select name="rol" id="rol">
+                    <option value="Admin">Admin</option>
+                    <option value="Usuario">Usuario</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="button is-primary">Registrar</button>
+</form>

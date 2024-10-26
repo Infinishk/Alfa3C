@@ -1,14 +1,9 @@
 const express = require('express');
-
-// Ahora en vez de usar app, se usa el router de express
 const router = express.Router();
+const registrarUsuarioController = require('../controllers/usuarios/registrarUsuario.controller');
 
-// PLANTILLA: IMPORTAR CONTROLADOR DE FUNCION
-// USAR EL GET, POST, PUT CON LA RUTA 
-
-/* EJEMPLO: 
-const iniciarSesionController = require('../controllers/session/iniciarSesion.controller');
-router.get('/login', sessionController.get_login);
-*/
+// Registration routes
+router.get('/registrarUsuario', registrarUsuarioController.getRegistrarUsuario);
+router.post('/registrarUsuario', registrarUsuarioController.postRegistrarUsuario);
 
 module.exports = router;
