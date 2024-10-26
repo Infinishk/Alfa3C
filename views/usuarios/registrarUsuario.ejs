@@ -1,17 +1,94 @@
+<%- include('../includes/head.ejs', { 
+    username: username, 
+    permisos: permisos, 
+    rol: rol 
+}) %>
+
 <form action="/usuarios/registrarUsuario" method="POST">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    
     <div class="field">
         <label class="label">Nombre de usuario</label>
         <div class="control">
-            <input class="input" type="text" name="IDUsuario" id="nombreUsuario" required>
+            <input class="input" type="text" name="IDUsuario" id="IDUsuario" required>
         </div>
     </div>
+
+    <div class="field">
+        <label class="label">Nombre</label>
+        <div class="control">
+            <input class="input" type="text" name="nombre" id="nombre" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Apellidos</label>
+        <div class="control">
+            <input class="input" type="text" name="apellidos" id="apellidos" required>
+        </div>
+    </div>
+    
     <div class="field">
         <label class="label">Correo Electrónico</label>
         <div class="control">
             <input class="input" type="email" name="correoElectronico" id="correoElectronico" required>
         </div>
     </div>
+
+    <div class="field">
+        <label class="label">Direccion</label>
+        <div class="control">
+            <input class="input" type="text" name="direccion" id="direccion" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Telefono</label>
+        <div class="control">
+            <input class="input" type="text" name="telefono" id="telefono" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">RFC</label>
+        <div class="control">
+            <input class="input" type="text" name="rfc" id="rfc" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Referencia Bancaria</label>
+        <div class="control">
+            <input class="input" type="text" name="referenciaBancaria" id="referenciaBancaria" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Porcentaje Interes (%)</label>
+        <div class="control">
+            <input class="input" type="number" name="porcentajeInteres" step="0.01" id="porcentajeInteres" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Monto Retencion</label>
+        <div class="control">
+            <input class="input" type="number" name="montoRetencion" step="0.01" id="montoRetencion" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Tipo de Cliente</label>
+        <div class="control">
+            <div class="select">
+                <select name="tipoCliente" id="tipoCliente" required>
+                    <option value="Persona Fisica">Persona Física</option>
+                    <option value="Persona Moral">Persona Moral</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
     <div class="field">
         <label class="label">Selecciona el rol</label>
         <div class="control">
@@ -23,5 +100,8 @@
             </div>
         </div>
     </div>
+    
     <button type="submit" class="button is-primary">Registrar</button>
 </form>
+
+<%- include('../includes/foot.ejs') %>

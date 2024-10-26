@@ -26,8 +26,11 @@ module.exports = class Usuario{
             });
     }
 
-    static saveUsuario(IDUsuario,CorreoElectronico){
-        return db.execute('INSERT INTO Usuario (`IDUsuario`, `Status`, `CorreoElectronico`) VALUES (?,0,?)',[IDUsuario,CorreoElectronico]);
+    static saveUsuario(IDUsuario, Nombre, Apellidos, CorreoElectronico) {
+        return db.execute(
+            'INSERT INTO Usuario (IDUsuario, Nombre, Apellidos, CorreoElectronico) VALUES (?, ?, ?, ?)',
+            [IDUsuario, Nombre, Apellidos, CorreoElectronico]
+        );
     }
     
     
@@ -91,6 +94,13 @@ module.exports = class Usuario{
 
     static saveRol(IDUsuario, IDRol) {
         return db.execute('INSERT INTO Posee (IDUsuario, IDRol) VALUES (?, ?)', [IDUsuario, IDRol]);
+    }
+
+    static saveCliente(IDCliente, Direccion, Telefono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente) {
+        return db.execute(
+            'INSERT INTO Cliente (IDCliente, Direccion, Teléfono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            [IDCliente, Direccion, Telefono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente]
+        );
     }
     
 

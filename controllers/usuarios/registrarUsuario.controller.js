@@ -9,9 +9,9 @@ const secretKey = config.jwtSecret;
 
 // Configuración de nodemailer
 const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com', // Para Gmail
+    host: 'smtp.gmail.com',
     port: 587,
-    secure: false, // true para puerto 465, false para otros puertos
+    secure: false,
     auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD
@@ -35,7 +35,20 @@ exports.getRegistrarUsuario = (request, response, next) => {
 };
 
 exports.postRegistrarUsuario = async (req, res) => {
-    const { IDUsuario, correoElectronico, rol } = req.body;
+    const {
+        IDUsuario,
+        nombre,
+        apellidos,
+        correoElectronico,
+        rol,
+        direccion,
+        telefono,
+        rfc,
+        referenciaBancaria,
+        porcentajeInteres,
+        montoRetencion,
+        tipoCliente
+    } = req.body;
 
     try {
         // Verificar si el usuario ya existe
@@ -49,21 +62,37 @@ exports.postRegistrarUsuario = async (req, res) => {
         }
 
         // Guardar el usuario en la base de datos
-        await Usuario.saveUsuario(IDUsuario, correoElectronico);
+        await Usuario.saveUsuario(IDUsuario, nombre, apellidos, correoElectronico);
+
+        // Confirm that the user was added to avoid foreign key issues
+        const [newUser] = await Usuario.fetchOne(IDUsuario);
+        if (newUser.length === 0) {
+            throw new Error('User insertion failed; cannot proceed to assign role.');
+        }
+
+        // Guardar el cliente en la base de datos
+        await Usuario.saveCliente(
+            IDUsuario,
+            direccion,
+            telefono,
+            rfc,
+            referenciaBancaria,
+            porcentajeInteres,
+            montoRetencion,
+            tipoCliente
+        );
 
         // Asignar el rol según la selección
         const IDRol = rol === 'Admin' ? 'ROL01' : 'ROL02';
-
-        // Guardar el rol en la tabla "posee"
+        
+        // Save the role in the "posee" table
         await Usuario.saveRol(IDUsuario, IDRol);
 
-        // Generar token JWT con el nombre de usuario (IDUsuario)
+        // Generate JWT token for password setup link
         const token = jwt.sign({ IDUsuario: IDUsuario }, secretKey, { expiresIn: '1h' });
-
-        // Enlace con el token incluido
         const setPasswordLink = `http://localhost:5050/auth/set_password?token=${token}`;
 
-        // Configurar el mensaje de correo electrónico
+        // Configurar el correo electrónico de restablecimiento de contraseña
         const mailOptions = {
             from: {
                 name: 'Alfa3C',
@@ -74,14 +103,14 @@ exports.postRegistrarUsuario = async (req, res) => {
             html: `<p>Hola!</p><p>Por favor usa este link para restablecer tu contraseña. Toma en cuenta que la liga solo tiene validez de una hora: <a href="${setPasswordLink}">Reestablecer Contraseña</a></p>`
         };
 
-        // Enviar el correo electrónico usando Nodemailer
+        // Enviar el correo electrónico
         try {
             await transporter.sendMail(mailOptions);
         } catch (error) {
             console.error('Error al enviar el correo electrónico:', error.toString());
         }
 
-        // Redirección después de registrar al usuario
+        // Redirección después del registro
         res.redirect('/auth/login');
     } catch (error) {
         console.error(error);
