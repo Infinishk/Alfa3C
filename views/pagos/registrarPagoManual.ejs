@@ -80,7 +80,7 @@
                     <%- include('../components/inputs/fechaInput', {
                         id: 'fechaPago',
                         name: 'fechaPago',
-                        label: 'Fecha de Pago',
+                        label: 'Fecha',
                         icon: 'fa-solid fa-calendar-days', 
                         iconColor: 'has-text-primary',
                         placeholder: 'Selecciona la fecha'
@@ -89,7 +89,7 @@
                     <%- include('../components/inputs/selectInput', {
                         id: 'metodoPago',
                         name: 'metodo',
-                        label: 'Método de Pago',
+                        label: 'Método',
                         options: [
                             { value: 'Efectivo', text: 'Efectivo' },
                             { value: 'Terminal', text: 'Terminal' },
@@ -119,56 +119,10 @@
                         </button>
                     </div>
 
-                    <div id="confirmationModal" class="modal">
-                        <div class="modal-background"></div>
-                        <div class="modal-card">
-                            <header class="modal-card-head has-background-link">
-                                <p class="modal-card-title has-text-white has-text-weight-semibold">
-                                    Confirmar Datos de Pago
-                                </p>
-                                <button class="delete" type="button" aria-label="close" id="closeModal"></button>
-                            </header>
-                            <section class="modal-card-body">
-                                <div class="content">
-                                    <div class="columns is-multiline">
-                                        <div class="column is-half">
-                                            <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
-                                                <p class="has-text-weight-semibold">Contrato:</p>
-                                                <p id="contractValue" class="is-size-5 has-text-dark"></p>
-                                            </div>
-                                        </div>
-                                        <div class="column is-half">
-                                            <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
-                                                <p class="has-text-weight-semibold">Motivo:</p>
-                                                <p id="reasonValue" class="is-size-5 has-text-dark"></p>
-                                            </div>
-                                        </div>
-                                        <div class="column is-half">
-                                            <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
-                                                <p class="has-text-weight-semibold">Monto:</p>
-                                                <p id="amountValue" class="is-size-5 has-text-dark"></p>
-                                            </div>
-                                        </div>
-                                        <div class="column is-half">
-                                            <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
-                                                <p class="has-text-weight-semibold">Método de Pago:</p>
-                                                <p id="paymentMethodValue" class="is-size-5 has-text-dark"></p>
-                                            </div>
-                                        </div>
-                                        <div class="column is-full" id="notaModal">
-                                            <div class="box" style="border-left: 4px solid #800020; background-color: #F0ECE4;">
-                                                <p class="has-text-weight-semibold">Nota:</p>
-                                                <p id="noteValue" class="is-size-5 has-text-dark"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                            <footer class="modal-card-foot">
-                                <button class="button is-primary" type="submit">Confirmar</button>
-                            </footer>
-                        </div>
-                    </div>
+                    <%- include('../components/confirmationModal', { 
+                        modalId: 'confirmationModal' 
+                    }) %>
+
                 </form>
             </div>
         </div>

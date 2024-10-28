@@ -17,7 +17,6 @@ const montoPendienteCard = document.getElementById('montoPendienteCard');
 const montoPagoInput = document.getElementById('montoPago');
 const motivoPagoInput = document.getElementById('motivoPago');
 const openModal = document.getElementById('openModal');
-const notaModal = document.getElementById('notaModal');
 const motivoPagoWarning = document.getElementById('motivoPago-warning');
 const motivoPagoWarningText = document.getElementById('motivoPago-warning-text');
 const montoPagoWarning = document.getElementById('montoPago-warning');
@@ -109,28 +108,33 @@ function checarContenido() {
 motivoPagoInput.addEventListener('input', checarContenido);
 montoPagoInput.addEventListener('input', checarContenido);
 
-document.getElementById('openModal').addEventListener('click', function() {
-    document.getElementById('contractValue').innerText = document.querySelector('select[name="contrato"]').selectedOptions[0].text;
-    document.getElementById('reasonValue').innerText = document.querySelector('input[name="motivo"]').value;
-    document.getElementById('amountValue').innerText = '$' + (document.querySelector('input[name="monto"]').value);
-    document.getElementById('paymentMethodValue').innerText = document.querySelector('select[name="metodo"]').value;
-    document.getElementById('noteValue').innerText = document.querySelector('textarea[name="nota"]').value;
+const modalId = 'confirmationModal';
 
+document.getElementById('openModal').addEventListener('click', function() {
+
+    document.getElementById(`${modalId}-contratoValue`).innerText = document.querySelector('select[name="contrato"]').selectedOptions[0].text;
+    document.getElementById(`${modalId}-motivoValue`).innerText = document.querySelector('input[name="motivo"]').value;
+    document.getElementById(`${modalId}-montoValue`).innerText = '$' + document.querySelector('input[name="monto"]').value;
+    document.getElementById(`${modalId}-metodoPagoValue`).innerText = document.querySelector('select[name="metodo"]').value;
+    document.getElementById(`${modalId}-fechaPagoValue`).innerText = document.querySelector('input[name="fechaPago"]')._flatpickr.altInput.value;
+    document.getElementById(`${modalId}-notaValue`).innerText = document.querySelector('textarea[name="nota"]').value;
+
+    const notaModal = document.getElementById(`${modalId}-notaModal`);
     if (document.querySelector('textarea[name="nota"]').value === '') {
         notaModal.classList.add('is-hidden');
     } else {
         notaModal.classList.remove('is-hidden');
     }
 
-    document.getElementById('confirmationModal').classList.add('is-active');
+    document.getElementById(modalId).classList.add('is-active');
 });
 
 document.getElementById('closeModal').onclick = function() {
-    document.getElementById('confirmationModal').classList.remove('is-active');
+    document.getElementById(modalId).classList.remove('is-active');
 };
 
 document.querySelector('.modal-background').onclick = function() {
-    document.getElementById('confirmationModal').classList.remove('is-active');
+    document.getElementById(modalId).classList.remove('is-active');
 };
 
 formatNumberCommas('montoPago');

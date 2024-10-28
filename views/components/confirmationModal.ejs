@@ -1,0 +1,54 @@
+<div id="<%= modalId %>" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head has-background-link">
+            <p class="modal-card-title has-text-white has-text-weight-semibold">Confirmar Datos de Pago</p>
+            <button class="delete" type="button" aria-label="close" id="closeModal"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="content">
+                <div class="columns is-multiline">
+                    <div class="column is-half">
+                        <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
+                            <p class="has-text-weight-semibold">Contrato:</p>
+                            <p id="<%= modalId %>-contratoValue" class="is-size-5 has-text-dark"></p>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
+                            <p class="has-text-weight-semibold">Motivo:</p>
+                            <p id="<%= modalId %>-motivoValue" class="is-size-5 has-text-dark"></p>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
+                            <p class="has-text-weight-semibold">Monto:</p>
+                            <p id="<%= modalId %>-montoValue" class="is-size-5 has-text-dark"></p>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
+                            <p class="has-text-weight-semibold">Método de Pago:</p>
+                            <p id="<%= modalId %>-metodoPagoValue" class="is-size-5 has-text-dark"></p>
+                        </div>
+                    </div>
+                    <div class="column is-full">
+                        <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
+                            <p class="has-text-weight-semibold">Fecha de Pago:</p>
+                            <p id="<%= modalId %>-fechaPagoValue" class="is-size-5 has-text-dark"></p>
+                        </div>
+                    </div>
+                    <div class="column is-full" id="<%= modalId %>-notaModal">
+                        <div class="box" style="border-left: 4px solid #800020; background-color: #F0ECE4;">
+                            <p class="has-text-weight-semibold">Nota:</p>
+                            <p id="<%= modalId %>-notaValue" class="is-size-5 has-text-dark"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-primary" type="submit">Confirmar</button>
+        </footer>
+    </div>
+</div>
