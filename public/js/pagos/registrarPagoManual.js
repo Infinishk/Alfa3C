@@ -134,3 +134,16 @@ document.querySelector('.modal-background').onclick = function() {
 };
 
 formatNumberCommas('montoPago');
+
+/* global flatpickr */
+
+flatpickr("#fechaPago", {
+    enableTime: false,
+    dateFormat: "Y-m-d",
+    altInput: true,
+    altFormat: "F j, Y",
+    minDate: "2000-01",
+    maxDate: "today",
+    defaultDate: "today",
+    locale: "es"
+});

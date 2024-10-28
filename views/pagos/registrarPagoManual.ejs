@@ -77,6 +77,15 @@
                         iconColor: 'has-text-primary'
                     }) %>
 
+                    <%- include('../components/inputs/fechaInput', {
+                        id: 'fechaPago',
+                        name: 'fechaPago',
+                        label: 'Fecha de Pago',
+                        icon: 'fa-solid fa-calendar-days', 
+                        iconColor: 'has-text-primary',
+                        placeholder: 'Selecciona la fecha'
+                    }) %>
+
                     <%- include('../components/inputs/selectInput', {
                         id: 'metodoPago',
                         name: 'metodo',
@@ -123,31 +132,31 @@
                                 <div class="content">
                                     <div class="columns is-multiline">
                                         <div class="column is-half">
-                                            <div class="box has-background-grey-lighter" style="border-left: 4px solid #D2653B;">
+                                            <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
                                                 <p class="has-text-weight-semibold">Contrato:</p>
                                                 <p id="contractValue" class="is-size-5 has-text-dark"></p>
                                             </div>
                                         </div>
                                         <div class="column is-half">
-                                            <div class="box has-background-grey-lighter" style="border-left: 4px solid #D2653B;">
+                                            <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
                                                 <p class="has-text-weight-semibold">Motivo:</p>
                                                 <p id="reasonValue" class="is-size-5 has-text-dark"></p>
                                             </div>
                                         </div>
                                         <div class="column is-half">
-                                            <div class="box has-background-grey-lighter" style="border-left: 4px solid #D2653B;">
+                                            <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
                                                 <p class="has-text-weight-semibold">Monto:</p>
                                                 <p id="amountValue" class="is-size-5 has-text-dark"></p>
                                             </div>
                                         </div>
                                         <div class="column is-half">
-                                            <div class="box has-background-grey-lighter" style="border-left: 4px solid #D2653B;">
+                                            <div class="box" style="border-left: 4px solid #8B4513; background-color: #F0ECE4;">
                                                 <p class="has-text-weight-semibold">Método de Pago:</p>
                                                 <p id="paymentMethodValue" class="is-size-5 has-text-dark"></p>
                                             </div>
                                         </div>
                                         <div class="column is-full" id="notaModal">
-                                            <div class="box has-background-grey-lighter" style="border-left: 4px solid #D2653B;">
+                                            <div class="box" style="border-left: 4px solid #800020; background-color: #F0ECE4;">
                                                 <p class="has-text-weight-semibold">Nota:</p>
                                                 <p id="noteValue" class="is-size-5 has-text-dark"></p>
                                             </div>

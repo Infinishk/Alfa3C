@@ -5,15 +5,18 @@ $dorado: #DBB260;
 $blanco: #F0ECE4;
 $gris-claro: #D6D6D6;
 $gris-mediano: #E1E1E1;
+$marron: #8B4513;
+$naranja: #D2653B;
+$verde: #5BBE62;
+$rojo: #D9534F;
 
-@use "bulma/bulma" with (
-  $family-primary: '"Roboto", sans-serif',
+@use "bulma/bulma" with ($family-primary: '"Roboto", sans-serif',
   $family-sans-serif: '"Roboto", sans-serif',
   $grey-dark: $gris-mediano,
   $grey-light: $gris-claro,
   $primary: $dorado,
   $link: $azul,
-  $danger: $azul,
+  $danger: $marron,
   $info: $negro,
   $subtitle-color: $negro,
   $text-strong: $negro,
@@ -142,31 +145,31 @@ html, body {
 }
 
 .button.is-primary:hover {
-  background-color: #D2653B; // Cambia a cualquier color que desees
+  background-color: $naranja; // Cambia a cualquier color que desees
 }
 
 .button.is-link:hover {
-  background-color: #D2653B; // Cambia a cualquier color que desees
+  background-color: $naranja; // Cambia a cualquier color que desees
 }
 
 .notification-success {
-  background-color: #5BBE62;
+  background-color: $verde;
   color: #ffffff;
 }
 
 .notification-delete {
-  background-color: #D9534F;
+  background-color: $rojo;
   color: #ffffff;
 }
 
 .notification-error {
-  background-color: #D9534F;
+  background-color: $rojo;
   color: #ffffff;
   border-radius: 4px;
 }
 
 .notification-info {
-  background-color: #D1B894;
+  background-color: $marron;
   color: #ffffff;
 }
 

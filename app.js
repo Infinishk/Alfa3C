@@ -49,7 +49,7 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             'default-src': ['\'self\''],
-            'script-src': ['\'self\'', 'code.jquery.com', 'ajax.googleapis.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com'],
+            'script-src': ['\'self\'', 'code.jquery.com', 'ajax.googleapis.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'npmcdn.com'],
             'script-src-attr': [],
             'connect-src': ['\'self\'']
         }
@@ -83,6 +83,8 @@ app.use('/auth', rutasSession);
 
 const rutasUsuarios = require('./routes/usuarios.routes');
 app.use('/usuarios', rutasUsuarios);
+
+app.use('/node_modules', express.static('node_modules'));
 
 // Middleware para verificar si la sesión está activa
 // function checkSession(req, res, next) {

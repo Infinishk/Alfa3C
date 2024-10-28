@@ -1,0 +1,78 @@
+<style>
+    .flatpickr-day.selected {
+        background-color: #DBB260; 
+        border: solid 1px #8B4513;
+    }
+    .flatpickr-day.selected:hover {
+        background-color: #8B4513; 
+        border: solid 1px #DBB260;
+    }
+
+    .flatpickr-day.today:hover {
+        background-color: #D2653B; 
+        border: solid 1px #8B4513;
+    }
+
+    .flatpickr-day:hover {
+        color: #F0ECE4;
+        background-color: #204F7B; 
+        border: solid 1px #8B4513;
+    }
+
+    .flatpickr-day.today {
+        border: solid 1px #D2653B;
+    }
+
+    .flatpickr-day.today.selected {
+        border: solid 1px #8B4513;
+    }
+
+    .flatpickr-prev-month svg, .flatpickr-next-month svg {
+        fill: #8B4513; 
+    }
+
+    .flatpickr-prev-month:hover svg, .flatpickr-next-month:hover svg {
+        color: #204F7B !important;
+        fill: #204F7B !important;  
+    }   
+
+    .flatpickr-months {
+        background-color: #DBB260; 
+        padding: 5px;
+        border-radius: 5px 5px 0 0;
+    }
+
+    .flatpickr-monthDropdown-months {
+        color: #F0ECE4;
+    }
+</style>
+
+<div class="columns">
+    <div class="column is-3">
+        <label class="label is-medium" for="<%= id %>" style="display: flex; align-items: center; height: 100%;">
+            <%= label %>:
+        </label>
+    </div>
+    <div class="column">
+        <div class="field">
+            <div class="control has-icons-left">
+                <input type="text" id="<%= id %>" name="<%= name %>" class="input is-medium" />
+                <% if (icon) { %>
+                    <span class="icon is-small is-left <%= iconColor %>">
+                        <i class="<%= icon %>"></i>
+                    </span>
+                <% } %>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-10">
+                <p class="help notification-error has-text-white is-hidden" id="<%= id %>-warning" style="margin-top: -6px;">
+                    <span class="icon">
+                        <i class="fa-solid fa-triangle-exclamation" style="color: #ffffff"></i>
+                    </span>
+                    <span id="<%= id %>-warning-text"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
