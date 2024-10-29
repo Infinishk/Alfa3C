@@ -10,15 +10,15 @@ module.exports = class Contrato{
     }
 
     static fetchActivos(){
-        return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Inflacion.PorcentajeInflacion, Contrato.DuracionMeses, Contrato.Titulo FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial JOIN Inflacion ON Contrato.IDInflacion = Inflacion.IDInflacion WHERE Contrato.Estatus = 1');
+        return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Contrato.DuracionMeses, Contrato.Titulo FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial WHERE Contrato.Estatus = 1');
     }
 
     static fetchInactivos(){
-        return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Inflacion.PorcentajeInflacion, Contrato.DuracionMeses, Contrato.Titulo FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial JOIN Inflacion ON Contrato.IDInflacion = Inflacion.IDInflacion WHERE Contrato.Estatus = 0');
+        return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Contrato.DuracionMeses, Contrato.Titulo FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial WHERE Contrato.Estatus = 0');
     }
 
     static fetchOne(id){
-        return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Inflacion.PorcentajeInflacion, Contrato.DuracionMeses, Contrato.Titulo, Contrato.Estatus FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial JOIN Inflacion ON Contrato.IDInflacion = Inflacion.IDInflacion WHERE Contrato.IDContrato = ?', [id]);
+        return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Contrato.DuracionMeses, Contrato.Titulo, Contrato.Estatus FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial WHERE Contrato.IDContrato = ?', [id]);
     }
 
     static fetchName(nombre) {
@@ -26,7 +26,7 @@ module.exports = class Contrato{
     }
 
     static fetchClientes(id){
-        return db.execute('SELECT DISTINCT Cliente.IDCliente, Cliente.Nombre, Cliente.Apellidos, Cliente.TipoCliente, Cliente.MontoRetencion, Cliente.PorcentajeInteres FROM Cliente JOIN Renta on Cliente.IDCliente = Renta.IDCliente JOIN Contrato ON Renta.IDContrato = Contrato.IDContrato WHERE Contrato.IDContrato = ?', [id]);
+        return db.execute('SELECT AsignacionContrato.Nombre AS ContratoNombre, Usuario.Nombre AS UsuarioNombre, Usuario.Apellidos, Cliente.RFC, Cliente.TipoCliente, Cliente.MontoRetencion, Cliente.PorcentajeInteres FROM AsignacionContrato JOIN Contrato ON AsignacionContrato.IDContrato = Contrato.IDContrato JOIN Cliente on AsignacionContrato.IDCliente = Cliente.IDCliente JOIN Usuario on Cliente.IDCliente = Usuario.IDUsuario WHERE Contrato.IDContrato = ?', [id]);
     }
 
     static updateEstatus(estatus, id){

@@ -50,13 +50,6 @@
             </div>
             <div class="column">
                 <div class="box" style="text-align: center;">
-                    <p class="has-text-grey has-text-weight-medium">INFLACIÓN</p>
-                    <p class="has-text-black has-text-weight-bold is-size-5">
-                        <%= contrato[0].PorcentajeInflacion %>%</p>
-                </div>
-            </div>
-            <div class="column">
-                <div class="box" style="text-align: center;">
                     <p class="has-text-grey has-text-weight-medium">ESTATUS</p>
                     <p class="has-text-black has-text-weight-bold is-size-5">
                         <% if (contrato[0].Estatus == 1) { %> Activo 
@@ -104,13 +97,6 @@
                         </div>
                     <div class="column">
                         <div class="box" style="text-align: center; width: 200px">
-                            <p class="has-text-grey has-text-weight-medium">INFLACIÓN</p>
-                            <p class="has-text-black has-text-weight-bold is-size-5">
-                                <%= contrato[0].PorcentajeInflacion %>%</p>
-                            </div>
-                        </div>
-                    <div class="column">
-                        <div class="box" style="text-align: center; width: 200px">
                             <p class="has-text-grey has-text-weight-medium">ESTATUS</p>
                             <p class="has-text-black has-text-weight-bold is-size-5">
                                 <% if (contrato[0].Estatus == 1) { %>
@@ -129,12 +115,17 @@
                         <div class="columns is-flex is-align-items-stretch">
                             <div class="column" id="pagination-content">
                                 <div class="box" style="text-align: left;">
+                                    <div class="columns is-flex">
+                                        <div class="column is-narrow">
+                                            <p class="has-text-black has-text-weight-bold is-size-6"><%= cliente.ContratoNombre %></p>
+                                        </div>
+                                    </div>
                                     <div class="columns is-flex is-justify-content-space-between">
                                         <div class="column is-narrow">
-                                            <p class="has-text-black has-text-weight-bold is-size-6"><%= cliente.Nombre %> <%= cliente.Apellidos %></p>
+                                            <p class="has-text-grey has-text-weight-medium"><b>Cliente:</b> <%= cliente.UsuarioNombre %> <%= cliente.Apellidos %></p>
                                         </div>
                                         <div class="column is-narrow">
-                                            <p class="has-text-grey has-text-weight-medium"><b>ID:</b> <%= cliente.IDCliente %></p>
+                                            <p class="has-text-grey has-text-weight-medium"><b>RFC:</b> <%= cliente.RFC %></p>
                                         </div>
                                         <div class="column is-narrow">
                                             <p class="has-text-grey has-text-weight-medium"><b>Tipo de Cliente:</b> <%= cliente.TipoCliente %></p>
