@@ -2,140 +2,154 @@ import { textareaCounter } from '../components/textAreaCounter.js';
 import { textInputCounter } from '../components/textInputCounter.js';
 import { formatNumberCommas } from '../components/numberInputFormat.js';
 
+// Inicializa contadores de caracteres
 textareaCounter('notaPago');
 textInputCounter('motivoPago');
 
-const contratoPago = document.getElementById('contratoPago');
-const fecheLimiteCard = document.getElementById('fechaLimiteCard');
-const montoAPagarCard = document.getElementById('montoAPagarCard');
-const montoPagadoCard = document.getElementById('montoPagadoCard');
-const recargosCard = document.getElementById('recargosCard');
-const recargosColumn = document.getElementById('recargosColumn');
-const inflacionCard = document.getElementById('inflacionCard');
-const inflacionColumn = document.getElementById('inflacionColumn');
-const montoPendienteCard = document.getElementById('montoPendienteCard');
-const montoPagoInput = document.getElementById('montoPago');
-const motivoPagoInput = document.getElementById('motivoPago');
-const openModal = document.getElementById('openModal');
-const motivoPagoWarning = document.getElementById('motivoPago-warning');
-const motivoPagoWarningText = document.getElementById('motivoPago-warning-text');
-const montoPagoWarning = document.getElementById('montoPago-warning');
-const montoPagoWarningText = document.getElementById('montoPago-warning-text');
+// Elementos DOM
+const elements = {
+    contratoPago: document.getElementById('contratoPago'),
+    fecheLimiteCard: document.getElementById('fechaLimiteCard'),
+    montoAPagarCard: document.getElementById('montoAPagarCard'),
+    montoPagadoCard: document.getElementById('montoPagadoCard'),
+    recargosCard: document.getElementById('recargosCard'),
+    recargosColumn: document.getElementById('recargosColumn'),
+    inflacionCard: document.getElementById('inflacionCard'),
+    inflacionColumn: document.getElementById('inflacionColumn'),
+    montoPendienteCard: document.getElementById('montoPendienteCard'),
+    montoPagoInput: document.getElementById('montoPago'),
+    motivoPagoInput: document.getElementById('motivoPago'),
+    openModal: document.getElementById('openModal'),
+    motivoPagoWarning: document.getElementById('motivoPago-warning'),
+    motivoPagoWarningText: document.getElementById('motivoPago-warning-text'),
+    montoPagoWarning: document.getElementById('montoPago-warning'),
+    montoPagoWarningText: document.getElementById('montoPago-warning-text')
+};
 
-if (contratoPago) {
-    contratoPago.addEventListener('change', function () {
-        const selectedOption = contratoPago.options[contratoPago.selectedIndex];
-        const selectedMonto = selectedOption.getAttribute('data-monto');
-        const selectedDate = selectedOption.getAttribute('data-fecha-limite');
-        const selectedPagado = selectedOption.getAttribute('data-monto-pagado');
-        const selectedRecargos = selectedOption.getAttribute('data-recargos');
-        const selectedInflacion = selectedOption.getAttribute('data-inflacion');
+// Formatea número con comas y configuración de moneda
+function formatCurrency(value, symbol) {
+    if (symbol == true){
+        return '$' + parseFloat(value).toLocaleString('mx', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    } else {
+        return parseFloat(value).toLocaleString('mx', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
 
-        if (selectedMonto) {
-            fecheLimiteCard.textContent = selectedDate;
-            montoAPagarCard.textContent = '$' + parseFloat(selectedMonto).toLocaleString('mx', { 
-                minimumFractionDigits: 2, 
-                maximumFractionDigits: 2 
-            });
-            montoPagadoCard.textContent = '$' + parseFloat(selectedPagado).toLocaleString('mx', { 
-                minimumFractionDigits: 2, 
-                maximumFractionDigits: 2 
-            });
+}
 
-            if (selectedRecargos > 0) {
-                recargosColumn.classList.remove('is-hidden');
-                recargosCard.textContent = '$' + parseFloat(selectedRecargos).toLocaleString('mx', { 
-                    minimumFractionDigits: 2, 
-                    maximumFractionDigits: 2 
-                });
-            } else {
-                recargosColumn.classList.add('is-hidden');
-            }
+// Actualiza las tarjetas de monto y fecha según selección
+function actualizarTarjetas(selectedOption) {
+    const selectedMonto = selectedOption.getAttribute('data-monto');
+    const selectedDate = selectedOption.getAttribute('data-fecha-limite');
+    const selectedPagado = selectedOption.getAttribute('data-monto-pagado');
+    const selectedRecargos = selectedOption.getAttribute('data-recargos');
+    const selectedInflacion = selectedOption.getAttribute('data-inflacion');
 
-            if (selectedInflacion > 0) {
-                inflacionColumn.classList.remove('is-hidden');
-                inflacionCard.textContent = '$' + parseFloat(selectedInflacion).toLocaleString('mx', { 
-                    minimumFractionDigits: 2, 
-                    maximumFractionDigits: 2 
-                });
-            } else {
-                inflacionColumn.classList.add('is-hidden');
-            }
+    elements.fecheLimiteCard.textContent = selectedDate;
+    elements.montoAPagarCard.textContent = formatCurrency(selectedMonto, true);
+    elements.montoPagadoCard.textContent = formatCurrency(selectedPagado, true);
+    
+    toggleVisibility(elements.recargosColumn, selectedRecargos > 0, elements.recargosCard, selectedRecargos);
+    toggleVisibility(elements.inflacionColumn, selectedInflacion > 0, elements.inflacionCard, selectedInflacion);
 
-            const montoPendiente = parseFloat(selectedMonto) - parseFloat(selectedPagado) 
-            + parseFloat(selectedRecargos) + parseFloat(selectedInflacion);
+    const montoPendiente = calcularMontoPendiente(selectedMonto, selectedPagado, selectedRecargos, selectedInflacion);
+    elements.montoPendienteCard.textContent = formatCurrency(montoPendiente, true);
+    elements.montoPagoInput.value = formatCurrency(montoPendiente, false);
+    elements.motivoPagoInput.value = `Pago de Renta: ${selectedOption.text}`;
+    textInputCounter('motivoPago');
+    checarContenido();
+}
 
-            montoPendienteCard.textContent = '$' + montoPendiente.toLocaleString('mx', { 
-                minimumFractionDigits: 2, 
-                maximumFractionDigits: 2 
-            });
+// Muestra u oculta columnas de recargos e inflación
+function toggleVisibility(column, condition, card, value) {
+    column.classList.toggle('is-hidden', !condition);
+    if (condition) {
+        card.textContent = formatCurrency(value, true);
+    }
+}
 
-            montoPagoInput.value = montoPendiente.toLocaleString('mx', { 
-                minimumFractionDigits: 2, 
-                maximumFractionDigits: 2 
-            });
+// Calcula el monto pendiente a pagar
+function calcularMontoPendiente(monto, pagado, recargos, inflacion) {
+    return parseFloat(monto) - parseFloat(pagado) + parseFloat(recargos) + parseFloat(inflacion);
+}
 
-            motivoPagoInput.value = 'Pago de Renta: ' + selectedOption.text;
-            textInputCounter('motivoPago');
-            checarContenido();
-        }
+// Verifica si el contenido de los campos es válido
+function checarContenido() {
+    const montoLimpio = parseFloat(elements.montoPagoInput.value.replace(/[^0-9.-]+/g, ''));
+    elements.openModal.disabled = 
+        !elements.motivoPagoInput.value.length ||
+        !elements.montoPagoInput.value.length ||
+        isNaN(montoLimpio) ||
+        montoLimpio <= 0;
+
+    toggleWarning(elements.motivoPagoWarning, elements.motivoPagoWarningText, elements.motivoPagoInput.value.length === 0, 'Por favor ingresa un motivo de pago.');
+
+        if (elements.montoPagoInput.value.length === 0) {
+        toggleWarning(
+            elements.montoPagoWarning, 
+            elements.montoPagoWarningText, 
+            true, 
+            'Por favor ingresa un monto.'
+        );
+    } else {
+        toggleWarning(
+            elements.montoPagoWarning, 
+            elements.montoPagoWarningText, 
+            montoLimpio <= 0, 
+            'Por favor ingresa un monto positivo.'
+        );
+    }
+}
+
+// Muestra u oculta advertencias
+function toggleWarning(warningElement, warningTextElement, condition, message) {
+    warningElement.classList.toggle('is-hidden', !condition);
+    if (condition) {
+        warningTextElement.textContent = message;
+    }
+}
+
+// Maneja la apertura y el cierre del modal de confirmación
+function abrirModal() {
+    actualizarContenidoModal();
+    document.getElementById(modalId).classList.add('is-active');
+}
+
+function actualizarContenidoModal() {
+    const modalContent = {
+        contrato: document.querySelector('select[name="contrato"]').selectedOptions[0].text,
+        motivo: document.querySelector('input[name="motivo"]').value,
+        monto: '$' + document.querySelector('input[name="monto"]').value,
+        metodoPago: document.querySelector('select[name="metodo"]').value,
+        fechaPago: document.querySelector('input[name="fechaPago"]')._flatpickr.altInput.value,
+        nota: document.querySelector('textarea[name="nota"]').value
+    };
+
+    document.getElementById(`${modalId}-contratoValue`).innerText = modalContent.contrato;
+    document.getElementById(`${modalId}-motivoValue`).innerText = modalContent.motivo;
+    document.getElementById(`${modalId}-montoValue`).innerText = modalContent.monto;
+    document.getElementById(`${modalId}-metodoPagoValue`).innerText = modalContent.metodoPago;
+    document.getElementById(`${modalId}-fechaPagoValue`).innerText = modalContent.fechaPago;
+    document.getElementById(`${modalId}-notaValue`).innerText = modalContent.nota;
+    
+    const notaModal = document.getElementById(`${modalId}-notaModal`);
+    notaModal.classList.toggle('is-hidden', !modalContent.nota);
+}
+
+// Inicialización de eventos y configuración
+if (elements.contratoPago) {
+    elements.contratoPago.addEventListener('change', function () {
+        actualizarTarjetas(this.options[this.selectedIndex]);
     });
 }
 
-function checarContenido() {
-    const montoLimpio = parseFloat(montoPagoInput.value.replace(/[^0-9.-]+/g, ''));
-    openModal.disabled = motivoPagoInput.value.length === 0 || montoPagoInput.value.length === 0 ||
-        isNaN(montoLimpio) || montoLimpio <= 0;
-
-    if (motivoPagoInput.value.length === 0) {
-        motivoPagoWarning.classList.remove('is-hidden');
-        motivoPagoWarningText.textContent = 'Por favor ingresa un motivo de pago.';
-    } else {
-        motivoPagoWarning.classList.add('is-hidden');
-    }
-
-    if (montoPagoInput.value.length === 0) {
-        montoPagoWarning.classList.remove('is-hidden');
-        montoPagoWarningText.textContent = 'Por favor ingresa un monto.';
-    } else if (isNaN(montoLimpio) || montoLimpio <= 0) {
-        montoPagoWarning.classList.remove('is-hidden');
-        montoPagoWarningText.textContent = 'Por favor ingresa un monto positivo.';
-    } else {
-        montoPagoWarning.classList.add('is-hidden');
-    }
-}
-
-motivoPagoInput.addEventListener('input', checarContenido);
-montoPagoInput.addEventListener('input', checarContenido);
+elements.motivoPagoInput.addEventListener('input', checarContenido);
+elements.montoPagoInput.addEventListener('input', checarContenido);
 
 const modalId = 'confirmationModal';
 
-document.getElementById('openModal').addEventListener('click', function() {
-
-    document.getElementById(`${modalId}-contratoValue`).innerText = document.querySelector('select[name="contrato"]').selectedOptions[0].text;
-    document.getElementById(`${modalId}-motivoValue`).innerText = document.querySelector('input[name="motivo"]').value;
-    document.getElementById(`${modalId}-montoValue`).innerText = '$' + document.querySelector('input[name="monto"]').value;
-    document.getElementById(`${modalId}-metodoPagoValue`).innerText = document.querySelector('select[name="metodo"]').value;
-    document.getElementById(`${modalId}-fechaPagoValue`).innerText = document.querySelector('input[name="fechaPago"]')._flatpickr.altInput.value;
-    document.getElementById(`${modalId}-notaValue`).innerText = document.querySelector('textarea[name="nota"]').value;
-
-    const notaModal = document.getElementById(`${modalId}-notaModal`);
-    if (document.querySelector('textarea[name="nota"]').value === '') {
-        notaModal.classList.add('is-hidden');
-    } else {
-        notaModal.classList.remove('is-hidden');
-    }
-
-    document.getElementById(modalId).classList.add('is-active');
-});
-
-document.getElementById('closeModal').onclick = function() {
-    document.getElementById(modalId).classList.remove('is-active');
-};
-
-document.querySelector('.modal-background').onclick = function() {
-    document.getElementById(modalId).classList.remove('is-active');
-};
+document.getElementById('openModal').addEventListener('click', abrirModal);
+document.getElementById('closeModal').onclick = () => document.getElementById(modalId).classList.remove('is-active');
+document.querySelector('.modal-background').onclick = () => document.getElementById(modalId).classList.remove('is-active');
 
 formatNumberCommas('montoPago');
 
