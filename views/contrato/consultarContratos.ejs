@@ -85,13 +85,13 @@
                                             <div class="column is-flex is-flex-direction-column is-align-items-center is-justify-content-center"> 
                                                 <div class="field mb-2">
                                                     <input type="checkbox" id="estatus-<%= activo.IDContrato %>" 
-                                                    class="switch is-rounded estatus-switch" checked="checked">
+                                                        class="switch is-rounded estatus-switch" checked="checked">
                                                     <label for="estatus-<%= activo.IDContrato %>"></label>
                                                 </div>
                                                 <form action="/contrato/detallesContrato" method="POST">
                                                     <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
                                                     <input type="hidden" value="<%= activo.IDContrato %>" name="id" id="id">
-                                                    <button class="button is-responsive is-danger" type="sumbit">
+                                                    <button class="button is-responsive is-danger" type="submit">
                                                         <span>
                                                             Detalles
                                                         </span>
@@ -154,7 +154,7 @@
                                                 <form action="/contrato/detallesContrato" method="POST">
                                                     <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
                                                     <input type="hidden" value="<%= inactivo.IDContrato %>" name="id" id="id">
-                                                    <button class="button is-responsive is-danger" type="sumbit">
+                                                    <button class="button is-responsive is-danger" type="submit">
                                                         <span>
                                                             Detalles
                                                         </span>

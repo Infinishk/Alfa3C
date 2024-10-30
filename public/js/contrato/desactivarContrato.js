@@ -18,7 +18,7 @@ const modificar_estatus = (estatus, id) => {
     //El token de protección CSRF
     const csrf = document.getElementById('_csrf').value;
 
-    fetch('/contrato/modificar_estatus', {
+    fetch('/contrato/modificarEstatus', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

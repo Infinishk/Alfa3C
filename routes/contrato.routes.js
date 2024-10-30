@@ -16,5 +16,4 @@ router.post('/registrarContrato', agregarContratoController.post_registrar_contr
 router.post('/fetchContrato', modificarContratoController.post_fetch_contrato);
 router.post('/modificarContrato', modificarContratoController.post_modificar_contrato);
 
-
 module.exports = router;
