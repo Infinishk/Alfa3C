@@ -1,6 +1,5 @@
 const Contrato = require('../../models/contrato.model');
 const RazonSocial = require('../../models/razon_social.model');
-const Inflacion = require('../../models/inflacion.model');
 
 exports.get_registrar_contrato = (request, response, next) => {
     response.render('contrato/registrarContrato', {
