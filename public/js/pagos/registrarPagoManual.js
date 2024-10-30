@@ -19,11 +19,14 @@ const elements = {
     montoPendienteCard: document.getElementById('montoPendienteCard'),
     montoPagoInput: document.getElementById('montoPago'),
     motivoPagoInput: document.getElementById('motivoPago'),
+    fechaPagoInput: document.getElementById('fechaPago'),
     openModal: document.getElementById('openModal'),
     motivoPagoWarning: document.getElementById('motivoPago-warning'),
     motivoPagoWarningText: document.getElementById('motivoPago-warning-text'),
     montoPagoWarning: document.getElementById('montoPago-warning'),
-    montoPagoWarningText: document.getElementById('montoPago-warning-text')
+    montoPagoWarningText: document.getElementById('montoPago-warning-text'),
+    fechaPagoWarning: document.getElementById('fechaPago-warning'),
+    fechaPagoWarningText: document.getElementById('fechaPago-warning-text')
 };
 
 // Formatea número con comas y configuración de moneda
@@ -79,11 +82,13 @@ function checarContenido() {
         !elements.motivoPagoInput.value.length ||
         !elements.montoPagoInput.value.length ||
         isNaN(montoLimpio) ||
-        montoLimpio <= 0;
+        montoLimpio <= 0 ||
+        !elements.fechaPagoInput._flatpickr.altInput.value.length;
 
     toggleWarning(elements.motivoPagoWarning, elements.motivoPagoWarningText, elements.motivoPagoInput.value.length === 0, 'Por favor ingresa un motivo de pago.');
+    toggleWarning(elements.fechaPagoWarning, elements.fechaPagoWarningText, elements.fechaPagoInput._flatpickr.altInput.value.length === 0, 'Por favor selecciona una fecha de pago.');
 
-        if (elements.montoPagoInput.value.length === 0) {
+    if (elements.montoPagoInput.value.length === 0) {
         toggleWarning(
             elements.montoPagoWarning, 
             elements.montoPagoWarningText, 
@@ -144,6 +149,7 @@ if (elements.contratoPago) {
 
 elements.motivoPagoInput.addEventListener('input', checarContenido);
 elements.montoPagoInput.addEventListener('input', checarContenido);
+elements.fechaPagoInput.addEventListener('change', checarContenido);
 
 const modalId = 'confirmationModal';
 
