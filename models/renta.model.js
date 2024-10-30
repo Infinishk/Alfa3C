@@ -29,4 +29,14 @@ module.exports = class Renta {
             WHERE RentaContratos = 1;`, [IDCliente]);
     }
 
+    static fetchNoPagadasContrato(IDDetalleContrato) {
+        return db.execute(`SELECT IDRenta, MontoPagado, MontoAPagar, FechaLimite, Recargos, MontoInflacion, IDCliente
+            FROM renta WHERE Pagado = 0 AND IDDetalleContrato = ?`, [IDDetalleContrato]);
+    }
+
+    static updateRenta(montoAUsar, IDRenta) {
+        db.execute('UPDATE Renta SET montoPagado = montoPagado + ? WHERE IDRenta = ?', 
+            [montoAUsar, IDRenta]);
+    }
+
 };
