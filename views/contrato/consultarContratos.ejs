@@ -58,7 +58,7 @@
             <% if (activos.length === 0) { %>
                 <div class="columns">
                     <div class="column is-fullwidth">
-                        <div class="notification" style="background-color: #204F7B; color:#ffffff;">
+                        <div class="notification-info" style="color:#ffffff;">
                             No hay contratos activos en este momento.
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                                                 <form action="/contrato/detallesContrato" method="POST">
                                                     <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
                                                     <input type="hidden" value="<%= activo.IDContrato %>" name="id" id="id">
-                                                    <button class="button is-responsive is-danger" type="submit">
+                                                    <button class="button is-primary is-responsive is-danger" type="submit">
                                                         <span>
                                                             Detalles
                                                         </span>
@@ -120,7 +120,7 @@
             <% if (inactivos.length === 0) { %>
                 <div class="columns">
                     <div class="column is-fullwidth">
-                        <div class="notification" style="background-color: #204F7B; color:#ffffff;">
+                        <div class="notification-info" style="background-color: #204F7B; color:#ffffff;">
                             No hay contratos inactivos en este momento.
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                                                 <form action="/contrato/detallesContrato" method="POST">
                                                     <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
                                                     <input type="hidden" value="<%= inactivo.IDContrato %>" name="id" id="id">
-                                                    <button class="button is-responsive is-danger" type="submit">
+                                                    <button class="button is-primary is-responsive is-danger" type="submit">
                                                         <span>
                                                             Detalles
                                                         </span>
