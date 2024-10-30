@@ -29,6 +29,10 @@ module.exports = class Contrato{
         return db.execute('SELECT AsignacionContrato.Nombre AS ContratoNombre, Usuario.Nombre AS UsuarioNombre, Usuario.Apellidos, Cliente.RFC, Cliente.TipoCliente, Cliente.MontoRetencion, Cliente.PorcentajeInteres FROM AsignacionContrato JOIN Contrato ON AsignacionContrato.IDContrato = Contrato.IDContrato JOIN Cliente on AsignacionContrato.IDCliente = Cliente.IDCliente JOIN Usuario on Cliente.IDCliente = Usuario.IDUsuario WHERE Contrato.IDContrato = ?', [id]);
     }
 
+    static fetchNumClientes(id){
+        return db.execute('SELECT COUNT(*) AS asignaciones FROM AsignacionContrato WHERE IDContrato = ?', [id]);
+    }
+
     static updateEstatus(estatus, id){
         return db.execute('UPDATE Contrato SET Estatus = ? WHERE IDContrato = ?', [estatus, id]);
     }

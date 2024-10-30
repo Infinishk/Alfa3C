@@ -6,6 +6,17 @@ exports.fetch_contratos = async (request, response, next) => {
         const [activos] = await Contrato.fetchActivos();
         const [inactivos] = await Contrato.fetchInactivos();
 
+        // Obtener número de asignaciones + agregar a cada contrato
+        for (let activo of activos) {
+            num = await Contrato.fetchNumClientes(activo.IDContrato);
+            activo.NumClientes = num[0][0]?.asignaciones || 0;
+        }
+
+        for (let inactivo of inactivos) {
+            num = await Contrato.fetchNumClientes(inactivo.IDContrato);
+            inactivo.NumClientes = num[0][0]?.asignaciones || 0;
+        }
+
         // Presentar interfaz a usuario
         response.render('contrato/consultarContratos', {
             activos: activos,
