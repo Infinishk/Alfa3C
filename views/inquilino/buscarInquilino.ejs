@@ -1,0 +1,50 @@
+<%- include('../includes/head.ejs', { permisos: permisos, rol: rol}) %>
+
+<body>
+    <section class="section">
+        <div class="columns is-flex">
+            <div class="column is-6">
+                <label class="label is-large has-text-strong has-text-weight-semibold">
+                    CONSULTAR INQUILINO
+                </label>
+            </div>
+        </div>
+
+        <form action="/inquilino/consultarInquilino" method="POST">
+            <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+            <div class="columns">
+                <div class="column is-8">
+                        <label class="label is-medium" for="buscar"> Seleccione el inquilino que quiere consultar:</label>
+                        <p class="help is-hidden has-text-danger-dark" id="ayuda_buscar"
+                            style="margin-top: 1em; margin-bottom: 1em;">Por favor ingrese a un inquilino.</p>
+                        <p class="help is-hidden has-text-danger-dark" id="ayuda_inquilino"
+                            style="margin-top: 1em; margin-bottom: 1em;">Por favor selecciona a un inquilino de la lista.</p>
+                        <p class="help is-hidden has-text-danger-dark" id="ayuda_vacio"
+                            style="margin-top: 1em; margin-bottom: 1em;">No existe un inquilino con ese nombre o RFC. Favor de intentar de nuevo.</p>
+                        <div class="field">
+                            <p class="control has-icons-right">
+                                <input name="buscar" class="input is-medium" type="text" id="buscar"
+                                    placeholder="Nombre o RFC del inquilino" />
+                                <span class="icon is-small is-right" style="color: #204F7B;">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column is-8">
+                        <button class="button is-responsive is-primary is-fullwidth" style="font-size: large;"
+                            type="submit" id="btn_buscar" disabled>
+                            <span>Consultar Inquilino</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</body>
+
+<script type="text/javascript" src="/js/inquilino/buscarInquilino.js"></script>
+
+<%- include('../includes/foot.ejs') %>
