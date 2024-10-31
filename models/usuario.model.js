@@ -21,20 +21,17 @@ module.exports = class Usuario{
                 return result;
             })
             .catch((error) => {
-                console.log(error);
                 throw Error('Error al actualizar la contraseña.');
             });
     }
 
-    static saveUsuario(IDUsuario, Nombre, Apellidos, CorreoElectronico) {
+    static saveUsuario(Nombre, Apellidos, CorreoElectronico) {
         return db.execute(
-            'INSERT INTO Usuario (IDUsuario, Nombre, Apellidos, CorreoElectronico) VALUES (?, ?, ?, ?)',
-            [IDUsuario, Nombre, Apellidos, CorreoElectronico]
+            'INSERT INTO Usuario (Nombre, Apellidos, CorreoElectronico) VALUES (?, ?, ?, ?)',
+            [Nombre, Apellidos, CorreoElectronico]
         );
     }
     
-    
-
     static fetchOne(IDUsuario) {
         return db.execute('SELECT * FROM Usuario WHERE IDUsuario = ?',
             [IDUsuario]);
@@ -96,10 +93,10 @@ module.exports = class Usuario{
         return db.execute('INSERT INTO Posee (IDUsuario, IDRol) VALUES (?, ?)', [IDUsuario, IDRol]);
     }
 
-    static saveCliente(IDCliente, Direccion, Telefono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente) {
+    static saveCliente(Direccion, Telefono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente) {
         return db.execute(
-            'INSERT INTO Cliente (IDCliente, Direccion, Teléfono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-            [IDCliente, Direccion, Telefono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente]
+            'INSERT INTO Cliente (Direccion, Teléfono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            [Direccion, Telefono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente]
         );
     }
     
