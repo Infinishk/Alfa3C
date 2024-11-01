@@ -128,8 +128,8 @@ html, body {
 
 .ui-widget.ui-widget-content {
   border: 1px solid #c5c5c5;
-  border-radius: 4px; // Rounded corners
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // Subtle shadow
+  border-radius: 4px; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
 }
 
 .ui-widget-content {
@@ -139,8 +139,8 @@ html, body {
 }
 
 .ui-widget {
-  padding: 10px 15px; // More comfortable padding
-  margin: 2px 0; // Spacing between items
+  padding: 10px 15px; 
+  margin: 2px 0;
 }
 
 .ui-menu {
@@ -156,21 +156,21 @@ html, body {
   top: 0;
   left: 0;
   cursor: default;
-  max-height: 300px; // Adjust height as needed
-  overflow-y: auto; // Enable vertical scrolling
-  z-index: 1000; // Ensure it appears above other elements
+  max-height: 300px; 
+  overflow-y: auto; 
+  z-index: 1000;
 }
 
 .ui-menu-item {
-  margin: 0; /* Remove extra spacing */
+  margin: 0;
 }
 
 .ui-menu-item .ui-menu-item-wrapper {
-  padding: 10px 15px; /* Apply consistent padding */
-  font-size: 1rem; /* Consistent font size */
-  margin: 0; /* Remove any inner margins */
-  box-sizing: border-box; /* Ensures padding does not add extra space */
-  width: 100%; /* Ensures the item fills the entire cell width */
+  padding: 10px 15px; 
+  font-size: 1rem; 
+  margin: 0;
+  box-sizing: border-box; 
+  width: 100%; 
 }
 
 .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
