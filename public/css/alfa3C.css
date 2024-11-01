@@ -10376,4 +10376,58 @@ html, body {
   flex-shrink: 0; /* Asegura que el footer no se encoja */
 }
 
+.ui-widget.ui-widget-content {
+  border: 1px solid #c5c5c5;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ui-widget-content {
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  color: #333333;
+}
+
+.ui-widget {
+  padding: 10px 15px;
+  margin: 2px 0;
+}
+
+.ui-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: block;
+  outline: none;
+}
+
+.ui-autocomplete {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: default;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.ui-menu-item {
+  margin: 0; /* Remove extra spacing */
+}
+
+.ui-menu-item .ui-menu-item-wrapper {
+  padding: 10px 15px; /* Apply consistent padding */
+  font-size: 1rem; /* Consistent font size */
+  margin: 0; /* Remove any inner margins */
+  box-sizing: border-box; /* Ensures padding does not add extra space */
+  width: 100%; /* Ensures the item fills the entire cell width */
+}
+
+.ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+  background-color: #204F7B;
+  color: #F0ECE4;
+  border-color: #101010;
+  transition: background-color 0.3s ease;
+}
+
 /*# sourceMappingURL=alfa3C.css.map */

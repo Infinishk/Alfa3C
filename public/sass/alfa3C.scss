@@ -126,6 +126,59 @@ html, body {
   flex-shrink: 0; /* Asegura que el footer no se encoja */
 }
 
+.ui-widget.ui-widget-content {
+  border: 1px solid #c5c5c5;
+  border-radius: 4px; // Rounded corners
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // Subtle shadow
+}
+
+.ui-widget-content {
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  color: #333333;
+}
+
+.ui-widget {
+  padding: 10px 15px; // More comfortable padding
+  margin: 2px 0; // Spacing between items
+}
+
+.ui-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: block;
+  outline: none;
+}
+
+.ui-autocomplete {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: default;
+  max-height: 300px; // Adjust height as needed
+  overflow-y: auto; // Enable vertical scrolling
+  z-index: 1000; // Ensure it appears above other elements
+}
+
+.ui-menu-item {
+  margin: 0; /* Remove extra spacing */
+}
+
+.ui-menu-item .ui-menu-item-wrapper {
+  padding: 10px 15px; /* Apply consistent padding */
+  font-size: 1rem; /* Consistent font size */
+  margin: 0; /* Remove any inner margins */
+  box-sizing: border-box; /* Ensures padding does not add extra space */
+  width: 100%; /* Ensures the item fills the entire cell width */
+}
+
+.ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+  background-color: $azul;
+  color: $blanco;
+  border-color: $negro;
+  transition: background-color 0.3s ease;
+}
 
 // Import the Google Font
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,700");
