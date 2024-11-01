@@ -18,4 +18,10 @@ module.exports = class Inquilino{
         return db.execute(`SELECT Cliente.RFC, Usuario.Nombre, Usuario.Apellidos FROM Cliente JOIN Usuario ON Cliente.IDCliente = Usuario.IDUsuario
          WHERE CONCAT_WS(' ', Usuario.Nombre, Usuario.Apellidos) LIKE ? AND Cliente.RFC LIKE ? `, ['%' + nombre + '%', '%' + rfc + '%']);
     }
+
+    static fetch_datos(rfc){
+        return db.execute(`SELECT Cliente.IDCliente, Cliente.RFC, Cliente.Direccion, Cliente.Teléfono, Cliente.ReferenciaBancaria, Cliente.PorcentajeInteres,
+            Cliente.TipoCliente, Cliente.MontoRetencion, Usuario.Nombre, Usuario.Apellidos FROM Cliente JOIN Usuario ON Cliente.IDCliente = Usuario.IDUsuario
+            WHERE Cliente.RFC = ?`, [rfc]);
+    }
 }

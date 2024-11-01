@@ -1,0 +1,15 @@
+<%- include('../includes/head.ejs', { permisos: permisos, rol: rol}) %>
+
+<body>
+    <section class="section">
+        <div class="columns is-flex">
+            <div class="column is-6">
+                <label class="label is-large has-text-strong has-text-weight-semibold">
+                    INQUILINO: <%= inquilino.Nombre %> <%= inquilino.Apellidos %> 
+                </label>
+            </div>
+        </div>
+    </section>
+</body>
+
+<%- include('../includes/foot.ejs') %>
