@@ -5,9 +5,68 @@
         <div class="columns is-flex">
             <div class="column is-6">
                 <label class="label is-large has-text-strong has-text-weight-semibold">
-                    INQUILINO: <%= inquilino.Nombre %> <%= inquilino.Apellidos %> 
+                    INQUILINO: <%= inquilino.Nombre %> <%= inquilino.Apellidos %> - <%= inquilino.RFC %>
                 </label>
             </div>
+        </div>
+
+        <!-- Columna vertical para datos personales -->
+        <div class="container ml-3">
+            <div class="columns is-flex is-align-items-flex-start" id="contratoInfo">
+                <div class="columns is-flex is-flex-direction-column is-align-items-flex-start" id="datosPersonales">
+                    <div class="column">
+                        <div class="box" style="text-align: center; width: 200px">
+                            <p class="has-text-grey has-text-weight-medium">TIPO DE CLIENTE</p>
+                            <p class="has-text-black has-text-weight-bold is-size-5">
+                                <%= inquilino.TipoCliente %></p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box" style="text-align: center; width: 200px">    
+                            <p class="has-text-grey has-text-weight-medium">REFERENCIA BANCARIA</p>
+                            <p class="has-text-black has-text-weight-bold is-size-5">
+                                <%= inquilino.ReferenciaBancaria %></p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box" style="text-align: center; width: 200px">
+                            <p class="has-text-grey has-text-weight-medium">PORCENTAJE DE INTERÉS</p>
+                            <p class="has-text-black has-text-weight-bold is-size-5">
+                                <%= inquilino.PorcentajeInteres %>%</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box" style="text-align: center; width: 200px">
+                            <p class="has-text-grey has-text-weight-medium">MONTO DE RETENCIÓN</p>
+                            <p class="has-text-black has-text-weight-bold is-size-5">
+                                $<%= inquilino.MontoRetencion %> </p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box" style="text-align: center; width: 200px">
+                            <p class="has-text-grey has-text-weight-medium">TELEFÓNO</p>
+                            <p class="has-text-black has-text-weight-bold is-size-5">
+                                <%= inquilino.Teléfono %> </p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box" style="text-align: center; width: 200px">
+                            <p class="has-text-grey has-text-weight-medium">DIRECCIÓN</p>
+                            <p class="has-text-black has-text-weight-bold is-size-5">
+                                <%= inquilino.Direccion %> </p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <button class="button is-responsive is-primary is-fullwidth" style="font-size: large; width: 200px;"
+                            type="submit" id="btn_modificarDatos" disabled>
+                                <span>Modificar Datos</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs para datos financieros -->
+
         </div>
     </section>
 </body>
