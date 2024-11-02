@@ -19,9 +19,21 @@ module.exports = class Inquilino{
          WHERE CONCAT_WS(' ', Usuario.Nombre, Usuario.Apellidos) LIKE ? AND Cliente.RFC LIKE ? `, ['%' + nombre + '%', '%' + rfc + '%']);
     }
 
-    static fetch_datos(rfc){
+    static fetch_datos(rfc) {
         return db.execute(`SELECT Cliente.IDCliente, Cliente.RFC, Cliente.Direccion, Cliente.Teléfono, Cliente.ReferenciaBancaria, Cliente.PorcentajeInteres,
             Cliente.TipoCliente, Cliente.MontoRetencion, Usuario.Nombre, Usuario.Apellidos FROM Cliente JOIN Usuario ON Cliente.IDCliente = Usuario.IDUsuario
             WHERE Cliente.RFC = ?`, [rfc]);
+    }
+
+    static fetch_renta(id) {
+        return db.execute(`SELECT IDRenta, IDDetalleContrato, MontoPagado, MontoAPagar, MontoInflacion, Recargos, FechaLimite, Pagado, Ajuste FROM Renta WHERE IDCliente = ?`, [id]);
+    }
+
+    static fetch_pagos(id) {
+        return db.execute(`SELECT Motivo, MontoPagado, Nota, MetodoPago, FechaPago FROM Pago WHERE IDRenta = ?`, [id]);
+    }
+
+    static fetch_asignaciones(id) {
+        return db.execute(`SELECT IDDetalleContrato, Nombre, FechaInflacion, PorcentajeInflacion FROM AsignacionContrato WHERE IDCliente = ?`, [id]);
     }
 }

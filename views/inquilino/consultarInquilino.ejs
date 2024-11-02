@@ -2,17 +2,33 @@
 
 <body>
     <section class="section">
-        <div class="columns is-flex">
+        <div class="columns is-flex is-justify-content-space-between">
             <div class="column is-6">
                 <label class="label is-large has-text-strong has-text-weight-semibold">
                     INQUILINO: <%= inquilino.Nombre %> <%= inquilino.Apellidos %> - <%= inquilino.RFC %>
                 </label>
             </div>
+
+            <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+
+            <div class="column is-narrow is-justify-content-flex-end">
+                <p class="control">
+                    <a class="button is-responsive is-primary" style="font-size: large;"
+                        href="/pagos/fetchRegistrarPagoManual">
+                        <span class="icon is-large">
+                            <i class="fa-solid fa-circle-plus" style="color: #FFFF;"></i>
+                        </span>
+                        <span>
+                            Registrar Pago Manual
+                        </span>
+                    </a>
+                </p>
+            </div>
         </div>
 
         <!-- Columna vertical para datos personales -->
         <div class="container ml-3">
-            <div class="columns is-flex is-align-items-flex-start" id="contratoInfo">
+            <div class="columns is-flex is-align-items-flex-start" id="inquilinoInfo">
                 <div class="columns is-flex is-flex-direction-column is-align-items-flex-start" id="datosPersonales">
                     <div class="column">
                         <div class="box" style="text-align: center; width: 200px">
@@ -63,10 +79,123 @@
                         </button>
                     </div>
                 </div>
-            </div>
 
             <!-- Tabs para datos financieros -->
+             <div class="column">
+                <div id="datosFinancieros" class="columns is-flex is-flex-direction-column" style="margin-left: 7px;">
+                    <div class="tabs is-boxed">
+                        <ul>
+                            <li class="is-active" id="tab_edoCuenta">
+                                <a>
+                                    <span class="icon is-small"><i class="fa-solid fa-clipboard-list"></i></span>
+                                    <span> Estado de Cuenta </span>
+                                </a>
+                            </li>
+                            <li id="tab_historial">
+                                <a>
+                                    <span class="icon is-small"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                                    <h2> Historial de Pago </h2>
+                                </a>
+                            </li>
+                            <li id="tab_contrato">
+                                <a>
+                                    <span class="icon is-small"><i class="fa-solid fa-file-circle-check"></i></span>
+                                    <h2> Contratos Asignados </h2>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
+                <!-- Estado de Cuenta -->
+                <div id="edoCuenta">
+                    <% if (rentas.length != 0) { %>
+                    <div class="table-container">
+                        <table class="table is-fullwidth is-hoverable">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left;">Número de Pago</th>
+                                    <th style="text-align: left;">Total</th>
+                                    <th style="text-align: left;">Inflación</th>
+                                    <th style="text-align: left;">Recargos</th>
+                                    <th style="text-align: left;">Ajuste</th>
+                                    <th style="text-align: left;">Fecha Límite de Pago</th>
+                                    <th style="text-align: left;">Estatus</th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                            <% for (let count = 0; count < rentas.length; count++) { %>
+                            <tr>
+                                <td> Pago #<%= count + 1 %> </td>
+                                <td> $<%= rentas[count].MontoPagado %> </td>
+                                <td> <%= rentas[count].MontoInflacion %></td>
+                                <td> <%= rentas[count].Recargos %></td>
+                                <td> <%= rentas[count].Ajuste %></td>
+                                <%  const fechaActual = new Date();
+                                    const fecha = new Date(rentas[count].FechaLimite); 
+                                    const fechaLimite = fecha.toLocaleString('es-MX', 
+                                    { year: 'numeric', month: 'long', day: 'numeric' });%>
+                                <td> <%= fechaLimite %></td>
+                                <% if (rentas[count].Pagado == 1) { %>
+                                <td>
+                                    <span class="tag is-size-6" style="background-color: #ddf5e5;">
+                                        <span class="icon is-small" style="color: #21c85b">
+                                            <i class="fa-solid fa-circle-check"></i>
+                                        </span>
+                                        <span style="color: #21c85b !important;">
+                                            Pagado
+                                        </span>
+                                    </span>
+                                </td>
+                                <% } else if (fecha.getTime() > fechaActual.getTime()) { %>
+                                <td>
+                                    <span class="tag is-size-6" style="background-color: #fdf2cc">
+                                        <span class="icon is-small" style="color: #fec416">
+                                            <i class="fa-solid fa-clock"></i>
+                                        </span>
+                                        <span style="color: #fec416 !important;">
+                                            Pendiente
+                                        </span>
+                                    </span>
+                                </td>
+                                <% } else { %>
+                                <td>
+                                    <span class="tag is-size-6" style="background-color: #f6d5d8">
+                                        <span class="icon is-small" style="color: #f83362">
+                                            <i class="fa-solid fa-circle-xmark"></i>
+                                        </span>
+                                        <span style="color: #f83362 !important;">
+                                            Atrasado
+                                        </span>
+                                    </span>
+                                </td>
+                                <% } %>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                    <% } else { %>
+                    <div class="columns">
+                        <div class="column is-fullwidth">
+                            <div class="notification-info">
+                                El cliente no tiene rentas activas en este momento.
+                            </div>
+                        </div>
+                    </div> 
+                    <% } %>
+                </div>
+
+                <!-- Historial de Pagos -->
+                <div id="historial">
+                    
+                </div>
+
+                <!-- Contratos / Modificar Fichas? -->
+                <div id="contratos">
+                    <!-- Asignar contrato? -->
+                </div>
+
+            </div>
         </div>
     </section>
 </body>
