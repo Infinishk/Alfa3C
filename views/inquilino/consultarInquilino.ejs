@@ -97,7 +97,7 @@
                                     <h2> Historial de Pago </h2>
                                 </a>
                             </li>
-                            <li id="tab_contrato">
+                            <li id="tab_contratos">
                                 <a>
                                     <span class="icon is-small"><i class="fa-solid fa-file-circle-check"></i></span>
                                     <h2> Contratos Asignados </h2>
@@ -111,13 +111,14 @@
                     <% if (Object.keys(rentasPorContrato).length != 0) { %>
                         <% for (let id in rentasPorContrato) {
                             let contratoRenta = contratos.find(c => c.IDDetalleContrato === id); %>
+                            <div id="pagination-content">
                             <div class="box is-fullwidth" style="text-align: left; margin-bottom: 15px;">
                                 <label class="label is-medium has-text-danger has-text-weight-semibold"> <%= contratoRenta.Nombre %> </label>
                                     <div class="table-container">
                                         <table class="table is-fullwidth is-hoverable">
                                             <thead>
                                                 <tr>
-                                                    <th style="text-align: left;">Número de Pago</th>
+                                                    <th style="text-align: left;">Mes</th>
                                                     <th style="text-align: left;">Total</th>
                                                     <th style="text-align: left;">Inflación</th>
                                                     <th style="text-align: left;">Recargos</th>
@@ -129,14 +130,14 @@
                                         <tbody>
                                             <% rentasPorContrato[id].forEach((renta, count) => { %>
                                                 <tr>
-                                                    <td> Pago #<%= count + 1 %> </td>
+                                                    <td> #<%=count + 1 %></td>
                                                     <td> $<%= renta.MontoPagado %> </td>
                                                     <td> <%= renta.MontoInflacion %></td>
                                                     <td> <%= renta.Recargos %></td>
                                                     <td> <%= renta.Ajuste %></td>
-                                                        <%  const fechaActual = new Date();
-                                                            const fecha = new Date(renta.FechaLimite); 
-                                                            const fechaLimite = fecha.toLocaleString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }); %>
+                                                    <%  const fechaActual = new Date();
+                                                        const fecha = new Date(renta.FechaLimite); 
+                                                        const fechaLimite = fecha.toLocaleString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }); %>
                                                     <td> <%= fechaLimite %></td>
                                                     <% if (renta.Pagado == 1) { %>
                                                         <td>
@@ -177,8 +178,17 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                </div>
                             </div>
                         <% } %> <!-- termina crear tabla por un contrato -->
+                        <!-- Pagination -->
+                        <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+                            <a class="pagination-previous" id="prev-button">Anterior</a>
+                            <a class="pagination-next" id="next-button">Siguiente</a>
+                            <ul class="pagination-list" id="pagination-list">
+                                <div id="pagination-numbers"></div>
+                            </ul>
+                        </nav>
                     <% } else { %> <!-- termina loop si hay rentas -->
                     <div class="columns">
                         <div class="column is-fullwidth">
@@ -189,20 +199,24 @@
                     </div> 
                     <% } %>
                 </div>
+            </div>
 
                 <!-- Historial de Pagos -->
-                <div id="historial">
+                <div id="historial" class="is-hidden">
                     
                 </div>
 
-                <!-- Contratos / Modificar Fichas? -->
-                <div id="contratos">
-                    <!-- Asignar contrato? -->
+                <!-- Contratos / Modificar Fichas -->
+                <div id="contratos" class="is-hidden">
+                    <!-- Asignar contrato -->
                 </div>
 
             </div>
         </div>
     </section>
 </body>
+
+<script type="text/javascript" src="/js/inquilino/consultarInquilino.js"></script>
+<script type="text/javascript" src="/js/pagination.js"></script>
 
 <%- include('../includes/foot.ejs') %>
