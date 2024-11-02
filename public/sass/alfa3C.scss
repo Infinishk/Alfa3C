@@ -180,5 +180,9 @@ html, body {
   transition: background-color 0.3s ease;
 }
 
+.tabs.is-boxed a {
+  color: $negro;
+}
+
 // Import the Google Font
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,700");

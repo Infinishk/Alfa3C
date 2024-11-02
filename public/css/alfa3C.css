@@ -10430,4 +10430,8 @@ html, body {
   transition: background-color 0.3s ease;
 }
 
+.tabs.is-boxed a {
+  color: #101010;
+}
+
 /*# sourceMappingURL=alfa3C.css.map */
