@@ -105,76 +105,81 @@
                             </li>
                         </ul>
                     </div>
-                </div>
 
                 <!-- Estado de Cuenta -->
                 <div id="edoCuenta">
-                    <% if (rentas.length != 0) { %>
-                    <div class="table-container">
-                        <table class="table is-fullwidth is-hoverable">
-                            <thead>
-                                <tr>
-                                    <th style="text-align: left;">Número de Pago</th>
-                                    <th style="text-align: left;">Total</th>
-                                    <th style="text-align: left;">Inflación</th>
-                                    <th style="text-align: left;">Recargos</th>
-                                    <th style="text-align: left;">Ajuste</th>
-                                    <th style="text-align: left;">Fecha Límite de Pago</th>
-                                    <th style="text-align: left;">Estatus</th>
-                                </tr>
-                            </thead>
-                        <tbody>
-                            <% for (let count = 0; count < rentas.length; count++) { %>
-                            <tr>
-                                <td> Pago #<%= count + 1 %> </td>
-                                <td> $<%= rentas[count].MontoPagado %> </td>
-                                <td> <%= rentas[count].MontoInflacion %></td>
-                                <td> <%= rentas[count].Recargos %></td>
-                                <td> <%= rentas[count].Ajuste %></td>
-                                <%  const fechaActual = new Date();
-                                    const fecha = new Date(rentas[count].FechaLimite); 
-                                    const fechaLimite = fecha.toLocaleString('es-MX', 
-                                    { year: 'numeric', month: 'long', day: 'numeric' });%>
-                                <td> <%= fechaLimite %></td>
-                                <% if (rentas[count].Pagado == 1) { %>
-                                <td>
-                                    <span class="tag is-size-6" style="background-color: #ddf5e5;">
-                                        <span class="icon is-small" style="color: #21c85b">
-                                            <i class="fa-solid fa-circle-check"></i>
-                                        </span>
-                                        <span style="color: #21c85b !important;">
-                                            Pagado
-                                        </span>
-                                    </span>
-                                </td>
-                                <% } else if (fecha.getTime() > fechaActual.getTime()) { %>
-                                <td>
-                                    <span class="tag is-size-6" style="background-color: #fdf2cc">
-                                        <span class="icon is-small" style="color: #fec416">
-                                            <i class="fa-solid fa-clock"></i>
-                                        </span>
-                                        <span style="color: #fec416 !important;">
-                                            Pendiente
-                                        </span>
-                                    </span>
-                                </td>
-                                <% } else { %>
-                                <td>
-                                    <span class="tag is-size-6" style="background-color: #f6d5d8">
-                                        <span class="icon is-small" style="color: #f83362">
-                                            <i class="fa-solid fa-circle-xmark"></i>
-                                        </span>
-                                        <span style="color: #f83362 !important;">
-                                            Atrasado
-                                        </span>
-                                    </span>
-                                </td>
-                                <% } %>
-                            </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                    <% } else { %>
+                    <% if (Object.keys(rentasPorContrato).length != 0) { %>
+                        <% for (let id in rentasPorContrato) {
+                            let contratoRenta = contratos.find(c => c.IDDetalleContrato === id); %>
+                            <div class="box is-fullwidth" style="text-align: left; margin-bottom: 15px;">
+                                <label class="label is-medium has-text-danger has-text-weight-semibold"> <%= contratoRenta.Nombre %> </label>
+                                    <div class="table-container">
+                                        <table class="table is-fullwidth is-hoverable">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: left;">Número de Pago</th>
+                                                    <th style="text-align: left;">Total</th>
+                                                    <th style="text-align: left;">Inflación</th>
+                                                    <th style="text-align: left;">Recargos</th>
+                                                    <th style="text-align: left;">Ajuste</th>
+                                                    <th style="text-align: left;">Fecha Límite de Pago</th>
+                                                    <th style="text-align: left;">Estatus</th>
+                                                </tr>
+                                            </thead>
+                                        <tbody>
+                                            <% rentasPorContrato[id].forEach((renta, count) => { %>
+                                                <tr>
+                                                    <td> Pago #<%= count + 1 %> </td>
+                                                    <td> $<%= renta.MontoPagado %> </td>
+                                                    <td> <%= renta.MontoInflacion %></td>
+                                                    <td> <%= renta.Recargos %></td>
+                                                    <td> <%= renta.Ajuste %></td>
+                                                        <%  const fechaActual = new Date();
+                                                            const fecha = new Date(renta.FechaLimite); 
+                                                            const fechaLimite = fecha.toLocaleString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }); %>
+                                                    <td> <%= fechaLimite %></td>
+                                                    <% if (renta.Pagado == 1) { %>
+                                                        <td>
+                                                            <span class="tag is-size-6" style="background-color: #ddf5e5;">
+                                                                <span class="icon is-small" style="color: #21c85b">
+                                                                    <i class="fa-solid fa-circle-check"></i>
+                                                                </span>
+                                                                <span style="color: #21c85b !important;">
+                                                                    Pagado
+                                                                </span>
+                                                            </span>
+                                                        </td>
+                                                    <% } else if (fecha.getTime() > fechaActual.getTime()) { %>
+                                                        <td>
+                                                            <span class="tag is-size-6" style="background-color: #fdf2cc">
+                                                                <span class="icon is-small" style="color: #fec416">
+                                                                    <i class="fa-solid fa-clock"></i>
+                                                                </span>
+                                                                <span style="color: #fec416 !important;">
+                                                                    Pendiente
+                                                                </span>
+                                                            </span>
+                                                        </td>
+                                                    <% } else { %>
+                                                        <td>
+                                                            <span class="tag is-size-6" style="background-color: #f6d5d8">
+                                                                <span class="icon is-small" style="color: #f83362">
+                                                                    <i class="fa-solid fa-circle-xmark"></i>
+                                                                </span>
+                                                                <span style="color: #f83362 !important;">
+                                                                    Atrasado
+                                                                </span>
+                                                            </span>
+                                                        </td>
+                                                    <% } %> <!-- termina loop Pagado -->
+                                                </tr>
+                                            <% }) %> <!-- termina loop poblar tabla-->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        <% } %> <!-- termina crear tabla por un contrato -->
+                    <% } else { %> <!-- termina loop si hay rentas -->
                     <div class="columns">
                         <div class="column is-fullwidth">
                             <div class="notification-info">

@@ -13,9 +13,19 @@ exports.fetch_inquilino = async (request, response, next) => {
         // Renta / fichas
         let [rentas] = await Inquilino.fetch_renta(inquilino.IDCliente);
 
-        let pagos = [];
+        // Group rentas by IDDetalleContrato
+        let rentasPorContrato = {};
+        for (const renta of rentas) {
+            const contratoID = renta.IDDetalleContrato;
+            if (!rentasPorContrato[contratoID]) {
+                rentasPorContrato[contratoID] = [];
+            }
+            rentasPorContrato[contratoID].push(renta);
+        }
 
         // Pagos
+        let pagos = [];
+
         for (const renta of rentas) {
             const [pagosDatos] = await Inquilino.fetch_pagos(renta.IDRenta);
             pagos.push(...pagosDatos);
@@ -26,9 +36,9 @@ exports.fetch_inquilino = async (request, response, next) => {
         
         response.render('inquilino/consultarInquilino', {
             inquilino: inquilino,
-            rentas: rentas,
+            rentasPorContrato: rentasPorContrato,
             pagos: pagos,
-            contratos: contratos,
+            contratos: contratos[0],
             username: request.session.username || '',
             permisos: request.session.permisos || [],
             rol: request.session.rol || "",
