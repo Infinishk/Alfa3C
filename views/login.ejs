@@ -122,6 +122,11 @@
             top: 200px;
             right: 150px;
         }
+
+        /* Switch de ver contraseña */
+        .switch-label {
+            color: #000;
+        }
     </style>
 </head>
 
@@ -156,7 +161,12 @@
                         <div class="control">
                             <input class="input" type="password" name="password" id="password" required />
                         </div>
+                        <div class="switch">
+                            <input type="checkbox" id="toggle-password">
+                            <label for="toggle-password" class="switch-label">Mostrar contraseña</label>
+                        </div>
                     </div>
+                    
 
                     <div class="field">
                         <input type="submit" class="button is-primary" value="Iniciar Sesión"/>
@@ -168,6 +178,8 @@
 
         <div class="graphic-container"></div>
     </div>
-</body>
 
+<script src="/js/login.js"></script>
+</body>
 </html>
+
