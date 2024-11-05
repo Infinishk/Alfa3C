@@ -113,34 +113,50 @@
                             let contratoRenta = contratos.find(c => c.IDDetalleContrato === id); %>
                             <div id="pagination-content">
                             <div class="box is-fullwidth" style="text-align: left; margin-bottom: 15px;">
-                                <label class="label is-medium has-text-danger has-text-weight-semibold"> <%= contratoRenta.Nombre %> </label>
+                                <div class="columns is-flex is-justify-content-space-between">
+                                    <div class="column">
+                                        <label class="label is-medium has-text-danger has-text-weight-semibold" style="margin-bottom: 0;">
+                                            <%= contratoRenta.Nombre %>
+                                        </label>
+                                    </div>
+                                    <div class="column is-narrow has-text-right">
+                                        <form action="/inquilino/modificarFichas" method="POST" class="is-inline">
+                                            <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                                            <input type="hidden" value="<%= contratos.IDDetalleContrato %>" name="idContrato" id="idContrato">
+                                            <input type="hidden" value="<%= inquilino.IDCliente %>" name="idCliente" id="idCliente">
+                                            <button class="button is-primary is-danger" type="submit">
+                                                <span>Modificar Fichas</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                                     <div class="table-container">
                                         <table class="table is-fullwidth is-hoverable">
                                             <thead>
                                                 <tr>
-                                                    <th style="text-align: left;">Mes</th>
-                                                    <th style="text-align: left;">Total</th>
-                                                    <th style="text-align: left;">Inflación</th>
-                                                    <th style="text-align: left;">Recargos</th>
-                                                    <th style="text-align: left;">Ajuste</th>
-                                                    <th style="text-align: left;">Fecha Límite de Pago</th>
-                                                    <th style="text-align: left;">Estatus</th>
+                                                    <th style="text-align: center;">Mes</th>
+                                                    <th style="text-align: center;">Total</th>
+                                                    <th style="text-align: center;">Inflación</th>
+                                                    <th style="text-align: center;">Recargos</th>
+                                                    <th style="text-align: center;">Ajuste</th>
+                                                    <th style="text-align: center;">Fecha Límite de Pago</th>
+                                                    <th style="text-align: center;">Estatus</th>
                                                 </tr>
                                             </thead>
                                         <tbody>
                                             <% rentasPorContrato[id].forEach((renta, count) => { %>
                                                 <tr>
-                                                    <td> #<%=count + 1 %></td>
-                                                    <td> $<%= renta.MontoPagado %> </td>
-                                                    <td> <%= renta.MontoInflacion %></td>
-                                                    <td> <%= renta.Recargos %></td>
-                                                    <td> <%= renta.Ajuste %></td>
+                                                    <td style="text-align: center;"> #<%=count + 1 %></td>
+                                                    <td style="text-align: center;"> $<%= renta.MontoPagado %> </td>
+                                                    <td style="text-align: center;"> <%= renta.MontoInflacion %></td>
+                                                    <td style="text-align: center;"> <%= renta.Recargos %></td>
+                                                    <td style="text-align: center;"> <%= renta.Ajuste %></td>
                                                     <%  const fechaActual = new Date();
                                                         const fecha = new Date(renta.FechaLimite); 
                                                         const fechaLimite = fecha.toLocaleString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }); %>
-                                                    <td> <%= fechaLimite %></td>
+                                                    <td  style="text-align: center;"> <%= fechaLimite %></td>
                                                     <% if (renta.Pagado == 1) { %>
-                                                        <td>
+                                                        <td style="text-align: center;">
                                                             <span class="tag is-size-6" style="background-color: #ddf5e5;">
                                                                 <span class="icon is-small" style="color: #21c85b">
                                                                     <i class="fa-solid fa-circle-check"></i>
@@ -151,7 +167,7 @@
                                                             </span>
                                                         </td>
                                                     <% } else if (fecha.getTime() > fechaActual.getTime()) { %>
-                                                        <td>
+                                                        <td style="text-align: center;">
                                                             <span class="tag is-size-6" style="background-color: #fdf2cc">
                                                                 <span class="icon is-small" style="color: #fec416">
                                                                     <i class="fa-solid fa-clock"></i>
@@ -162,7 +178,7 @@
                                                             </span>
                                                         </td>
                                                     <% } else { %>
-                                                        <td>
+                                                        <td style="text-align: center;">
                                                             <span class="tag is-size-6" style="background-color: #f6d5d8">
                                                                 <span class="icon is-small" style="color: #f83362">
                                                                     <i class="fa-solid fa-circle-xmark"></i>
@@ -199,7 +215,6 @@
                     </div> 
                     <% } %>
                 </div>
-            </div>
 
                 <!-- Historial de Pagos -->
                 <div id="historial" class="is-hidden">
@@ -208,7 +223,35 @@
 
                 <!-- Contratos / Modificar Fichas -->
                 <div id="contratos" class="is-hidden">
-                    <!-- Asignar contrato -->
+                    <div class="columns is-flex is-justify-content-space-between">
+                        <div class="column is-narrow is-justify-content-flex-end">
+                            <p class="control">
+                                <a class="button is-responsive is-primary" style="font-size: large;"
+                                    href="/contrato/asignarContrato">
+                                    <span class="icon is-large">
+                                        <i class="fa-solid fa-circle-plus" style="color: #FFFF;"></i>
+                                    </span>
+                                    <span> Asignar Contrato </span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <% for (let contrato of contratos) { %>
+                    <div class="box is-fullwidth" style="text-align: left; margin-bottom: 15px;">
+                        <div class="columns is-flex is-justify-content-space-between">
+                            <div class="column is-narrow">
+                                <p class="has-text-black has-text-weight-bold is-size-6"><%= contrato.Nombre %></p>
+                            </div>
+                            <div class="column is-narrow">
+                                <p class="has-text-grey has-text-weight-medium"><b>Inflación:</b> <%= contrato.PorcentajeInflacion %>% </p>
+                            </div>
+                            <div class="column is-narrow">
+                                <p class="has-text-grey has-text-weight-medium"><b>Fecha Inflación:</b> <%= contrato.FechaInflacion.toLocaleString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                            </div>
+                        </div>   
+                    </div>
+                    <% } %>
                 </div>
 
             </div>
