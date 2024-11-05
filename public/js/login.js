@@ -89,8 +89,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function initCircles() {
         circles = [];
-        for (let i = 0; i < 20; i++) {
-            let radius = Math.random() * 60 + 30;
+        for (let i = 0; i < 3; i++) {
+            let radius = Math.random() * 120 + 60;
             let x = Math.random() * (backgroundCanvas.width - radius * 2) + radius;
             let y = Math.random() * (backgroundCanvas.height - radius * 2) + radius;
             let dx = (Math.random() - 0.5) * 0.5;
