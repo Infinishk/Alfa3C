@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es-MX">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Alfa3C Pagos</title>
@@ -17,15 +18,36 @@
             align-items: center;
         }
 
+        /* Full-screen canvas */
+        #circle-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            background-color: #f0ece4;
+        }
+
         /* Login */
         .main-container {
             display: flex;
-            width: 900px;
-            height: 500px;
+            width: 75vw;
+            max-width: 900px;
+            height: auto;
             background-color: #f0ece4;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column; /* Stack elements vertically */
+                width: 90%; /* Slightly reduce width on smaller screens */
+            }
         }
 
         /* Contenedor de informacion */
@@ -69,7 +91,7 @@
             border-bottom: 1px solid #333;
             border-radius: 0;
             box-shadow: none;
-            background-color: #f0ece4; /* Updated color */
+            background-color: #f0ece4; 
         }
 
         .input:focus {
@@ -101,36 +123,41 @@
             position: relative;
         }
 
-        .graphic-container::before {
-            content: "";
-            position: absolute;
-            width: 250px;
-            height: 250px;
-            background-color: #204f7b;
-            border-radius: 50%;
-            top: 50px;
-            right: 80px;
-        }
-
-        .graphic-container::after {
-            content: "";
-            position: absolute;
-            width: 180px;
-            height: 180px;
-            background-color: #204f7b;
-            border-radius: 50%;
-            top: 200px;
-            right: 150px;
-        }
-
         /* Switch de ver contraseña */
         .switch-label {
             color: #000;
         }
+        /* Full-screen canvas */
+        #circle-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1; /* Make sure it sits behind other elements */
+            pointer-events: none; /* Prevent interactions with canvas */
+            background-color: #f0ece4; /* Optional background color */
+        }
+
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper .icon {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+            color: #333;
+        }
+
+
     </style>
 </head>
 
 <body>
+    <canvas id="circle-background"></canvas>
     <div class="main-container">
         <div class="login-container">
             <a class="image">
@@ -158,15 +185,13 @@
 
                     <div class="field">
                         <label class="label" for="password">Contraseña</label>
-                        <div class="control">
+                        <div class="control password-wrapper">
                             <input class="input" type="password" name="password" id="password" required />
+                            <span class="icon is-right">
+                                <i id="toggle-password-icon" class="fas fa-eye"></i>
+                            </span>
                         </div>
-                        <div class="switch">
-                            <input type="checkbox" id="toggle-password">
-                            <label for="toggle-password" class="switch-label">Mostrar contraseña</label>
-                        </div>
-                    </div>
-                    
+                    </div>                    
 
                     <div class="field">
                         <input type="submit" class="button is-primary" value="Iniciar Sesión"/>
