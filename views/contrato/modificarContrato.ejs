@@ -68,33 +68,52 @@
 
                         <% if (editar) { %>
                             <div class="form-container">
-                                <h1>Modifica Datos del Contrato</h1>
+                                <h1>Modificar Datos del Contrato</h1>
                                 <form action="/contrato/registrarContrato" method="POST">
                                     <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
 
-                                    <div class="form-group">
-                                        <label for="razonSocial">Razón Social:</label>
-                                        <input type="text" id="razonSocial" name="razonSocial"
-                                            value="<%= razonSocial.ReferenciaBancaria %>" class="inputField" required>
-                                    </div>
+                                    <%- include('../components/inputs/textInput.ejs', {
+                                        id: 'razonSocial',
+                                        name: 'razonSocial',
+                                        label: 'Razon Social',
+                                        placeholder: '',
+                                        value: razonSocial.ReferenciaBancaria,
+                                        icon: 'fa-solid fa-building', 
+                                        iconColor: 'has-text-primary',
+                                        maxChars: 10
+                                    }) %>
 
-                                    <div class="form-group">
-                                        <label for="nombreEmpresa">Nombre de la Empresa:</label>
-                                        <input type="text" id="nombreEmpresa" name="nombreEmpresa"
-                                            value="<%= razonSocial.NombreEmpresa %>" class="inputField" required>
-                                    </div>
+                                    <%- include('../components/inputs/textInput.ejs', {
+                                        id: 'nombreEmpresa',
+                                        name: 'nombreEmpresa',
+                                        label: 'Nombre de la Empresa',
+                                        placeholder: '',
+                                        value: razonSocial.NombreEmpresa ,
+                                        icon: 'fa-solid fa-building', 
+                                        iconColor: 'has-text-primary',
+                                        maxChars: 20
+                                    }) %>
 
-                                    <div class="form-group">
-                                        <label for="titulo">Título del Contrato:</label>
-                                        <input type="text" id="titulo" name="titulo" class="inputField"
-                                            value="<%= contrato.Titulo %>" required>
-                                    </div>
+                                    <%- include('../components/inputs/textInput.ejs', {
+                                        id: 'titulo',
+                                        name: 'titulo',
+                                        label: 'Título del Contrato',
+                                        placeholder: '',
+                                        value: contrato.Titulo ,
+                                        icon: 'fa-solid fa-file-contract', 
+                                        iconColor: 'has-text-primary',
+                                        maxChars: 20
+                                    }) %>
 
-                                    <div class="form-group">
-                                        <label for="numMeses">Número de Meses:</label>
-                                        <input type="number" id="numMeses" name="numMeses"
-                                            value="<%= contrato.DuracionMeses %>" class="inputField" required>
-                                    </div>
+                                    <%- include('../components/inputs/numberInput.ejs', {
+                                        id: 'numMeses',
+                                        name: 'numMeses',
+                                        label: 'Número de Meses',
+                                        placeholder: '',
+                                        value: contrato.DuracionMeses,
+                                        icon: 'fa-solid fa-calendar-alt',
+                                        iconColor: 'has-text-primary'
+                                    }) %>
 
                                     <!-- Contenedor del botón y el mensaje -->
                                     <div style="display: flex; align-items: center;">
@@ -108,5 +127,6 @@
 
     </body>
 
+    <script type="text/javascript" src="/js/contrato/registrarContrato.js"></script>
     <script type="text/javascript" src="/js/contrato/modificarContrato.js"></script>
     <%- include('../includes/foot.ejs') %>
