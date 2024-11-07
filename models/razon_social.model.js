@@ -14,6 +14,12 @@ module.exports = class RazonSocial{
         );
     }
 
+    static save(nombreEmpresa,referenciaBancaria) {
+        return db.execute(
+            `INSERT INTO razonSocial (NombreEmpresa, ReferenciaBancaria) VALUES (?, ?)`,
+            [nombreEmpresa, referenciaBancaria]); 
+    }
+
     static fetchOne(referenciaBancaria){
         return db.execute('Select * from RazonSocial WHERE ReferenciaBancaria = ?',[referenciaBancaria]);
     }
