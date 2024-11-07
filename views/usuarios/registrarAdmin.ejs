@@ -1,0 +1,52 @@
+<%- include('../includes/head.ejs', { 
+    username: username, 
+    permisos: permisos, 
+    rol: rol 
+}) %>
+
+<!-- Tab Navigation positioned above the container -->
+<div class="tabs-container">
+    <div class="tabs is-centered">
+        <ul>
+            <li id="tab-usuario" class="is-active"><a href="#">Usuario</a></li>
+            <li id="tab-admin"><a href="#">Admin</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Centered Container for Form -->
+<div class="form-page-container-registrar">
+    <!-- Form Container -->
+    <form action="/usuarios/registrarAdmin" method="POST" class="form-container-registrar">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        <!-- Fields for Both Admin and Usuario -->
+        <div class="field">
+            <label class="label">Nombre</label>
+            <div class="control">
+                <input class="input" type="text" name="nombre" id="nombre" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Apellidos</label>
+            <div class="control">
+                <input class="input" type="text" name="apellidos" id="apellidos" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Correo Electrónico</label>
+            <div class="control">
+                <input class="input" type="email" name="correoElectronico" id="correoElectronico" required>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="button is-primary is-fullwidth">Registrar</button>
+    </form>
+</div>
+
+<script src="/../js/registrarAdmin.js"></script>
+
+<%- include('../includes/foot.ejs') %>

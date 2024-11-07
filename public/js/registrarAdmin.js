@@ -1,29 +1,23 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Selecciona las pestañas y los contenedores de campos
     const tabUsuario = document.querySelector('#tab-usuario');
     const tabAdmin = document.querySelector('#tab-admin');
 
-    // Función para mostrar la pestaña "Usuario" y ocultar "Admin"
     function showUsuario() {
         tabUsuario.classList.add('is-active');
         tabAdmin.classList.remove('is-active');
-        // Solo redirige si actualmente no estamos en registrarUsuario
         if (window.location.pathname !== "/usuarios/registrarUsuario") {
             window.location.href = "/usuarios/registrarUsuario";
         }
     }
 
-    // Función para mostrar la pestaña "Admin" y ocultar "Usuario"
     function showAdmin() {
         tabAdmin.classList.add('is-active');
         tabUsuario.classList.remove('is-active');
-        // Solo redirige si actualmente no estamos en registrarAdmin
         if (window.location.pathname !== "/usuarios/registrarAdmin") {
             window.location.href = "/usuarios/registrarAdmin";
         }
     }
 
-    // Event listeners para las pestañas
     tabUsuario.addEventListener('click', function (event) {
         event.preventDefault();
         showUsuario();
@@ -33,4 +27,5 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         showAdmin();
     });
+    showAdmin();
 });
