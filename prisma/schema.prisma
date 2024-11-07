@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model asignacionContrato {
+  IDDetalleContrato   String   @id @db.VarChar(50)
+  IDContrato          String   @db.VarChar(50)
+  IDCliente           String   @db.VarChar(50)
+  Nombre              String   @db.VarChar(150)
+  FechaInflacion      DateTime @db.DateTime(0)
+  PorcentajeInflacion Decimal  @db.Decimal(14, 2)
+  contrato            contrato @relation(fields: [IDContrato], references: [IDContrato], onDelete: NoAction, onUpdate: NoAction, map: "asignacionContrato_ibfk_1")
+  cliente             cliente  @relation(fields: [IDCliente], references: [IDCliente], onDelete: NoAction, onUpdate: NoAction, map: "asignacionContrato_ibfk_2")
+  renta               renta[]
+
+  @@index([IDCliente], map: "IDCliente")
+  @@index([IDContrato], map: "IDContrato")
+}
+
+model casoUso {
+  IDCasoUso  String     @id @db.VarChar(50)
+  NombreCaso String     @db.VarChar(200)
+  contiene   contiene[]
+}
+
+model cliente {
+  IDCliente          String               @id @db.VarChar(100)
+  Direccion          String               @db.VarChar(200)
+  Tel_fono           String               @map("Teléfono") @db.VarChar(40)
+  RFC                String               @db.VarChar(100)
+  ReferenciaBancaria String               @db.VarChar(100)
+  PorcentajeInteres  Decimal              @db.Decimal(5, 2)
+  TipoCliente        String               @db.VarChar(100)
+  MontoRetencion     Decimal              @db.Decimal(14, 2)
+  asignacionContrato asignacionContrato[]
+  renta              renta[]
+}
+
+model contiene {
+  IDCasoUso String  @db.VarChar(50)
+  IDRol     String  @db.VarChar(50)
+  casoUso   casoUso @relation(fields: [IDCasoUso], references: [IDCasoUso], onDelete: NoAction, onUpdate: NoAction, map: "contiene_ibfk_1")
+  rol       rol     @relation(fields: [IDRol], references: [IDRol], onDelete: NoAction, onUpdate: NoAction, map: "contiene_ibfk_2")
+
+  @@id([IDCasoUso, IDRol])
+  @@index([IDCasoUso], map: "IDCasoUso")
+  @@index([IDRol], map: "IDRol")
+}
+
+model contrato {
+  IDContrato         String               @id @db.VarChar(50)
+  IDRazonSocial      String               @db.VarChar(50)
+  Titulo             String               @db.VarChar(50)
+  DuracionMeses      Int
+  Estatus            Int                  @db.TinyInt
+  asignacionContrato asignacionContrato[]
+  razonSocial        razonSocial          @relation(fields: [IDRazonSocial], references: [IDRazonSocial], onDelete: NoAction, onUpdate: NoAction, map: "contrato_ibfk_1")
+
+  @@index([IDRazonSocial], map: "IDRazonSocial")
+}
+
+model pago {
+  IDPago      String   @id @db.VarChar(50)
+  IDRenta     String   @db.VarChar(50)
+  Motivo      String   @db.VarChar(300)
+  MontoPagado Decimal  @db.Decimal(14, 2)
+  Nota        String   @db.VarChar(500)
+  MetodoPago  String   @db.VarChar(100)
+  FechaPago   DateTime @db.DateTime(0)
+  renta       renta    @relation(fields: [IDRenta], references: [IDRenta], onDelete: NoAction, onUpdate: NoAction, map: "pago_ibfk_1")
+
+  @@index([IDRenta], map: "IDRenta")
+}
+
+model posee {
+  IDUsuario String  @db.VarChar(50)
+  IDRol     String  @db.VarChar(50)
+  rol       rol     @relation(fields: [IDRol], references: [IDRol], onDelete: NoAction, onUpdate: NoAction, map: "posee_ibfk_1")
+  usuario   usuario @relation(fields: [IDUsuario], references: [IDUsuario], onDelete: NoAction, onUpdate: NoAction, map: "posee_ibfk_2")
+
+  @@id([IDRol, IDUsuario])
+  @@index([IDRol], map: "IDRol")
+  @@index([IDUsuario], map: "IDUsuario")
+}
+
+model razonSocial {
+  IDRazonSocial      String     @id @db.VarChar(50)
+  NombreEmpresa      String     @db.VarChar(100)
+  ReferenciaBancaria String     @db.VarChar(100)
+  contrato           contrato[]
+}
+
+model renta {
+  IDRenta            String             @id @db.VarChar(50)
+  IDDetalleContrato  String             @db.VarChar(50)
+  IDCliente          String             @db.VarChar(50)
+  MontoPagado        Decimal            @db.Decimal(14, 2)
+  MontoAPagar        Decimal            @db.Decimal(14, 2)
+  MontoInflacion     Decimal            @db.Decimal(14, 2)
+  Recargos           Decimal            @db.Decimal(14, 2)
+  FechaLimite        DateTime           @db.DateTime(0)
+  Pagado             Int                @db.TinyInt
+  Ajuste             Decimal            @db.Decimal(14, 2)
+  TieneRecargos      Int                @db.TinyInt
+  Modificador        String?            @db.VarChar(50)
+  NotaModificacion   String?            @db.VarChar(300)
+  FechaModificacion  DateTime?          @db.DateTime(0)
+  pago               pago[]
+  asignacionContrato asignacionContrato @relation(fields: [IDDetalleContrato], references: [IDDetalleContrato], onDelete: NoAction, onUpdate: NoAction, map: "renta_ibfk_1")
+  cliente            cliente            @relation(fields: [IDCliente], references: [IDCliente], onDelete: NoAction, onUpdate: NoAction, map: "renta_ibfk_2")
+
+  @@index([IDCliente], map: "IDCliente")
+  @@index([IDDetalleContrato], map: "IDDetalleContrato")
+}
+
+model rol {
+  IDRol    String     @id @db.VarChar(50)
+  Nombre   String     @db.VarChar(200)
+  contiene contiene[]
+  posee    posee[]
+}
+
+model usuario {
+  IDUsuario         String   @id @db.VarChar(50)
+  Nombre            String   @db.VarChar(200)
+  Apellidos         String   @db.VarChar(200)
+  Contrase_a        String   @map("Contraseña") @db.VarChar(100)
+  Status            Int      @db.TinyInt
+  CorreoElectronico String   @db.VarChar(100)
+  FechaRegistro     DateTime @db.DateTime(0)
+  posee             posee[]
+}

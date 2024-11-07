@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const { PrismaClient } = require('@prisma/client');
 
 const pool = mysql.createPool({
     host: 'localhost',
@@ -7,4 +8,10 @@ const pool = mysql.createPool({
     password: 'Queretaro2017#'
 });
 
-module.exports = pool.promise();
+// Configuración de Prisma
+const prisma = new PrismaClient();
+
+module.exports = {
+    db: pool.promise(),
+    prisma
+};
