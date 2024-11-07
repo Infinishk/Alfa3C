@@ -4,17 +4,18 @@
     rol: rol 
 }) %>
 
-
-<!-- Centered Container for Form and Tabs -->
-<div class="form-page-container-registrar">
-    <!-- Tab Navigation -->
+<!-- Tab Navigation positioned above the container -->
+<div class="tabs-container">
     <div class="tabs is-centered">
         <ul>
-            <li id="tab-usuario" class="is-active"><a href="#" id="link-usuario">Usuario</a></li>
-            <li id="tab-admin"><a href="#" id="link-admin">Admin</a></li>
+            <li id="tab-usuario" class="is-active"><a href="#">Usuario</a></li>
+            <li id="tab-admin"><a href="#">Admin</a></li>
         </ul>
     </div>
+</div>
 
+<!-- Centered Container for Form -->
+<div class="form-page-container-registrar">
     <!-- Form Container -->
     <form action="/usuarios/registrarUsuario" method="POST" class="form-container-registrar">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -42,7 +43,7 @@
         </div>
 
         <!-- Usuario-Specific Fields -->
-        <div id="usuario-fields" style="display: block;">
+        <div id="usuario-fields">
             <div class="field">
                 <label class="label">Tipo de Cliente</label>
                 <div class="control">
@@ -96,6 +97,10 @@
                     <input class="input" type="number" name="montoRetencion" step="0.01" id="montoRetencion" required>
                 </div>
             </div>
+        </div>
+
+        <!-- Admin-Specific Fields -->
+        <div id="admin-fields" class="is-hidden">
         </div>
 
         <!-- Submit Button -->

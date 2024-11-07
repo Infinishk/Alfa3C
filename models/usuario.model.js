@@ -27,12 +27,17 @@ module.exports = class Usuario{
 
     static saveUsuario(Nombre, Apellidos, CorreoElectronico) {
         return db.execute(
-            'INSERT INTO Usuario (Nombre, Apellidos, CorreoElectronico) VALUES (?, ?, ?, ?)',
+            'INSERT INTO Usuario (Nombre, Apellidos, Contraseña, CorreoElectronico, Status, FechaRegistro) VALUES (?, ?, "", ?, 0, NOW())',
             [Nombre, Apellidos, CorreoElectronico]
         );
     }
     
-    static fetchOne(IDUsuario) {
+    static fetchOne(CorreoElectronico) {
+        return db.execute('SELECT * FROM Usuario WHERE CorreoElectronico = ?',
+            [CorreoElectronico]);
+    }
+
+    static fetchOneID(IDUsuario) {
         return db.execute('SELECT * FROM Usuario WHERE IDUsuario = ?',
             [IDUsuario]);
     }
@@ -93,10 +98,10 @@ module.exports = class Usuario{
         return db.execute('INSERT INTO Posee (IDUsuario, IDRol) VALUES (?, ?)', [IDUsuario, IDRol]);
     }
 
-    static saveCliente(Direccion, Telefono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente) {
+    static saveCliente(IDCliente, Direccion, Telefono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente) {
         return db.execute(
-            'INSERT INTO Cliente (Direccion, Teléfono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-            [Direccion, Telefono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente]
+            'INSERT INTO Cliente (IDCliente, Direccion, Teléfono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            [IDCliente, Direccion, Telefono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente]
         );
     }
     

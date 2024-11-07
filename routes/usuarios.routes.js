@@ -6,4 +6,7 @@ const registrarUsuarioController = require('../controllers/usuarios/registrarUsu
 router.get('/registrarUsuario', registrarUsuarioController.getRegistrarUsuario);
 router.post('/registrarUsuario', registrarUsuarioController.postRegistrarUsuario);
 
+router.get('/registrarAdmin', registrarUsuarioController.getRegistrarAdmin);
+router.post('/registrarAdmin', registrarUsuarioController.postRegistrarAdmin);
+
 module.exports = router;

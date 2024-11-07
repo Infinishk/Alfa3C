@@ -18,7 +18,7 @@
             align-items: center;
         }
 
-        /* Full-screen canvas */
+        /* Canvas de fondo en pantalla completa */
         #circle-background {
             position: fixed;
             top: 0;
@@ -30,7 +30,18 @@
             background-color: #f0ece4;
         }
 
-        /* Login */
+        /* Canvas para los círculos rosas encima de todo */
+        #circle-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10; /* Encima de todo */
+            pointer-events: none;
+        }
+
+        /* Contenedor principal */
         .main-container {
             display: flex;
             width: 75vw;
@@ -40,17 +51,16 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            
         }
 
         @media (max-width: 768px) {
             .main-container {
-                flex-direction: column; /* Stack elements vertically */
-                width: 90%; /* Slightly reduce width on smaller screens */
+                flex-direction: column;
+                width: 90%;
             }
         }
 
-        /* Contenedor de informacion */
+        /* Estilos del contenedor de inicio de sesión */
         .login-container {
             flex: 1;
             padding: 3rem;
@@ -58,9 +68,9 @@
             flex-direction: column;
             justify-content: center;
             background-color: #f0ece4;
+            position: relative;
         }
 
-        /* Titulo, subtitulo */
         .login-container h1 {
             font-size: 24px;
             font-weight: bold;
@@ -106,39 +116,52 @@
             width: 100%;
         }
 
-        /* Olvidaste tu contraseña? */
+        /* Enlace de "Olvidaste tu contraseña?" */
         .link-reseteo {
             color: #000000;
             text-decoration: underline;
             font-size: 0.9rem;
         }
 
-        /* ayuda por favor (contenedor de las formas) */
+        /* Contenedor azul */
         .graphic-container {
             flex: 1;
-            background-color: #204f7b;
+            background-color: rgba(32, 79, 123, 1);
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+            overflow: visible;
         }
 
-        /* Switch de ver contraseña */
-        .switch-label {
-            color: #000;
-        }
-        /* Full-screen canvas */
-        #circle-background {
-            position: fixed;
+        /* Canvas en primer plano para el contenedor azul */
+        #circle-foreground {
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1; /* Make sure it sits behind other elements */
-            pointer-events: none; /* Prevent interactions with canvas */
-            background-color: #f0ece4; /* Optional background color */
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
 
+        /* Canvases en primer plano para la parte superior e inferior del contenedor de inicio de sesión */
+        #circle-foreground-top, #circle-foreground-bottom {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            pointer-events: none;
+        }
+
+        #circle-foreground-top {
+            top: -50px;
+        }
+
+        #circle-foreground-bottom {
+            bottom: -50px;
+        }
+
+        /* Icono para mostrar/ocultar contraseña */
         .password-wrapper {
             position: relative;
             display: flex;
@@ -151,15 +174,17 @@
             cursor: pointer;
             color: #333;
         }
-
-
     </style>
 </head>
 
 <body>
+    <!-- Canvas de círculos de fondo -->
     <canvas id="circle-background"></canvas>
+    <!-- Canvas de círculos rosas encima de todo -->
+    <canvas id="circle-overlay"></canvas>
+
     <div class="main-container">
-        <div class="login-container">
+        <div class="login-container" id="login-container">
             <a class="image">
                 <img src="/images/iconoNegro.png" alt="Logo" style="width: 40px; height: 40px;">
             </a>
@@ -201,11 +226,12 @@
             </div>
         </div>
 
-        <div class="graphic-container" id="blue-container"></div>
-
+        <!-- Contenedor azul con canvas en primer plano para círculos que se intersectan -->
+        <div class="graphic-container" id="blue-container">
+            <canvas id="circle-foreground"></canvas>
+        </div>
     </div>
 
 <script src="/js/login.js"></script>
 </body>
 </html>
-

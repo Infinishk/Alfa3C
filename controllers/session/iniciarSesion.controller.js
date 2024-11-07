@@ -15,14 +15,12 @@ exports.getLogin = (request, response, next) => {
 };
 
 exports.postLogin = (request, response, next) => {
-    Usuario.fetchOne(request.body.IDUsuario)
+    Usuario.fetchOneID(request.body.IDUsuario)
         .then(async ([users, fieldData]) => {
             if (users.length == 1) {
-                const user = users[0];
-                
+                const user = users[0]; 
                 // Use bcrypt to compare passwords
                 const match = await bcrypt.compare(request.body.password, user.Contraseña);
-
                 if (match) {
                     if (user.Status == 1) {
                         Usuario.getPermisos(user.IDUsuario)
