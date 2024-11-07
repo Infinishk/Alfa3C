@@ -3,9 +3,9 @@ const Usuario = require('../../models/usuario.model');
 exports.getUsuarios = async (request, response, next) => {
 
     try {
-        const [activeUsers] =  await Usuario.fetchActiveUsers();
-        const [inactiveUsers] = await Usuario.fetchInactiveUsers();
-        const [adminUsers] = await Usuario.fetchAdmins();
+        const activeUsers =  await Usuario.fetchActiveUsers();
+        const inactiveUsers = await Usuario.fetchInactiveUsers();
+        const adminUsers = await Usuario.fetchAdmins();
 
         response.render('usuarios/consultarUsuarios', {
             csrfToken: request.csrfToken(),

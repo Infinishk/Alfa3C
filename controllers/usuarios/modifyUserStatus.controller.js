@@ -1,4 +1,4 @@
-const UsuarioPrisma = require('../../models/usuarioPrisma.model');
+const Usuario = require('../../models/usuario.model');
 
 exports.postModifyUserStatus = (request, response, next) => {
     const status = request.body.status;
@@ -14,7 +14,7 @@ exports.postModifyUserStatus = (request, response, next) => {
         newStatus = 1;
     }
 
-    UsuarioPrisma.modifyUserStatus(newStatus, userID)
+    Usuario.modifyUserStatus(newStatus, userID)
     .then((updatedUser) => {
         response.status(200).json({
             mensaje: 'El usuario ha sido modificado con exito',
