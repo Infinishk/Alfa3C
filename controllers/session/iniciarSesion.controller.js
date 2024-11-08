@@ -36,11 +36,21 @@ exports.postLogin = (request, response, next) => {
                                         });
                                     })
                                     .catch((error) => {
-                                        console.log(error);
+                                        response.status(500).render('500', {
+                                            username: request.session.username || '',
+                                            permisos: request.session.permisos || [],
+                                            rol: request.session.rol || '',
+                                            error: error
+                                        });
                                     });
                             })
                             .catch((error) => {
-                                console.log(error);
+                                response.status(500).render('500', {
+                                    username: request.session.username || '',
+                                    permisos: request.session.permisos || [],
+                                    rol: request.session.rol || '', 
+                                    error: error
+                                });
                             });
                     } else {
                         request.session.error = 'El usuario insertado ya no está activo en el sistema. Por favor busca ayuda si requieres iniciar sesión.';
@@ -59,9 +69,7 @@ exports.postLogin = (request, response, next) => {
             response.status(500).render('500', {
                 username: request.session.username || '',
                 permisos: request.session.permisos || [],
-                rol: request.session.rol || '',
-                errorAlumno: false
+                rol: request.session.rol || ''
             });
-            console.log(error);
         });
 };

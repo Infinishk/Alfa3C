@@ -1,5 +1,4 @@
 const Usuario = require('../../models/usuario.model');
-const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer'); // Importa Nodemailer
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
@@ -22,19 +21,19 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-exports.get_set_password = (request, response, next) => {
+exports.getSetPassword = (request, response, next) => {
     const token = request.query.token;
     const IDUsuario = request.query.IDUsuario;  // Make sure IDUsuario is being passed here
     response.render('set_password', {
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        rol: request.session.rol || "",
+        rol: request.session.rol || '',
         token,
         IDUsuario
     });
 };
 
-exports.post_set_password = async (request, response, next) => {
+exports.postSetPassword = async (request, response, next) => {
     const token = request.body.token;
     const newPassword = request.body.password;  
 
@@ -47,8 +46,8 @@ exports.post_set_password = async (request, response, next) => {
             // Token válido, proceder con la actualización de la contraseña
             try {
                 const IDUsuario = decoded.IDUsuario;  // Make sure the correct user ID is extracted
-                const new_user = new Usuario(IDUsuario, newPassword);
-                await new_user.updateContra();
+                const newUser = new Usuario(IDUsuario, newPassword);
+                await newUser.updateContra();
                 response.redirect('/auth/login'); // Redirigir al inicio de sesión después de actualizar la contraseña
             } catch (error) {
                 console.error('Error al actualizar la contraseña:', error);
