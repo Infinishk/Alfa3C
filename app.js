@@ -48,13 +48,26 @@ const helmet = require('helmet');
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            'default-src': ['\'self\''],
-            'script-src': ['\'self\'', 'code.jquery.com', 'ajax.googleapis.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'npmcdn.com'],
-            'script-src-attr': [],
-            'connect-src': ['\'self\'']
+            'default-src': ["'self'"],
+            'script-src': [
+                "'self'",
+                'code.jquery.com',
+                'ajax.googleapis.com',
+                'cdn.jsdelivr.net',
+                'cdnjs.cloudflare.com',
+                'npmcdn.com',
+                'https://openpay.s3.amazonaws.com' // Dominio de OpenPay para los scripts
+            ],
+            'script-src-attr': [], // Asegura que puedas usar `onclick` si es necesario
+            'connect-src': [
+                "'self'",
+                'https://sandbox-api.openpay.mx', // Dominio para el entorno de pruebas
+                'https://api.openpay.mx' // Dominio para el entorno de producción
+            ]
         }
     }
 }));
+
 
 // La aplicación va a tener acceso a todo lo que está en 'public'
 app.use(express.static(path.join(__dirname, 'public')));

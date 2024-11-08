@@ -9,4 +9,10 @@ router.post('/fetchRegistrarPagoManual', fetchRegistrarPagoManualController.fetc
 const postRegistrarPagoManualController = require('../controllers/pagos/postRegistrarPagoManual.controller');
 router.post('/registrarPagoManual', postRegistrarPagoManualController.postRegistrarPagoManual);
 
+const fetchRealizarPagoController = require('../controllers/pagos/realizarPago.controller');
+router.post('/fetchRealizarPago', fetchRealizarPagoController.fetchRealizarPago);
+
+const realizarPagoController = require('../controllers/pagos/realizarPago.controller');
+router.post('/realizarPago', realizarPagoController.realizarPago);
+
 module.exports = router;

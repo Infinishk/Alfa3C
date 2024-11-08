@@ -1,0 +1,113 @@
+<%- include('../includes/head.ejs', {
+    username: username,
+    permisos: permisos,
+    rol: rol
+}) %>
+
+<section>
+    <div class="container">
+        <%- include('../components/title.ejs', {
+            title: 'REALIZAR PAGO',
+            showBackButton: true,
+            backLink: ''
+        }) %>
+
+        <div class="columns is-centered">
+            <div class="column is-one-third">
+                <%- include('../components/pagoActualCardClient.ejs', {
+                    showNameSection: true, 
+                    nombre: cliente.Nombre + ' ' + cliente.Apellidos,
+                    rfc: cliente.RFC,
+                    fechaLimite: renta[0].FechaLimite, 
+                    montoAPagar: Number(renta[0].MontoAPagar),
+                    montoPagado: Number(renta[0].MontoPagado), 
+                    recargos: Number(renta[0].Recargos),
+                    inflacion: Number(renta[0].MontoInflacion),
+                    montoPendiente: Number(renta[0].MontoAPagar) - Number(renta[0].MontoPagado) 
+                    + Number(renta[0].Recargos) + Number(renta[0].MontoInflacion),
+                }) %>
+            </div>
+
+            <div class="column is-offset-1">
+                <form action="/pagos/registrarPagoManual" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                    <%- include('../components/inputs/selectInput', {
+                        id: 'contratoPago',
+                        name: 'contrato',
+                        label: 'Contrato',
+                        options: renta.map(function(item) {
+                            return {
+                                value: item.IDDetalleContrato,
+                                text: item.Nombre
+                            };
+                        }),
+                        selectedValue: renta[0].IDDetalleContrato,
+                        extraAttributes: renta.reduce((obj, item) => {
+                            obj[item.IDDetalleContrato] = `data-monto="${Number(item.MontoAPagar)}" 
+                            data-fecha-limite="${item.FechaLimite}"
+                            data-monto-pagado="${Number(item.MontoPagado)}"
+                            data-recargos="${Number(item.Recargos)}"
+                            data-inflacion="${Number(item.MontoInflacion)}"`;
+                            return obj;
+                        }, {}),
+                        icon: 'fa-solid fa-file-contract',
+                        iconColor: 'has-text-primary'
+                    }) %>
+
+                    <%- include('../components/inputs/textInput.ejs', {
+                        id: 'motivoPago',
+                        name: 'motivo',
+                        label: 'Motivo',
+                        placeholder: 'Concepto del pago',
+                        value: 'Pago de Renta: ' + renta[0].Nombre,
+                        icon: 'fa-solid fa-circle-info', 
+                        iconColor: 'has-text-primary',
+                        maxChars: 200
+                    }) %>
+
+                    <%- include('../components/inputs/numberInput.ejs', {
+                        id: 'montoPago',
+                        name: 'monto',
+                        label: 'Monto',
+                        placeholder: 'Monto pagado',
+                        value: Number(renta[0].MontoAPagar) - Number(renta[0].MontoPagado) 
+                        + Number(renta[0].Recargos) + Number(renta[0].MontoInflacion),
+                        icon: 'fa-solid fa-dollar-sign',
+                        iconColor: 'has-text-primary'
+                    }) %>
+
+                    <%- include('../components/inputs/textareaInput', {
+                        id: 'notaPago',
+                        name: 'nota',
+                        label: 'Nota (opcional)',
+                        placeholder: 'Escribe tu nota aquí.',
+                        value: '', 
+                        maxChars: 500
+                    }) %>
+
+                    <div style="text-align: right;">
+                        <button class="button is-primary is-responsive"
+                                type="button" style="font-size: large;" id="openPayButton">
+                            <span>REALIZAR PAGO</span>
+                            <span class="icon is-large">
+                                <i class="fa-solid fa-circle-chevron-right" style="color: #ffffff;"></i>
+                            </span>
+                        </button>
+                    </div>
+
+                    <%- include('../components/paymentModal', { 
+                        modalId: 'paymentModal' 
+                    }) %>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://openpay.s3.amazonaws.com/openpay.v1.min.js" defer></script>
+<script src="https://openpay.s3.amazonaws.com/openpay-data.v1.min.js" defer></script>
+<script type="module" src="/js/pagos/realizarPago.js"></script>
+
+
+<%- include('../includes/foot.ejs') %>

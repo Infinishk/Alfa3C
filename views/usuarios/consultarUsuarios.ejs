@@ -245,6 +245,23 @@
                 </p>
             </form>
         </div>
+
+        <div class="column">
+            <form method="POST" action="/pagos/fetchRealizarPago">
+                <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                <input type="hidden" value="Ana Torres Lopez | ANTO650716L88" name="buscar">
+                <p class="control">
+                    <button class="button is-responsive" style="font-size: large;" type="submit">
+                        <span class="icon is-large">
+                            <i class="fa-solid fa-circle-plus"></i>
+                        </span>
+                        <span>
+                            Realizar Pago
+                        </span>
+                    </button>
+                </p>
+            </form>
+        </div>
     </div>
 </section>
 <script type="module" src="/js/usuarios/consultarUsuarios.js"></script>
