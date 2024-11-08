@@ -1,0 +1,25 @@
+<%- include('includes/head.ejs', {
+    username: username,
+    permisos: permisos,
+    rol: rol
+}) %>
+
+<section class="section">
+    <div class="container">
+        <label class="label is-large has-text-danger has-text-weight-semibold">
+            500 - ERROR EN LA PETICIÓN
+        </label>
+        <div class="box">
+            <p>Lo sentimos. Hubo un error al procesar la petición. Favor de intentar de nuevo.</p>
+        </div>
+        <div class="columns">
+            <div class="column is-5"></div>
+            <div class="column is-2">
+                <a class="button is-link is-rounded is-outlined" href="auth/home">Volver al inicio</a>
+            </div>
+            <div class="column is-5"></div>
+        </div>
+    </div>
+</section>
+
+<%- include('./includes/foot.ejs') %>

@@ -5,87 +5,91 @@ $dorado: #DBB260;
 $blanco: #F0ECE4;
 $gris-claro: #D6D6D6;
 $gris-mediano: #E1E1E1;
+$marron: #8B4513;
+$naranja: #D2653B;
+$verde: #5BBE62;
+$rojo: #D9534F;
 
-@use "bulma/bulma" with (
-  $family-primary: '"Roboto", sans-serif',
+@use "bulma/bulma" with ($family-primary: '"Roboto", sans-serif',
   $family-sans-serif: '"Roboto", sans-serif',
   $grey-dark: $gris-mediano,
   $grey-light: $gris-claro,
   $primary: $dorado,
   $link: $azul,
-  $danger: $azul,
+  $danger: $marron,
   $info: $negro,
   $subtitle-color: $negro,
   $text-strong: $negro,
+  $tabs-boxed-link-hover-background-color: #ffffff,
   $control-border-width: 2px,
   $input-border-color: transparent,
   $input-shadow: none,
   $body-background-color: $blanco,
   $footer-background-color: $blanco,
   $navbar-background-color: $azul,
-  $navbar-item-color: $blanco, 
-  $navbar-dropdown-arrow: $blanco
-);
+  $navbar-item-color: $blanco,
+  $navbar-dropdown-arrow: $blanco);
 
 .button.is-transparent-primary {
-  background-color: transparent;   
-  border: 2px solid bulma.$primary; 
-  color: $blanco;     
-  border-radius: 8px;    
-  border-width: 3px;    
+  background-color: transparent;
+  border: 2px solid bulma.$primary;
+  color: $blanco;
+  border-radius: 8px;
+  border-width: 3px;
 
   &:hover {
-    background-color: bulma.$primary;  
-    color: $blanco;  
-    border-color: $blanco; 
+    background-color: bulma.$primary;
+    color: $blanco;
+    border-color: $blanco;
   }
 }
 
 .button.is-transparent-link {
-  background-color: transparent;   
-  border: 2px solid bulma.$link; 
-  color: $blanco;     
-  border-radius: 8px;    
-  border-width: 3px;    
+  background-color: transparent;
+  border: 2px solid bulma.$link;
+  color: $blanco;
+  border-radius: 8px;
+  border-width: 3px;
 
   &:hover {
     background-color: bulma.$link;
-    color: $blanco; 
+    color: $blanco;
     border-color: $blanco;
   }
 }
 
 .button.is-transparent-info {
-  background-color: transparent;   
-  border: 2px solid bulma.$info; 
-  color: $blanco;     
-  border-radius: 8px;    
-  border-width: 3px;    
+  background-color: transparent;
+  border: 2px solid bulma.$info;
+  color: $blanco;
+  border-radius: 8px;
+  border-width: 3px;
 
   &:hover {
-    background-color: bulma.$info;  
-    color: $blanco;  
+    background-color: bulma.$info;
+    color: $blanco;
     border-color: $blanco;
   }
 }
 
-.navbar-start .navbar-item, .navbar-link {
-  border-bottom: 2px solid transparent; 
+.navbar-start .navbar-item,
+.navbar-link {
+  border-bottom: 2px solid transparent;
   transition: border-bottom 0.2s ease, color 0.2s ease;
 
   &:hover {
     border-bottom: 2px solid $dorado;
     color: $blanco !important;
-    background-color: transparent !important; 
+    background-color: transparent !important;
   }
 
 }
 
 .navbar-dropdown .navbar-item {
   color: $negro;
-  
+
   &:hover {
-    color: $dorado !important; 
+    color: $dorado !important;
   }
 }
 
@@ -101,12 +105,14 @@ button {
   font-family: "Roboto", sans-serif;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -114,18 +120,76 @@ html, body {
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Garantiza que el contenedor ocupe toda la altura de la ventana */
+  min-height: 100vh;
+  /* Garantiza que el contenedor ocupe toda la altura de la ventana */
 }
 
 .section {
-  flex-grow: 1; /* El contenido principal se expandirá para llenar el espacio disponible */
+  flex-grow: 1;
+  /* El contenido principal se expandirá para llenar el espacio disponible */
 }
 
 .footer {
   padding: 1rem;
-  flex-shrink: 0; /* Asegura que el footer no se encoja */
+  flex-shrink: 0;
+  /* Asegura que el footer no se encoja */
 }
 
+.tabs {
+  ul {
+    li {
+      &:not(.is-active) {
+        a {
+          span {
+            color: #101010;
+          }
+        }
+      }
+    }
+  }
+}
+
+.button.is-primary:hover {
+  background-color: $naranja; // Cambia a cualquier color que desees
+}
+
+.button.is-link:hover {
+  background-color: $naranja; // Cambia a cualquier color que desees
+}
+
+.notification-success {
+  background-color: $verde;
+  color: #ffffff;
+}
+
+.notification-delete {
+  background-color: $rojo;
+  color: #ffffff;
+}
+
+.notification-error {
+  background-color: $rojo;
+  color: #ffffff;
+  border-radius: 4px;
+}
+
+.notification-info {
+  background-color: $marron;
+  color: #ffffff;
+}
+
+.toast {
+  position: fixed;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  transition: opacity 0.5s ease;
+}
+
+@import "404Animation.scss";
 
 // Import the Google Font
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,700");

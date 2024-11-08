@@ -6,13 +6,48 @@
 
 <section class="section">
     <div class="container">
-        <label class="label is-large has-text-danger has-text-weight-semibold">
-            404 - PÁGINA NO ENCONTRADA
-        </label>
-        <div class="box">
-            <p>La página que estás buscando no existe. Verifica el url e intenta de nuevo.</p>
+        <div class="cog-container">
+            <h1 class="first-four">4</h1>
+            <div class="cog-wheel1">
+                <div class="cog1">
+                    <div class="top"></div>
+                    <div class="down"></div>
+                    <div class="left-top"></div>
+                    <div class="left-down"></div>
+                    <div class="right-top"></div>
+                    <div class="right-down"></div>
+                    <div class="left"></div>
+                    <div class="right"></div>
+                </div>
+            </div>
+            
+            <div class="cog-wheel2"> 
+                <div class="cog2">
+                    <div class="top"></div>
+                    <div class="down"></div>
+                    <div class="left-top"></div>
+                    <div class="left-down"></div>
+                    <div class="right-top"></div>
+                    <div class="right-down"></div>
+                    <div class="left"></div>
+                    <div class="right"></div>
+                </div>
+            </div>
+            <h1 class="second-four">4</h1>
+        </div>
+        <div class="notification notification-info ">
+            <p class="has-text-white has-text-weight-bold wrong-para">¡Uh Oh! La página que estás buscando no existe.</p>
+        </div>
+        <div class="columns">
+            <div class="column is-5"></div>
+            <div class="column is-2">
+                <a class="button is-link is-rounded is-outlined" href="auth/home">Volver al inicio</a>
+            </div>
+            <div class="column is-5"></div>
         </div>
     </div>
 </section>
+
+<script src="/js/animations/404.js"></script>
 
 <%- include('./includes/foot.ejs') %>

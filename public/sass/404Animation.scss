@@ -1,0 +1,117 @@
+.cog-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins", sans-serif;
+    position: relative;
+    text-align: center;
+}
+
+.cog-wheel1,
+.cog-wheel2 {
+    transform: scale(0.7); // Puedes ajustar esta escala si prefieres una proporción diferente
+}
+
+.cog1,
+.cog2 {
+    width: 25vmin; // Ajustar a 25vmin
+    height: 25vmin; // Ajustar a 25vmin
+    border-radius: 50%;
+    border: 4vmin solid $dorado; // Ajustar el grosor del borde para mantener la proporción
+}
+
+.cog2 {
+    border: 4vmin solid $naranja; // Cambiar color para la segunda rueda
+}
+
+.top,
+.down,
+.left,
+.right,
+.left-top,
+.left-down,
+.right-top,
+.right-down {
+    width: 6vmin; // Reducir tamaño de los elementos internos
+    height: 6vmin; // Reducir tamaño de los elementos internos
+    background-color: $dorado;
+    position: absolute;
+}
+
+.cog2 .top,
+.cog2 .down,
+.cog2 .left,
+.cog2 .right,
+.cog2 .left-top,
+.cog2 .left-down,
+.cog2 .right-top,
+.cog2 .right-down {
+    background-color: $naranja;
+}
+
+.top {
+    top: -8vmin;
+    left: 6vmin;
+}
+
+.down {
+    bottom: -8vmin;
+    left: 6vmin;
+}
+
+.left {
+    left: -8vmin;
+    top: 6vmin;
+}
+
+.right {
+    right: -8vmin;
+    top: 6vmin;
+}
+
+.left-top {
+    transform: rotateZ(-45deg);
+    left: -5vmin;
+    top: -5vmin;
+}
+
+.left-down {
+    transform: rotateZ(45deg);
+    left: -5vmin;
+    top: 15vmin;
+}
+
+.right-top {
+    transform: rotateZ(45deg);
+    right: -5vmin;
+    top: -5vmin;
+}
+
+.right-down {
+    transform: rotateZ(-45deg);
+    right: -5vmin;
+    top: 15vmin;
+}
+
+.cog2 {
+    position: relative;
+    left: -7vmin;
+    bottom: 7vmin;
+}
+
+h1 {
+    color: $azul;
+}
+
+.first-four {
+    position: relative;
+    left: 4vmin; // Ajustar la posición de los números
+    font-size: 20vmin; // Ajustar tamaño del número
+}
+
+.second-four {
+    position: relative;
+    right: 10vmin; // Ajustar la posición de los números
+    z-index: -1;
+    font-size: 20vmin; // Ajustar tamaño del número
+}
