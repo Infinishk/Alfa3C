@@ -177,3 +177,46 @@ exports.postRegistrarAdmin = async (req, res) => {
         res.status(500).send('Hubo un error al registrar el usuario.');
     }
 };
+
+exports.validateNombre = (req, res) => {
+    const nombre = req.body.nombre;
+
+    // Expresión regular para detectar números
+    const regex = /\d/;
+    if (regex.test(nombre)) {
+        res.json({ valid: false });
+    } else {
+        res.json({ valid: true });
+    }
+};
+
+exports.validateApellidos = (req, res) => {
+    const nombre = req.body.apellidos;
+
+    const regex = /\d/;
+    if (regex.test(nombre)) {
+        res.json({ valid: false });
+    } else {
+        res.json({ valid: true });
+    }
+};
+
+exports.validateCorreoElectronico = (req, res) => {
+    const correo = req.body.correoElectronico;
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    res.json({ valid: regex.test(correo) });
+};
+
+exports.validatePorcentajeInteres = (req, res) => {
+    const porcentajeInteres = req.body.porcentajeInteres;
+    const regex = /^(100(\.0{1,10})?|(\d{1,2})(\.\d{1,10})?)$/;
+
+    const isValid = regex.test(porcentajeInteres);
+    res.json({ valid: isValid });
+};
+
+exports.validateTelefono = (req, res) => {
+    const telefono = req.body.telefono;
+    const regex = /^\d+$/;
+    res.json({ valid: regex.test(telefono) });
+};

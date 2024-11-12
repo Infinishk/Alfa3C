@@ -42,7 +42,6 @@
             </div>
         </div>
 
-        <!-- Usuario-Specific Fields -->
         <div id="usuario-fields">
             <div class="field">
                 <label class="label">Tipo de Cliente</label>
@@ -87,20 +86,21 @@
             <div class="field">
                 <label class="label">Porcentaje Interes (%)</label>
                 <div class="control">
-                    <input class="input" type="number" name="porcentajeInteres" step="0.01" id="porcentajeInteres" required>
+                    <input class="input" type="text" name="porcentajeInteres" id="porcentajeInteres" required>
                 </div>
             </div>
 
             <div class="field">
                 <label class="label">Monto Retencion</label>
                 <div class="control">
-                    <input class="input" type="number" name="montoRetencion" step="0.01" id="montoRetencion" required>
+                    <input class="input" type="text" name="montoRetencion" id="montoRetencion" required>
                 </div>
             </div>
         </div>
-        
+
         <!-- Submit Button -->
-        <button type="submit" class="button is-primary is-fullwidth">Registrar</button>
+        <button type="submit" class="button is-primary is-fullwidth" id="registrar">Registrar</button>
+        <p id="mensajeError" class="help is-danger"></p>
     </form>
 </div>
 
