@@ -149,8 +149,8 @@
                                                     <td style="text-align: center;"> #<%=count + 1 %></td>
                                                     <td style="text-align: center;"> $<%= renta.MontoPagado %> </td>
                                                     <td style="text-align: center;"> <%= renta.MontoInflacion %></td>
-                                                    <td style="text-align: center;"> <%= renta.Recargos %></td>
-                                                    <td style="text-align: center;"> <%= renta.Ajuste %></td>
+                                                    <td style="text-align: center;"> $<%= renta.Recargos %></td>
+                                                    <td style="text-align: center;"> $<%= renta.Ajuste %></td>
                                                     <%  const fechaActual = new Date();
                                                         const fecha = new Date(renta.FechaLimite); 
                                                         const fechaLimite = fecha.toLocaleString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }); %>
@@ -218,39 +218,85 @@
 
                 <!-- Historial de Pagos -->
                 <div id="historial" class="is-hidden">
-                    
+                    <% if (pagos.length != 0) { %>
+                    <div class="box is-fullwidth" style="text-align: left; margin-bottom: 15px;">
+                        <div class="table-container">
+                            <table class="table is-fullwidth is-hoverable">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">Monto</th>
+                                        <th style="text-align: center;">Fecha</th>
+                                        <th style="text-align: center;">Motivo</th>
+                                        <th style="text-align: center;">Método</th>
+                                        <th style="text-align: center;">Nota</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <% for (let pago of pagos) { %>
+                                    <tr>
+                                        <td style="text-align: center;"> $<%= pago.MontoPagado %></td>
+                                        <td style="text-align: center;"> <%= pago.FechaPago.toLocaleString('es-MX', 
+                                            { year: 'numeric', month: 'long', day: 'numeric' }) %></td>
+                                        <td style="text-align: center;"> <%= pago.Motivo %></td>
+                                        <td style="text-align: center;"> <%= pago.MetodoPago %></td>
+                                        <td style="text-align: center;"> <%= pago.Nota %></td>
+                                    </tr>
+                                <% } %>
+                                </tbody>
+                            </table>
+                        </div> 
+                    </div>
+                    <% } else { %>
+                        <div class="columns">
+                            <div class="column is-fullwidth">
+                                <div class="notification-info">
+                                    El cliente aún no ha realizado pagos.
+                                </div>
+                            </div>
+                        </div> 
+                    <% } %> %>
                 </div>
 
                 <!-- Contratos / Modificar Fichas -->
                 <div id="contratos" class="is-hidden">
-                    <div class="columns is-flex is-justify-content-space-between">
-                        <div class="column is-narrow is-justify-content-flex-end">
-                            <p class="control">
-                                <a class="button is-responsive is-primary" style="font-size: large;"
-                                    href="/contrato/asignarContrato">
-                                    <span class="icon is-large">
-                                        <i class="fa-solid fa-circle-plus" style="color: #FFFF;"></i>
-                                    </span>
-                                    <span> Asignar Contrato </span>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
+                    <% if (contratos.length != 0) { %>
+                        <div class="columns is-flex is-justify-content-flex-end">
+                            <div class="column is-narrow">
+                                <p class="control">
+                                    <a class="button is-responsive is-primary" style="font-size: large;"
+                                        href="/contrato/asignarContrato">
+                                        <span class="icon is-large">
+                                            <i class="fa-solid fa-circle-plus" style="color: #FFFF;"></i>
+                                        </span>
+                                        <span> Asignar Contrato </span>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>                    
                     
-                    <% for (let contrato of contratos) { %>
-                    <div class="box is-fullwidth" style="text-align: left; margin-bottom: 15px;">
-                        <div class="columns is-flex is-justify-content-space-between">
-                            <div class="column is-narrow">
-                                <p class="has-text-black has-text-weight-bold is-size-6"><%= contrato.Nombre %></p>
+                        <% for (let contrato of contratos) { %>
+                        <div class="box is-fullwidth" style="text-align: left; margin-bottom: 15px;">
+                            <div class="columns is-flex is-justify-content-space-between">
+                                <div class="column is-narrow">
+                                    <p class="has-text-black has-text-weight-bold is-size-6"><%= contrato.Nombre %></p>
+                                </div>
+                                <div class="column is-narrow">
+                                    <p class="has-text-grey has-text-weight-medium"><b>Inflación:</b> <%= contrato.PorcentajeInflacion %>% </p>
+                                </div>
+                                <div class="column is-narrow">
+                                    <p class="has-text-grey has-text-weight-medium"><b>Fecha Inflación:</b> <%= contrato.FechaInflacion.toLocaleString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                                </div>
+                            </div>   
+                        </div>
+                        <% } %>
+                    <% } else { %>
+                        <div class="columns">
+                            <div class="column is-fullwidth">
+                                <div class="notification-info">
+                                    El cliente no tiene contratos asignados en este momento. Para asignar un contrato, por favor haz click <a href="/contrato/asignarContrato"> aquí </a>.
+                                </div>
                             </div>
-                            <div class="column is-narrow">
-                                <p class="has-text-grey has-text-weight-medium"><b>Inflación:</b> <%= contrato.PorcentajeInflacion %>% </p>
-                            </div>
-                            <div class="column is-narrow">
-                                <p class="has-text-grey has-text-weight-medium"><b>Fecha Inflación:</b> <%= contrato.FechaInflacion.toLocaleString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
-                            </div>
-                        </div>   
-                    </div>
+                        </div> 
                     <% } %>
                 </div>
 

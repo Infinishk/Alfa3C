@@ -13,7 +13,7 @@ exports.fetch_inquilino = async (request, response, next) => {
         // Renta / fichas
         let [rentas] = await Inquilino.fetch_renta(inquilino.IDCliente);
 
-        // Group rentas by IDDetalleContrato
+        // Agrupar rentas por IDDetalleContrato
         let rentasPorContrato = {};
         for (const renta of rentas) {
             const contratoID = renta.IDDetalleContrato;
