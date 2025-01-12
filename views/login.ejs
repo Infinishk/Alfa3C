@@ -9,7 +9,7 @@
     <style>
         /* General */
         html, body {
-            height: 100%;
+            max-height: 1vh; 
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #f0ece4;
@@ -30,7 +30,6 @@
             background-color: #f0ece4;
         }
 
-        /* Canvas para los círculos rosas encima de todo */
         #circle-overlay {
             position: fixed;
             top: 0;
@@ -51,6 +50,10 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         @media (max-width: 768px) {
@@ -180,7 +183,6 @@
 <body>
     <!-- Canvas de círculos de fondo -->
     <canvas id="circle-background"></canvas>
-    <!-- Canvas de círculos rosas encima de todo -->
     <canvas id="circle-overlay"></canvas>
 
     <div class="main-container">
