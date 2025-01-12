@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const fgCtx = blueContainerCanvas.getContext("2d");
 
     let circles = [];
+    let rectangles = [];
     const blueContainer = document.querySelector(".graphic-container");
 
     function resizeCanvas() {
@@ -90,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function initCircles() {
         circles = [];
         for (let i = 0; i < 3; i++) {
-            let radius = Math.random() * 120 + 60;
+            let radius = Math.random() * 100 + 120;
             let x = Math.random() * (backgroundCanvas.width - radius * 2) + radius;
             let y = Math.random() * (backgroundCanvas.height - radius * 2) + radius;
             let dx = (Math.random() - 0.5) * 0.5;
@@ -100,19 +101,82 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    class Rectangle {
+        constructor(x, y, size, dx, dy, color) {
+            this.x = x;
+            this.y = y;
+            this.size = size;
+            this.dx = dx;
+            this.dy = dy;
+            this.color = color;
+        }
+    
+        draw(ctx, colorOverride = null) {
+            const cornerRadius = this.size * 0.1;
+            const width = this.size;
+            const height = this.size / 2;
+    
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y + cornerRadius);
+            ctx.arcTo(this.x, this.y + height, this.x + cornerRadius, this.y + height, cornerRadius);
+            ctx.lineTo(this.x + width - cornerRadius, this.y + height);
+            ctx.arcTo(this.x + width, this.y + height, this.x + width, this.y + height - cornerRadius, cornerRadius);
+            ctx.lineTo(this.x + width, this.y + cornerRadius);
+            ctx.arcTo(this.x + width, this.y, this.x + width - cornerRadius, this.y, cornerRadius);
+            ctx.lineTo(this.x + cornerRadius, this.y);
+            ctx.arcTo(this.x, this.y, this.x, this.y + cornerRadius, cornerRadius);
+            ctx.closePath();
+    
+            ctx.fillStyle = colorOverride || this.color;
+            ctx.fill();
+        }
+    
+        update() {
+            if (this.x + this.size > backgroundCanvas.width || this.x < 0) {
+                this.dx = -this.dx;
+            }
+            if (this.y + this.size / 2 > backgroundCanvas.height || this.y < 0) {
+                this.dy = -this.dy;
+            }
+    
+            this.x += this.dx;
+            this.y += this.dy;
+        }
+    }
+    
+    function initRectangles() {
+        rectangles = [];
+        for (let i = 0; i < 1; i++) {
+            let size = Math.random() * 50 + 600;
+            let x = Math.random() * (backgroundCanvas.width - size);
+            let y = Math.random() * (backgroundCanvas.height - size / 2);
+            let dx = (Math.random() - 0.5) * 0.5;
+            let dy = (Math.random() - 0.5) * 0.5;
+            let color = '#dfdfdc';
+            rectangles.push(new Rectangle(x, y, size, dx, dy, color));
+        }
+    }
+
+
     function animate() {
         requestAnimationFrame(animate);
-        
+    
         // Clear the background and foreground canvases
         bgCtx.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
         fgCtx.clearRect(0, 0, blueContainerCanvas.width, blueContainerCanvas.height);
-
+    
         // Draw circles on the background canvas
         circles.forEach(circle => {
             circle.update();
             circle.draw(bgCtx);
         });
-
+    
+        // Draw rectangles on the background canvas
+        rectangles.forEach(rectangle => {
+            rectangle.update();
+            rectangle.draw(bgCtx);
+        });
+    
         // Draw only intersecting parts of circles on the foreground canvas
         circles.forEach(circle => {
             const rect = blueContainer.getBoundingClientRect();
@@ -122,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 circle.y + circle.radius > rect.top &&
                 circle.y - circle.radius < rect.bottom
             );
-
+    
             if (isIntersecting) {
                 fgCtx.save();
                 fgCtx.translate(-rect.left, -rect.top);
@@ -133,9 +197,31 @@ document.addEventListener("DOMContentLoaded", function () {
                 fgCtx.restore();
             }
         });
+    
+        // Draw only intersecting parts of rectangles on the foreground canvas
+        rectangles.forEach(rectangle => {
+            const rect = blueContainer.getBoundingClientRect();
+            const isIntersecting = (
+                rectangle.x + rectangle.size > rect.left &&
+                rectangle.x < rect.right &&
+                rectangle.y + rectangle.size / 2 > rect.top &&
+                rectangle.y < rect.bottom
+            );
+    
+            if (isIntersecting) {
+                fgCtx.save();
+                fgCtx.translate(-rect.left, -rect.top);
+                fgCtx.beginPath();
+                rectangle.draw(fgCtx);
+                fgCtx.clip();
+                rectangle.draw(fgCtx, "#dbb160");
+                fgCtx.restore();
+            }
+        });
     }
 
     initCircles();
+    initRectangles();
     animate();
 });
 
