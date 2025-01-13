@@ -10634,6 +10634,11 @@ svg {
   animation: vibrate-1 3s linear infinite both;
 }
 
+.form-width-50 {
+  width: 50%;
+  margin: 0 auto; 
+}
+
 @keyframes scales {
   from {
     transform: scale(0.98);
