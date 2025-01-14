@@ -162,7 +162,8 @@ ALTER TABLE `renta` ADD CONSTRAINT `renta_ibfk_1` FOREIGN KEY (`IDDetalleContrat
 -- AddForeignKey
 ALTER TABLE `renta` ADD CONSTRAINT `renta_ibfk_2` FOREIGN KEY (`IDCliente`) REFERENCES `cliente`(`IDCliente`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-DELIMITER $$
+DROP TRIGGER IF EXISTS `idRenta`;
+
 CREATE TRIGGER `idRenta` BEFORE INSERT ON `renta` FOR EACH ROW BEGIN
     DECLARE last_id VARCHAR(50);
     DECLARE numeric_part INT;
@@ -180,10 +181,10 @@ CREATE TRIGGER `idRenta` BEFORE INSERT ON `renta` FOR EACH ROW BEGIN
 
     -- Genera el nuevo ID y lo asigna al nuevo registro
     SET NEW.IDRenta = CONCAT('RENT', LPAD(numeric_part, 10, '0'));
-END $$
-DELIMITER ;
+END;
 
-DELIMITER $$
+DROP TRIGGER IF EXISTS `idPago`;
+
 CREATE TRIGGER `idPago` BEFORE INSERT ON `pago` FOR EACH ROW BEGIN
     DECLARE last_id VARCHAR(50);
     DECLARE numeric_part INT;
@@ -201,10 +202,10 @@ CREATE TRIGGER `idPago` BEFORE INSERT ON `pago` FOR EACH ROW BEGIN
 
     -- Genera el nuevo ID y lo asigna al nuevo registro
     SET NEW.IDPago = CONCAT('PAGO', LPAD(numeric_part, 10, '0'));
-END $$
-DELIMITER ;
+END;
 
-DELIMITER $$
+DROP TRIGGER IF EXISTS `idContrato`;
+
 CREATE TRIGGER `idContrato` BEFORE INSERT ON `contrato` FOR EACH ROW BEGIN
     DECLARE last_id VARCHAR(50);
     DECLARE numeric_part INT;
@@ -222,10 +223,10 @@ CREATE TRIGGER `idContrato` BEFORE INSERT ON `contrato` FOR EACH ROW BEGIN
 
     -- Genera el nuevo ID y lo asigna al nuevo registro
     SET NEW.IDContrato = CONCAT('CONT', LPAD(numeric_part, 4, '0'));
-END $$
-DELIMITER ;
+END;
 
-DELIMITER $$
+DROP TRIGGER IF EXISTS `idDetalleContrato`;
+
 CREATE TRIGGER `idDetalleContrato` BEFORE INSERT ON `asignacionContrato` FOR EACH ROW BEGIN
     DECLARE last_id VARCHAR(50);
     DECLARE numeric_part INT;
@@ -243,10 +244,10 @@ CREATE TRIGGER `idDetalleContrato` BEFORE INSERT ON `asignacionContrato` FOR EAC
 
     -- Genera el nuevo ID y lo asigna al nuevo registro
     SET NEW.IDDetalleContrato = CONCAT('DETCONT', LPAD(numeric_part, 10, '0'));
-END $$
-DELIMITER ;
+END;
 
-DELIMITER $$
+DROP TRIGGER IF EXISTS `idRol`;
+
 CREATE TRIGGER `idRol` BEFORE INSERT ON `rol` FOR EACH ROW BEGIN
     DECLARE last_id VARCHAR(50);
     DECLARE numeric_part INT;
@@ -264,10 +265,10 @@ CREATE TRIGGER `idRol` BEFORE INSERT ON `rol` FOR EACH ROW BEGIN
 
     -- Genera el nuevo ID y lo asigna al nuevo registro
     SET NEW.IDRol = CONCAT('ROL', LPAD(numeric_part, 2, '0'));
-END $$
-DELIMITER ;
+END;
 
-DELIMITER $$
+DROP TRIGGER IF EXISTS `idCasoUso`;
+
 CREATE TRIGGER `idCasoUso` BEFORE INSERT ON `casouso` FOR EACH ROW BEGIN
     DECLARE last_id VARCHAR(50);
     DECLARE numeric_part INT;
@@ -285,12 +286,11 @@ CREATE TRIGGER `idCasoUso` BEFORE INSERT ON `casouso` FOR EACH ROW BEGIN
     
     -- Genera el nuevo ID y lo asigna al nuevo registro
     SET NEW.IDCasoUso = CONCAT('CU', LPAD(numeric_part, 3, '0'));
-END $$
-DELIMITER ;
+END;
 
-DELIMITER $$
+DROP TRIGGER IF EXISTS `idUsuario`;
 
-CREATE TRIGGER idUsuario
+CREATE TRIGGER `idUsuario`
 BEFORE INSERT ON usuario
 FOR EACH ROW
 BEGIN
@@ -313,11 +313,10 @@ BEGIN
 
     -- Asignar el nuevo IDCliente al campo de la fila que está siendo insertada
     SET NEW.IDUsuario = id_unico;
-END $$
+END;
 
-DELIMITER ;
+DROP TRIGGER IF EXISTS `idRazonSocial`;
 
-DELIMITER $$
 CREATE TRIGGER `idRazonSocial` BEFORE INSERT ON `razonSocial` FOR EACH ROW BEGIN
     DECLARE last_id VARCHAR(50);
     DECLARE numeric_part INT;
@@ -335,10 +334,10 @@ CREATE TRIGGER `idRazonSocial` BEFORE INSERT ON `razonSocial` FOR EACH ROW BEGIN
     
     -- Genera el nuevo ID y lo asigna al nuevo registro
     SET NEW.IDRazonSocial = CONCAT('RZNSOC', LPAD(numeric_part, 2, '0'));
-END $$
-DELIMITER ;
+END;
 
-DELIMITER $$
+DROP TRIGGER IF EXISTS `actualizarEstadoPago`;
+
 CREATE TRIGGER `actualizarEstadoPago` BEFORE UPDATE ON `renta` FOR EACH ROW 
 BEGIN
    IF (NEW.MontoAPagar + NEW.Recargos + NEW.MontoInflacion) <= NEW.MontoPagado THEN
@@ -346,5 +345,4 @@ BEGIN
    ELSE
       SET NEW.Pagado = 0;
    END IF;
-END $$
-DELIMITER ;
+END;
