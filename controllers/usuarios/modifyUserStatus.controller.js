@@ -15,7 +15,7 @@ exports.postModifyUserStatus = (request, response, next) => {
     }
 
     Usuario.modifyUserStatus(newStatus, userID)
-    .then(([answer, fieldData]) => {
+    .then((updatedUser) => {
         response.status(200).json({
             mensaje: 'El usuario ha sido modificado con exito',
             status: 200

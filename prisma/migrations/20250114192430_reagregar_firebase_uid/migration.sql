@@ -1,0 +1,1 @@
+ALTER TABLE `usuario` ADD COLUMN `FirebaseUID` VARCHAR(200) AFTER `IDUsuario`;

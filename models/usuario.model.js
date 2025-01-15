@@ -1,25 +1,41 @@
-const db = require('../util/database');
+const prisma = require('../util/database'); 
+
+const { fetchActiveUsersDB, fetchInactiveUsersDB } = require('@prisma/client/sql');
 
 module.exports = class Usuario {
 
-    static modifyUserStatus(status, userID) {
-        return db.execute('UPDATE usuario SET Status = ? WHERE IDUsuario = ?',
-            [status, userID]);
-    }
-    
-    static fetchActiveUsers() {
-        return db.execute(`SELECT * FROM usuario AS U, posee AS P, cliente AS C WHERE U.Status = 1 
-            AND P.IDUsuario = U.IDUsuario AND U.IDUsuario = C.IDCliente AND P.IDRol = 'ROL02'`);
-    }
-
-    static fetchInactiveUsers() {
-        return db.execute(`SELECT * FROM usuario AS U, posee AS P, cliente AS C WHERE U.Status = 0
-            AND P.IDUsuario = U.IDUsuario AND U.IDUsuario = C.IDCliente AND P.IDRol = 'ROL02'`);
+    static async modifyUserStatus(status, userID) {
+        return prisma.usuario.update({
+            where: {
+                IDUsuario: userID 
+            },
+            data: { 
+                Status: status 
+            }
+        });
     }
 
-    static fetchAdmins() {
-        return db.execute(`SELECT * FROM usuario AS U, posee AS P WHERE
-            P.IDUsuario = U.IDUsuario AND P.IDRol = 'ROL01'`);
+    static async fetchActiveUsers() {
+        return prisma.$queryRawTyped(fetchActiveUsersDB());
+    }
+
+    static async fetchInactiveUsers() {
+        return prisma.$queryRawTyped(fetchInactiveUsersDB());
+    }
+
+    static async fetchAdmins() {
+        return prisma.usuario.findMany({
+            where: {
+                posee: {
+                    some: {
+                        IDRol: 'ROL01'
+                    }
+                }
+            }, 
+            include: {
+                posee: true
+            }
+        });
     }
 
 };
