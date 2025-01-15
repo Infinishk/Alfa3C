@@ -1,19 +1,46 @@
-const db = require('../util/database');
+const prisma = require('../util/database');
 
 module.exports = class Renta {
 
     static fetchRentasPeriodo(fechaActual) {
-        return db.execute(`SELECT IDRenta, montoAPagar, FechaLimite, R.IDCliente FROM renta AS R
-            WHERE R.Pagado = 0 AND R.Recargos = 0 AND R.FechaLimite < ?`, [fechaActual]);
+        return prisma.renta.findMany({
+            where: {
+                Pagado: 0,
+                TieneRecargos: 0,
+                FechaLimite: {
+                    lt: fechaActual
+                }
+            }, 
+            select: {
+                IDRenta: true,
+                MontoAPagar: true,
+                FechaLimite: true,
+                IDCliente: true
+            }
+        });
     }
 
     static getRecargosCliente(IDCliente){
-        return db.execute('SELECT PorcentajeInteres FROM cliente WHERE IDCliente = ?', [IDCliente]);
+        return prisma.cliente.findMany({
+            where: {
+                IDCliente: IDCliente
+            },
+            select: {
+                PorcentajeInteres: true
+            }
+        });
     }
 
-    static setRecargosRenta(IDRenta, montoRecargo) {
-        db.execute('UPDATE renta SET Recargos = ?, TieneRecargos = 1 WHERE IDRenta = ?', 
-            [montoRecargo, IDRenta]);
+    static async setRecargosRenta(IDRenta, montoRecargo) {
+        await prisma.renta.update({
+            where: {
+                IDRenta: IDRenta
+            }, 
+            data: {
+                Recargos: montoRecargo,
+                TieneRecargos: 1
+            }
+        });
     }
 
 };
