@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function initCircles() {
         circles = [];
         for (let i = 0; i < 3; i++) {
-            let radius = Math.random() * 100 + 120;
+            let radius = Math.random() * 100 + 100;
             let x = Math.random() * (backgroundCanvas.width - radius * 2) + radius;
             let y = Math.random() * (backgroundCanvas.height - radius * 2) + radius;
             let dx = (Math.random() - 0.5) * 0.5;
@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function initRectangles() {
         rectangles = [];
         for (let i = 0; i < 1; i++) {
-            let size = Math.random() * 50 + 600;
+            let size = Math.random() * 50 + 500;
             let x = Math.random() * (backgroundCanvas.width - size);
             let y = Math.random() * (backgroundCanvas.height - size / 2);
             let dx = (Math.random() - 0.5) * 0.5;
