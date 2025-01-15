@@ -10,12 +10,12 @@ exports.fetchRegistrarPagoManual = async (request, response, next) => {
     const matches =  request.body.buscar.match(/(.+)\s\|\s([A-Z0-9]+)/);
 
     Cliente.fetchClienteRFC(matches[2])
-    .then(([clienteResponse, fieldData]) => {
+    .then((clienteResponse) => {
 
         const cliente = clienteResponse[0];
 
         Renta.fetchPrimerRentaNoPagada(cliente.IDCliente)
-        .then(([primerRentaNoPagada, fieldData]) => {
+        .then((primerRentaNoPagada) => {
 
             if (primerRentaNoPagada.length != 0) {
 

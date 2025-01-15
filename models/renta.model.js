@@ -1,42 +1,83 @@
-const db = require('../util/database');
+const prisma = require('../util/database');
+
+const { fetchPrimerRentaNoPagadaDB } = require('@prisma/client/sql');
 
 module.exports = class Renta {
 
     static fetchRentasPeriodo(fechaActual) {
-        return db.execute(`SELECT IDRenta, montoAPagar, FechaLimite, R.IDCliente FROM renta AS R
-            WHERE R.Pagado = 0 AND R.Recargos = 0 AND R.FechaLimite < ?`, [fechaActual]);
+        return prisma.renta.findMany({
+            where: {
+                Pagado: 0,
+                TieneRecargos: 0,
+                FechaLimite: {
+                    lt: fechaActual
+                }
+            }, 
+            select: {
+                IDRenta: true,
+                MontoAPagar: true,
+                FechaLimite: true,
+                IDCliente: true
+            }
+        });
     }
 
     static getRecargosCliente(IDCliente){
-        return db.execute('SELECT PorcentajeInteres FROM cliente WHERE IDCliente = ?', [IDCliente]);
+        return prisma.cliente.findMany({
+            where: {
+                IDCliente: IDCliente
+            },
+            select: {
+                PorcentajeInteres: true
+            }
+        });
     }
 
-    static setRecargosRenta(IDRenta, montoRecargo) {
-        db.execute('UPDATE renta SET Recargos = ?, TieneRecargos = 1 WHERE IDRenta = ?', 
-            [montoRecargo, IDRenta]);
+    static async setRecargosRenta(IDRenta, montoRecargo) {
+        await prisma.renta.update({
+            where: {
+                IDRenta: IDRenta
+            }, 
+            data: {
+                Recargos: montoRecargo,
+                TieneRecargos: 1
+            }
+        });
     }
 
     static fetchPrimerRentaNoPagada(IDCliente) {
-        return db.execute(`SELECT * FROM 
-
-            (SELECT R.IDRenta, R.MontoPagado, R.MontoAPagar, R.FechaLimite, R.Recargos, R.MontoInflacion,
-            C.ReferenciaBancaria, C.IDCliente, C.TipoCliente, R.IDDetalleContrato, AC.Nombre,
-            ROW_NUMBER() OVER (PARTITION BY R.IDDetalleContrato ORDER BY R.FechaLimite ASC) AS RentaContratos
-            FROM renta AS R, cliente AS C, usuario AS U, asignacionContrato AS AC
-            WHERE C.IDCliente = R.IDCliente AND C.IDCliente = U.IDUsuario AND R.IDDetalleContrato = AC.IDDetalleContrato
-            AND R.Pagado = 0 AND R.IDCliente = ?) AS RentasSinPagar
-            
-            WHERE RentaContratos = 1;`, [IDCliente]);
+        return prisma.$queryRawTyped(fetchPrimerRentaNoPagadaDB(IDCliente));
     }
 
     static fetchNoPagadasContrato(IDDetalleContrato) {
-        return db.execute(`SELECT IDRenta, MontoPagado, MontoAPagar, FechaLimite, Recargos, MontoInflacion, IDCliente
-            FROM renta WHERE Pagado = 0 AND IDDetalleContrato = ?`, [IDDetalleContrato]);
+        return prisma.renta.findMany({
+            where: {
+                Pagado: 0,
+                IDDetalleContrato: IDDetalleContrato
+            }, 
+            select: {
+                IDRenta: true,
+                MontoPagado: true,
+                MontoAPagar: true,
+                FechaLimite: true,
+                Recargos: true,
+                MontoInflacion: true,
+                IDCliente: true
+            }
+        });
     }
 
     static updateRenta(montoAUsar, IDRenta) {
-        db.execute('UPDATE Renta SET montoPagado = montoPagado + ? WHERE IDRenta = ?', 
-            [montoAUsar, IDRenta]);
+        return prisma.renta.update({
+            where: {
+                IDRenta: IDRenta
+            },
+            data: {
+                MontoPagado: {
+                    increment: montoAUsar
+                }
+            }
+        });
     }
 
 };
