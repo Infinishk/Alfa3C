@@ -1,0 +1,1 @@
+ALTER TABLE `usuario` MODIFY `FirebaseUID` VARCHAR(200) NOT NULL;
