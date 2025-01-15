@@ -1,9 +1,11 @@
-const db = require('../util/database');
+const prisma = require('../util/database');
+
+const { savePago } = require('@prisma/client/sql');
 
 module.exports = class Pago{
 
     constructor(miIDRenta, miMotivo, miMontoPagado, miNota, miMetodoPago, mifechaPago){
-        this.IDDeuda = miIDRenta;
+        this.IDRenta = miIDRenta;
         this.motivo = miMotivo;
         this.montoPagado = miMontoPagado;
         this.nota = miNota;
@@ -12,8 +14,7 @@ module.exports = class Pago{
     }
 
     savePagoManual() {
-        db.execute('CALL savePago(?, ?, ?, ?, ?, ?);', 
-            [this.IDDeuda, this.motivo, this.montoPagado, this.nota, this.metodoPago, this.fechaPago]);
+        return prisma.$queryRawTyped(savePago(this.IDRenta, this.motivo, this.montoPagado, this.nota, this.metodoPago, this.fechaPago));
     }
 
 };

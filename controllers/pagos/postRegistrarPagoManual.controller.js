@@ -8,12 +8,13 @@ moment.locale('es-mx');
 exports.postRegistrarPagoManual = async (request, response, next) => {
 
     Renta.fetchNoPagadasContrato(request.body.contrato)
-    .then(async ([rentasNoPagadas, fieldData]) => {
+    .then(async (rentasNoPagadas) => {
         try {
             const montoSinCommas = parseFloat(request.body.monto.replace(/,/g, ''));
+            const fechaPago = moment(request.body.fechaPago, 'YYYY-MM-DD').tz('America/Mexico_City');
             const pagoUsuario = 
                 new Pago(rentasNoPagadas[0].IDRenta, request.body.motivo, montoSinCommas, 
-                    request.body.nota, request.body.metodo, request.body.fechaPago);
+                    request.body.nota, request.body.metodo, fechaPago.format('YYYY-MM-DD HH:mm:ss'));
 
             await pagoUsuario.savePagoManual();
 
@@ -41,7 +42,8 @@ exports.postRegistrarPagoManual = async (request, response, next) => {
 
             // Esto es temporal
             response.redirect('/usuarios');
-        } catch {
+        } catch(error) {
+            console.log(error);
             response.status(500).render('500', {
             username: request.session.username || '',
             permisos: request.session.permisos || [],

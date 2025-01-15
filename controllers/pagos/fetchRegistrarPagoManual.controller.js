@@ -21,7 +21,7 @@ exports.fetchRegistrarPagoManual = async (request, response, next) => {
 
                 // Conviertes la fecha
                 for (let count = 0; count < primerRentaNoPagada.length; count++) {
-                    primerRentaNoPagada[count].FechaLimite = moment(new Date(primerRentaNoPagada[count].FechaLimite)).format('LL');
+                    primerRentaNoPagada[count].FechaLimite = moment.utc(primerRentaNoPagada[count].FechaLimite).format('LL');
                 }
             }
             
