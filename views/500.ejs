@@ -1,0 +1,18 @@
+<%- include('includes/head.ejs', {
+    username: username,
+    permisos: permisos,
+    rol: rol
+}) %>
+
+<section class="section">
+    <div class="container">
+        <label class="label is-large has-text-danger has-text-weight-semibold">
+            500 - ERROR EN LA PETICIÓN
+        </label>
+        <div class="box">
+            <p>Lo sentimos. Hubo un error al procesar la petición. Favor de intentar de nuevo.</p>
+        </div>
+    </div>
+</section>
+
+<%- include('./includes/foot.ejs') %>
