@@ -1,37 +1,42 @@
-const db = require('../util/database');
+const prisma = require('../util/database'); 
 
 module.exports = class RazonSocial{
-    constructor(mi_IDRazonSocial,mi_NombreEmpresa,mi_ReferenciaBancaria){
-        this.IDRazonSocial = mi_IDRazonSocial;
-        this.NombreEmpresa = mi_NombreEmpresa;
-        this.ReferenciaBancaria = mi_ReferenciaBancaria
+
+    static async update(nombreEmpresa, referenciaBancaria, idRazonSocial) {
+        return prisma.razonSocial.update({
+            where: { IDRazonSocial: idRazonSocial },
+            data: {
+                NombreEmpresa: nombreEmpresa,
+                ReferenciaBancaria: referenciaBancaria,
+            },
+        });
     }
 
-    static update(nombreEmpresa,referenciaBancaria,idRazonSocial) {
-        return db.execute(
-            `UPDATE razonSocial SET NombreEmpresa=?, ReferenciaBancaria=? WHERE IDRazonSocial=?`,
-            [nombreEmpresa,referenciaBancaria,idRazonSocial] 
-        );
+    static async save(nombreEmpresa, referenciaBancaria) {
+        return prisma.razonSocial.create({
+            data: {
+                NombreEmpresa: nombreEmpresa,
+                ReferenciaBancaria: referenciaBancaria,
+            },
+        });
     }
 
-    static save(nombreEmpresa,referenciaBancaria) {
-        return db.execute(
-            `INSERT INTO razonSocial (NombreEmpresa, ReferenciaBancaria) VALUES (?, ?)`,
-            [nombreEmpresa, referenciaBancaria]); 
+    static async fetchOne(referenciaBancaria) {
+        return prisma.razonSocial.findFirst({
+            where: { ReferenciaBancaria: referenciaBancaria },
+        });
     }
 
-    static fetchOne(referenciaBancaria){
-        return db.execute('Select * from RazonSocial WHERE ReferenciaBancaria = ?',[referenciaBancaria]);
+    static async fetchOneName(nombreEmpresa) {
+        return prisma.razonSocial.findFirst({
+            where: { NombreEmpresa: nombreEmpresa },
+        });
     }
 
-    static fetchOneName(nombreEmpresa){
-        return db.execute('Select * from RazonSocial WHERE NombreEmpresa = ?',[nombreEmpresa]);
-    }
-
-    static fetchID(referenciaBancaria){
-        return db.execute(
-            `SELECT IDRazonSocial FROM razonSocial WHERE ReferenciaBancaria = ?`,
-            [referenciaBancaria]
-        );
+    static async fetchID(referenciaBancaria) {
+        return prisma.razonSocial.findFirst({
+            where: { ReferenciaBancaria: referenciaBancaria },
+            select: { IDRazonSocial: true },
+        });
     }
 }

@@ -1,0 +1,1 @@
+SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Contrato.DuracionMeses, Contrato.Titulo FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial WHERE Contrato.Estatus = 1

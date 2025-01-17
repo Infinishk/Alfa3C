@@ -1,53 +1,95 @@
-const db = require('../util/database');
+
+const prisma = require('../util/database'); 
+
+const { fetchActiveContratsDB, fetchInactiveContratsDB } = require('@prisma/client/sql');
 
 module.exports = class Contrato{
-    constructor(mi_IDContrato,mi_IDRazonSocial,mi_Titulo,mi_numMeses,mi_Estatus){
-        this.IDContrato = mi_IDContrato;
-        this.Titulo = mi_Titulo;
-        this.IDRazonSocial = mi_IDRazonSocial;
-        this.numMeses = mi_numMeses;
-        this.Estatus = mi_Estatus;
+
+    static async fetchActivos() {
+        return prisma.$queryRawTyped(fetchActiveContratsDB());
     }
 
-    static fetchActivos(){
-        return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Contrato.DuracionMeses, Contrato.Titulo FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial WHERE Contrato.Estatus = 1');
+    static async fetchInactivos() {
+        return prisma.$queryRawTyped(fetchInactiveContratsDB());
     }
 
-    static fetchInactivos(){
-        return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Contrato.DuracionMeses, Contrato.Titulo FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial WHERE Contrato.Estatus = 0');
+    static async fetchOne(id) {
+        return prisma.contrato.findUnique({
+            where: { IDContrato: id },
+            select: {
+                IDContrato: true,
+                Titulo: true,
+                Estatus: true,
+                DuracionMeses: true,
+                razonSocial: {
+                    select: { NombreEmpresa: true },
+                },
+            },
+        });
     }
 
-    static fetchOne(id){
-        return db.execute('SELECT Contrato.IDContrato, RazonSocial.NombreEmpresa, Contrato.DuracionMeses, Contrato.Titulo, Contrato.Estatus FROM Contrato JOIN RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial WHERE Contrato.IDContrato = ?', [id]);
+    static async fetchName(nombre) {
+        return prisma.contrato.findFirst({
+            where: { Titulo: nombre },
+            select: { IDContrato: true },
+        });
     }
 
-    static fetchName(nombre) {
-        return db.execute('SELECT Contrato.IDContrato FROM Contrato WHERE Contrato.Titulo = ?', [nombre]);
+    static async fetchClientes(id) {
+        return prisma.asignacionContrato.findMany({
+            where: { IDContrato: id },
+            select: {
+                Nombre: true,
+                cliente: {
+                    select: {
+                        RFC: true,
+                        TipoCliente: true,
+                        MontoRetencion: true,
+                        PorcentajeInteres: true,
+                    },
+                },
+                clienteUsuario: {
+                    select: {
+                        Nombre: true,
+                        Apellidos: true,
+                    },
+                },
+            },
+        });
     }
 
-    static fetchClientes(id){
-        return db.execute('SELECT AsignacionContrato.Nombre AS ContratoNombre, Usuario.Nombre AS UsuarioNombre, Usuario.Apellidos, Cliente.RFC, Cliente.TipoCliente, Cliente.MontoRetencion, Cliente.PorcentajeInteres FROM AsignacionContrato JOIN Contrato ON AsignacionContrato.IDContrato = Contrato.IDContrato JOIN Cliente on AsignacionContrato.IDCliente = Cliente.IDCliente JOIN Usuario on Cliente.IDCliente = Usuario.IDUsuario WHERE Contrato.IDContrato = ?', [id]);
+    static async fetchNumClientes(id) {
+        return prisma.asignacionContrato.count({
+            where: { IDContrato: id },
+        });
     }
 
-    static fetchNumClientes(id){
-        return db.execute('SELECT COUNT(*) AS asignaciones FROM AsignacionContrato WHERE IDContrato = ?', [id]);
+    static async updateEstatus(estatus, id) {
+        return prisma.contrato.update({
+            where: { IDContrato: id },
+            data: { Estatus: estatus },
+        });
     }
 
-    static updateEstatus(estatus, id){
-        return db.execute('UPDATE Contrato SET Estatus = ? WHERE IDContrato = ?', [estatus, id]);
+    static async save(idRazonSocial, titulo, numMeses) {
+        return prisma.contrato.create({
+            data: {
+                IDRazonSocial: idRazonSocial,
+                Titulo: titulo,
+                DuracionMeses: numMeses,
+                Estatus: 1,
+            },
+        });
     }
 
-    static save(idRazonSocial, titulo,numMeses) {
-        return db.execute(
-            `INSERT INTO Contrato (IDRazonSocial, Titulo, DuracionMeses, Estatus) VALUES (?, ?, ?, 1)`,
-            [idRazonSocial,titulo,numMeses]
-        );
-    }
-
-    static update(idRazonSocial, titulo,numMeses,idContrato) {
-        return db.execute(
-            `UPDATE Contrato SET IDRazonSocial=?, Titulo=?, DuracionMeses=? WHERE IDContrato=?`,
-            [idRazonSocial, titulo, numMeses, idContrato] 
-        );
+    static async update(idRazonSocial, titulo, numMeses, idContrato) {
+        return prisma.contrato.update({
+            where: { IDContrato: idContrato },
+            data: {
+                IDRazonSocial: idRazonSocial,
+                Titulo: titulo,
+                DuracionMeses: numMeses,
+            },
+        });
     }
 }
