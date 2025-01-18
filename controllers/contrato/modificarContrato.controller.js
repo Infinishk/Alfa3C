@@ -6,12 +6,12 @@ exports.post_fetch_contrato = async (request, response, next) => {
         const IDContrato = request.body.id;
 
         // Obtener el contrato basado en el título
-        const [contratos] = await Contrato.fetchOne(IDContrato);
+        const contratos = await Contrato.fetchOne(IDContrato);
 
         const contrato = contratos[0];
 
         // Obtener la información de la razón social asociada
-        const [razonSocialInfo] = await RazonSocial.fetchOneName(contrato.NombreEmpresa);
+        const razonSocialInfo = await RazonSocial.fetchOneName(contrato.NombreEmpresa);
 
         if (!razonSocialInfo || razonSocialInfo.length === 0) {
             return response.status(500).send('No se pudo encontrar la razón social asociada');
@@ -54,10 +54,10 @@ exports.post_modificar_contrato = async (request, response, next) => {
         await Contrato.update(IDRazonSocial, titulo, numMeses, IDContrato);
 
         // Obtener el contrato actualizado
-        const [contratos] = await Contrato.fetchOne(titulo);
+        const contratos = await Contrato.fetchOne(titulo);
 
         // Obtener la razón social asociada
-        const [razonSocialInfo] = await RazonSocial.fetchOne(IDRazonSocial);
+        const razonSocialInfo = await RazonSocial.fetchOne(IDRazonSocial);
 
         // Renderizar la vista con la información del contrato y la razón social
         response.render('contrato/resultadoContrato', {

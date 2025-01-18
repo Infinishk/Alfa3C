@@ -14,82 +14,80 @@ module.exports = class Contrato{
     }
 
     static async fetchOne(id) {
-        return prisma.contrato.findUnique({
-            where: { IDContrato: id },
-            select: {
-                IDContrato: true,
-                Titulo: true,
-                Estatus: true,
-                DuracionMeses: true,
-                razonSocial: {
-                    select: { NombreEmpresa: true },
-                },
-            },
-        });
+        const result = await prisma.$queryRaw`
+            SELECT 
+                Contrato.IDContrato, 
+                RazonSocial.NombreEmpresa, 
+                Contrato.DuracionMeses, 
+                Contrato.Titulo, 
+                Contrato.Estatus 
+            FROM 
+                Contrato 
+            JOIN 
+                RazonSocial ON Contrato.IDRazonSocial = RazonSocial.IDRazonSocial 
+            WHERE 
+                Contrato.IDContrato = ${id}`;
+        
+        console.log('fetchOne result:', result);
+        return result;
     }
-
+    
     static async fetchName(nombre) {
-        return prisma.contrato.findFirst({
-            where: { Titulo: nombre },
-            select: { IDContrato: true },
-        });
+        return prisma.$queryRaw`
+            SELECT 
+                Contrato.IDContrato 
+            FROM 
+                Contrato 
+            WHERE 
+                Contrato.Titulo = ${nombre}`;
     }
 
     static async fetchClientes(id) {
-        return prisma.asignacionContrato.findMany({
-            where: { IDContrato: id },
-            select: {
-                Nombre: true,
-                cliente: {
-                    select: {
-                        RFC: true,
-                        TipoCliente: true,
-                        MontoRetencion: true,
-                        PorcentajeInteres: true,
-                    },
-                },
-                clienteUsuario: {
-                    select: {
-                        Nombre: true,
-                        Apellidos: true,
-                    },
-                },
-            },
-        });
+        return prisma.$queryRaw`
+            SELECT 
+                AsignacionContrato.Nombre AS ContratoNombre, 
+                Usuario.Nombre AS UsuarioNombre, 
+                Usuario.Apellidos, 
+                Cliente.RFC, 
+                Cliente.TipoCliente, 
+                Cliente.MontoRetencion, 
+                Cliente.PorcentajeInteres 
+            FROM 
+                AsignacionContrato 
+            JOIN 
+                Contrato ON AsignacionContrato.IDContrato = Contrato.IDContrato 
+            JOIN 
+                Cliente ON AsignacionContrato.IDCliente = Cliente.IDCliente 
+            JOIN 
+                Usuario ON Cliente.IDCliente = Usuario.IDUsuario 
+            WHERE 
+                Contrato.IDContrato = ${id}`;
     }
 
     static async fetchNumClientes(id) {
-        return prisma.asignacionContrato.count({
-            where: { IDContrato: id },
-        });
+        return prisma.$queryRaw`
+            SELECT COUNT(*) AS asignaciones 
+            FROM AsignacionContrato 
+            WHERE IDContrato = ${id}`;
     }
 
     static async updateEstatus(estatus, id) {
-        return prisma.contrato.update({
-            where: { IDContrato: id },
-            data: { Estatus: estatus },
-        });
+        return prisma.$executeRaw`
+            UPDATE Contrato 
+            SET Estatus = ${estatus} 
+            WHERE IDContrato = ${id}`;
     }
 
     static async save(idRazonSocial, titulo, numMeses) {
-        return prisma.contrato.create({
-            data: {
-                IDRazonSocial: idRazonSocial,
-                Titulo: titulo,
-                DuracionMeses: numMeses,
-                Estatus: 1,
-            },
-        });
+        return prisma.$executeRaw`
+            INSERT INTO Contrato (IDRazonSocial, Titulo, DuracionMeses, Estatus) 
+            VALUES (${idRazonSocial}, ${titulo}, ${numMeses}, 1)`;
     }
 
     static async update(idRazonSocial, titulo, numMeses, idContrato) {
-        return prisma.contrato.update({
-            where: { IDContrato: idContrato },
-            data: {
-                IDRazonSocial: idRazonSocial,
-                Titulo: titulo,
-                DuracionMeses: numMeses,
-            },
-        });
+        return prisma.$executeRaw`
+            UPDATE Contrato 
+            SET IDRazonSocial = ${idRazonSocial}, Titulo = ${titulo}, DuracionMeses = ${numMeses} 
+            WHERE IDContrato = ${idContrato}`;
     }
 }

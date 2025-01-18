@@ -5,9 +5,9 @@ exports.post_detalles_contrato = async (request, response, next) => {
         // Obtener datos de contratos
         const id = request.body.id;
         const contratoData = await Contrato.fetchOne(id);
-        const [clientes] = await Contrato.fetchClientes(id);
+        const clientes = await Contrato.fetchClientes(id);
 
-        const contrato = contratoData[0];
+        const contrato = contratoData[0]
 
         // Presentar interfaz a usuario
         response.render('contrato/detallesContrato', {

@@ -5,7 +5,7 @@
         <div class="columns is-flex is-justify-content-space-between">
             <div class="column is-6">
                 <label class="label is-large has-text-strong has-text-weight-semibold">
-                    CONTRATO: <%= contrato[0].Titulo %>
+                    CONTRATO: <%= contrato.Titulo %>
                 </label>
             </div>
 
@@ -13,7 +13,7 @@
             <div class="column is-narrow is-justify-content-flex-end">
                 <form action="/contrato/fetchContrato" method="POST">
                     <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
-                    <input type="hidden" value="<%= contrato[0].IDContrato %>" name="id" id="id">
+                    <input type="hidden" value="<%= contrato.IDContrato %>" name="id" id="id">
                     <p class="control">
                         <button class="button is-responsive is-primary" style="font-size: large;" type="submit">
                             <span class="icon is-large">
@@ -31,28 +31,28 @@
                 <div class="box" style="text-align: center;">
                     <p class="has-text-grey has-text-weight-medium">ID</p>
                     <p class="has-text-black has-text-weight-bold is-size-5">
-                        <%= contrato[0].IDContrato %></p>
+                        <%= contrato.IDContrato %></p>
                 </div>
             </div>
             <div class="column">
                 <div class="box" style="text-align: center;">
                     <p class="has-text-grey has-text-weight-medium">DURACIÓN</p>
                     <p class="has-text-black has-text-weight-bold is-size-5">
-                        <%= contrato[0].DuracionMeses %> meses</p>
+                        <%= contrato.DuracionMeses %> meses</p>
                 </div>
             </div>
             <div class="column">
                 <div class="box" style="text-align: center;">
                     <p class="has-text-grey has-text-weight-medium">RAZÓN SOCIAL</p>
                     <p class="has-text-black has-text-weight-bold is-size-5">
-                        <%= contrato[0].NombreEmpresa %></p>
+                        <%= contrato.NombreEmpresa %></p>
                 </div>
             </div>
             <div class="column">
                 <div class="box" style="text-align: center;">
                     <p class="has-text-grey has-text-weight-medium">ESTATUS</p>
                     <p class="has-text-black has-text-weight-bold is-size-5">
-                        <% if (contrato[0].Estatus == 1) { %> Activo 
+                        <% if (contrato.Estatus == 1) { %> Activo 
                         <% } else  { %> Inactivo <% } %> </p>
                     </div>
                 </div>
@@ -78,28 +78,28 @@
                         <div class="box" style="text-align: center; width: 200px">
                             <p class="has-text-grey has-text-weight-medium">ID</p>
                             <p class="has-text-black has-text-weight-bold is-size-5">
-                                <%= contrato[0].IDContrato %></p>
+                                <%= contrato.IDContrato %></p>
                             </div>
                         </div>
                     <div class="column">
                         <div class="box" style="text-align: center; width: 200px">    
                             <p class="has-text-grey has-text-weight-medium">DURACIÓN</p>
                             <p class="has-text-black has-text-weight-bold is-size-5">
-                                <%= contrato[0].DuracionMeses %> meses</p>
+                                <%= contrato.DuracionMeses %> meses</p>
                             </div>
                         </div>
                     <div class="column">
                         <div class="box" style="text-align: center; width: 200px">
                             <p class="has-text-grey has-text-weight-medium">RAZÓN SOCIAL</p>
                             <p class="has-text-black has-text-weight-bold is-size-5">
-                                <%= contrato[0].NombreEmpresa %></p>
+                                <%= contrato.NombreEmpresa %></p>
                             </div>
                         </div>
                     <div class="column">
                         <div class="box" style="text-align: center; width: 200px">
                             <p class="has-text-grey has-text-weight-medium">ESTATUS</p>
                             <p class="has-text-black has-text-weight-bold is-size-5">
-                                <% if (contrato[0].Estatus == 1) { %>
+                                <% if (contrato.Estatus == 1) { %>
                                     Activo 
                                 <% } else  { %>
                                     Inactivo 

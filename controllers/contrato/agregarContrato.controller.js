@@ -23,20 +23,20 @@ exports.post_registrar_contrato = async (request, response, next) => {
         let IDRazon;
 
         // Verificar si la razón social ya existe
-        const [verificarRazonSocial] = await RazonSocial.fetchID(razonSocial);
+        const verificarRazonSocial = await RazonSocial.fetchID(razonSocial);
 
         // Comprobar si la respuesta de fetchID tiene datos válidos
         if (!verificarRazonSocial || verificarRazonSocial.length === 0) {
             // Crear la nueva razón social
             await RazonSocial.save(nombreEmpresa, razonSocial);
             // Obtener el ID de la nueva razón social
-            const [rows] = await RazonSocial.fetchID(razonSocial);
+            const rows = await RazonSocial.fetchID(razonSocial);
             if (rows.length === 0) {
                 return response.status(500).send('No se pudo obtener el ID de la razón social');
             }
-            IDRazon = rows[0].IDRazonSocial;
+            IDRazon = rows.IDRazonSocial;
         } else {
-            IDRazon = verificarRazonSocial[0].IDRazonSocial;
+            IDRazon = verificarRazonSocial.IDRazonSocial;
         }
 
         // Verificar que IDRazon no sea undefined
@@ -50,10 +50,10 @@ exports.post_registrar_contrato = async (request, response, next) => {
         const IDContrato = await Contrato.fetchName(titulo);
 
         // Obtener el contrato recién creado
-        const [contratos] = await Contrato.fetchOne(IDContrato[0][0].IDContrato);
+        const contratos = await Contrato.fetchOne(IDContrato[0][0].IDContrato);
 
         // Obtener la razón social asociada
-        const [razonSocialInfo] = await RazonSocial.fetchOne(razonSocial);
+        const razonSocialInfo = await RazonSocial.fetchOne(razonSocial);
 
         // Renderizar la vista con la información del contrato y la razón social
         response.render('contrato/resultadoContrato', {
