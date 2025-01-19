@@ -16,7 +16,7 @@ exports.post_registrar_contrato = async (request, response, next) => {
         const titulo = request.body.titulo;
         const numMeses = request.body.numMeses;
 
-        if (!razonSocial || !nombreEmpresa || !titulo || !numMeses ) {
+        if (!razonSocial || !nombreEmpresa || !titulo || !numMeses) {
             return response.status(400).send('Faltan datos requeridos');
         }
 
@@ -25,18 +25,20 @@ exports.post_registrar_contrato = async (request, response, next) => {
         // Verificar si la razón social ya existe
         const verificarRazonSocial = await RazonSocial.fetchID(razonSocial);
 
-        // Comprobar si la respuesta de fetchID tiene datos válidos
         if (!verificarRazonSocial || verificarRazonSocial.length === 0) {
-            // Crear la nueva razón social
+            // Si no existe, crear la nueva razón social
             await RazonSocial.save(nombreEmpresa, razonSocial);
-            // Obtener el ID de la nueva razón social
+            
+            // Volver a obtener el ID de la razón social recién creada
             const rows = await RazonSocial.fetchID(razonSocial);
+
             if (rows.length === 0) {
                 return response.status(500).send('No se pudo obtener el ID de la razón social');
             }
-            IDRazon = rows.IDRazonSocial;
+            IDRazon = rows[0].IDRazonSocial; // Accedemos al primer elemento del array
         } else {
-            IDRazon = verificarRazonSocial.IDRazonSocial;
+            // Si la razón social ya existe, usamos su ID
+            IDRazon = verificarRazonSocial[0].IDRazonSocial;
         }
 
         // Verificar que IDRazon no sea undefined
