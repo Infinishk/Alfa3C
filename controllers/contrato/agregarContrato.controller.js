@@ -52,7 +52,7 @@ exports.post_registrar_contrato = async (request, response, next) => {
         const IDContrato = await Contrato.fetchName(titulo);
 
         // Obtener el contrato recién creado
-        const contratos = await Contrato.fetchOne(IDContrato[0][0].IDContrato);
+        const contratos = await Contrato.fetchOne(IDContrato[0].IDContrato);
 
         // Obtener la razón social asociada
         const razonSocialInfo = await RazonSocial.fetchOne(razonSocial);

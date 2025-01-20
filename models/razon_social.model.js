@@ -16,7 +16,7 @@ module.exports = class RazonSocial{
     }
 
     static async fetchOne(referenciaBancaria) {
-        return await prisma.$queryRaw`
+        return prisma.$queryRaw`
             SELECT * FROM RazonSocial
             WHERE ReferenciaBancaria = ${referenciaBancaria}`;
     }
