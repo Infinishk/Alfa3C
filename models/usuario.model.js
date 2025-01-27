@@ -1,111 +1,194 @@
-const db = require('../util/database');
 const bcrypt = require('bcryptjs');
 const prisma = require('../util/database'); 
-
 const { fetchActiveUsersDB, fetchInactiveUsersDB } = require('@prisma/client/sql');
+const { saveUsuario } = require('../util/database');
 
-module.exports = class Usuario{
-    // Constructor de la clase. Sirve para crear un nuevo objeto, y en él se definen las propiedades del modelo
+module.exports = class Usuario {
     constructor(miIDUsuario, miPassword) {
         this.IDUsuario = miIDUsuario;
         this.password = miPassword;
     }
 
-    //Este método servirá para guardar de manera persistente el nuevo objeto. 
-    updateContra() {
-        return bcrypt.hash(this.password, 12)
-            .then((passwordCifrado) => {
-                return db.execute(
-                    'UPDATE Usuario SET `Contraseña`=?, `Status`=1 WHERE IDUsuario=?',
-                    [passwordCifrado, this.IDUsuario]
-                );
-            })
-            .then((result) => {
-                return result;
-            })
-            .catch((error) => {
-                throw Error('Error al actualizar la contraseña.');
-            });
+    saveUsuarioManual() {
+        return prisma.$queryRawTyped(saveUsuario(this.Nombre, this.Apellidos, this.CorreoElectronico));
     }
 
-    static saveUsuario(Nombre, Apellidos, CorreoElectronico) {
-        return db.execute(
-            'INSERT INTO Usuario (Nombre, Apellidos, Contraseña, CorreoElectronico, Status, FechaRegistro) VALUES (?, ?, "", ?, 0, NOW())',
-            [Nombre, Apellidos, CorreoElectronico]
-        );
+    async updateContra() {
+        const passwordCifrado = await bcrypt.hash(this.password, 12);
+        
+        return prisma.usuario.update({
+            where: {
+                IDUsuario: this.IDUsuario
+            },
+            data: {
+                Contraseña: passwordCifrado,
+                Status: 1
+            }
+        });
     }
+
     
-    static fetchOne(CorreoElectronico) {
-        return db.execute('SELECT * FROM Usuario WHERE CorreoElectronico = ?',
-            [CorreoElectronico]);
+    
+    static async fetchOne(CorreoElectronico) {
+        return prisma.usuario.findFirst({
+            where: {
+                CorreoElectronico: CorreoElectronico
+            }
+        });
     }
 
-    static fetchOneID(IDUsuario) {
-        return db.execute('SELECT * FROM Usuario WHERE IDUsuario = ?',
-            [IDUsuario]);
+    static async fetchOneID(IDUsuario) {
+        return prisma.usuario.findUnique({
+            where: {
+                IDUsuario: IDUsuario
+            }
+        });
     }
 
-    static fetchCorreo(IDUsuario) {
-        return db.execute('SELECT correoElectronico FROM Usuario WHERE IDUsuario = ?',
-            [IDUsuario]);
+    static async fetchCorreo(IDUsuario) {
+        const usuario = await prisma.usuario.findUnique({
+            where: {
+                IDUsuario: IDUsuario
+            },
+            select: {
+                correoElectronico: true
+            }
+        });
+        return usuario ? usuario.correoElectronico : null;
     }
 
-    static getPermisos(IDUsuario) {
-        return db.execute(
-            `SELECT Ca.IDCasoUso
-            FROM Usuario U, Posee P, Rol R, Contiene C, CasoUso Ca
-            WHERE U.IDUsuario = ? AND U.IDUsuario = P.IDUsuario
-            AND P.IDRol = R.IDRol AND R.IDRol = C.IDRol 
-            AND C.IDCasoUso = Ca.IDCasoUso`,
-            [IDUsuario]);
+    static async getPermisos(IDUsuario) {
+        return prisma.usuario.findUnique({
+            where: {
+                IDUsuario: IDUsuario
+            },
+            select: {
+                posee: {
+                    select: {
+                        rol: {
+                            select: {
+                                contiene: {
+                                    select: {
+                                        IDCasoUso: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        .then(usuario => {
+            if (usuario) {
+                return usuario.posee.flatMap(posee =>
+                    posee.rol.contiene.map(contiene => contiene.IDCasoUso)
+                );
+            } else {
+                return []; 
+            }
+        });
     }
 
-    static getRol(IDUsuario) {
-        return db.execute(`SELECT P.IDRol
-        FROM Usuario U
-        JOIN Posee P ON U.IDUsuario = P.IDUsuario
-        JOIN Rol R ON P.IDRol = R.IDRol
-        JOIN Contiene C ON R.IDRol = C.IDRol
-        JOIN CasoUso Ca ON C.IDCasoUso = Ca.IDCasoUso
-        WHERE U.IDUsuario = ?`, [IDUsuario]);
+    static async getRol(IDUsuario) {
+        return prisma.usuario.findUnique({
+            where: {
+                IDUsuario: IDUsuario
+            },
+            select: {
+                posee: {
+                    select: {
+                        IDRol: true
+                    }
+                }
+            }
+        })
+        .then(usuario => {
+            return usuario ? usuario.posee.map(posee => posee.IDRol) : [];
+        });
     }
 
-    static fetchActivos() {
-        return db.execute('SELECT * FROM Usuario WHERE UsuarioActivo = 1');
+    static async fetchActivos() {
+        return prisma.usuario.findMany({
+            where: {
+                UsuarioActivo: 1 
+            }
+        });
     }
 
-    static fetchNoActivos() {
-        return db.execute('SELECT * FROM Usuario WHERE UsuarioActivo = 0');
+    static async fetchNoActivos() {
+        return prisma.usuario.findMany({
+            where: {
+                UsuarioActivo: 0 
+            }
+        });
     }
 
-    static update(IDUsuario,estado){
-        return db.execute('UPDATE Usuario SET UsuarioActivo = ? WHERE IDUsuario = ?',
-        [estado,IDUsuario]);
+    static async update(IDUsuario, estado) {
+        return prisma.usuario.update({
+            where: {
+                IDUsuario: IDUsuario
+            },
+            data: {
+                UsuarioActivo: estado 
+            }
+        });
     }
 
-    static buscarActivos(consulta) {
-        return db.execute(
-            'SELECT usuario.* FROM Usuario WHERE IDUsuario LIKE ? AND UsuarioActivo = 1',
-            [`%${consulta}%`]
-        );
+    static async buscarActivos(consulta) {
+        return prisma.usuario.findMany({
+            where: {
+                IDUsuario: {
+                    contains: consulta 
+                },
+                UsuarioActivo: 1
+            }
+        });
     }
 
-    static buscarNoActivos(consulta) {
-        return db.execute(
-            'SELECT usuario.* FROM Usuario WHERE IDUsuario LIKE ? AND UsuarioActivo = 0',
-            [`%${consulta}%`]
-        );
+    static async buscarNoActivos(consulta) {
+        return prisma.usuario.findMany({
+            where: {
+                IDUsuario: {
+                    contains: consulta 
+                },
+                UsuarioActivo: 0
+            }
+        });
     }
 
-    static saveRol(IDUsuario, IDRol) {
-        return db.execute('INSERT INTO Posee (IDUsuario, IDRol) VALUES (?, ?)', [IDUsuario, IDRol]);
+    static async saveRol(IDUsuario, IDRol) {
+        return prisma.posee.create({
+            data: {
+                usuario: {
+                    connect: {
+                        IDUsuario: IDUsuario
+                    }
+                },
+                rol: {
+                    connect: {
+                        IDRol: IDRol
+                    }
+                }
+            }
+        });
     }
 
-    static saveCliente(IDCliente, Direccion, Telefono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente) {
-        return db.execute(
-            'INSERT INTO Cliente (IDCliente, Direccion, Teléfono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-            [IDCliente, Direccion, Telefono, RFC, ReferenciaBancaria, PorcentajeInteres, MontoRetencion, TipoCliente]
-        );
+    static async saveCliente(
+        IDCliente, Direccion, Telefono, RFC, ReferenciaBancaria, 
+        PorcentajeInteres, MontoRetencion, TipoCliente
+    ) {
+        return prisma.cliente.create({
+            data: {
+                IDCliente: IDCliente,
+                Direccion: Direccion,
+                Teléfono: Telefono,
+                RFC: RFC,
+                ReferenciaBancaria: ReferenciaBancaria,
+                PorcentajeInteres: PorcentajeInteres,
+                MontoRetencion: MontoRetencion,
+                TipoCliente: TipoCliente
+            }
+        });
     }
 
     static async modifyUserStatus(status, userID) {
@@ -120,11 +203,13 @@ module.exports = class Usuario{
     }
 
     static async fetchActiveUsers() {
-        return prisma.$queryRawTyped(fetchActiveUsersDB());
+        return prisma.$queryRaw`SELECT * FROM usuario AS U, posee AS P, cliente AS C WHERE U.Status = 1  
+        AND P.IDUsuario = U.IDUsuario AND U.IDUsuario = C.IDCliente AND P.IDRol = 'ROL02'`;
     }
 
     static async fetchInactiveUsers() {
-        return prisma.$queryRawTyped(fetchInactiveUsersDB());
+        return prisma.$queryRaw`SELECT * FROM usuario AS U, posee AS P, cliente AS C WHERE U.Status = 0
+        AND P.IDUsuario = U.IDUsuario AND U.IDUsuario = C.IDCliente AND P.IDRol = 'ROL02'`;
     }
 
     static async fetchAdmins() {
@@ -141,6 +226,5 @@ module.exports = class Usuario{
             }
         });
     }
-
     
 };

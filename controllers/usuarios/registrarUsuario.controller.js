@@ -34,6 +34,7 @@ exports.getRegistrarUsuario = (request, response, next) => {
     });
 };
 
+
 exports.postRegistrarUsuario = async (req, res) => {
     const {
         nombre,

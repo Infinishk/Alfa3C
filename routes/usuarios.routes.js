@@ -11,8 +11,8 @@ const isAuth = require('../util/is-auth');
 
 const registrarUsuarioController = require('../controllers/usuarios/registrarUsuario.controller');
 
-router.get('/registrarUsuario', isAuth, checkPermission('Registrar Usuario'), registrarUsuarioController.getRegistrarUsuario);
-router.post('/registrarUsuario', isAuth, checkPermission('Registrar Usuario'), registrarUsuarioController.postRegistrarUsuario);
+router.get('/registrarUsuario', /* isAuth, checkPermission('Registrar Usuario'),  */registrarUsuarioController.getRegistrarUsuario);
+router.post('/registrarUsuario', /* isAuth, checkPermission('Registrar Usuario'), */ registrarUsuarioController.postRegistrarUsuario);
 router.get('/registrarAdmin', isAuth, checkPermission('Registrar Usuario'), registrarUsuarioController.getRegistrarAdmin);
 router.post('/registrarAdmin', isAuth, checkPermission('Registrar Usuario'), registrarUsuarioController.postRegistrarAdmin);
 router.post('/validateNombre', isAuth, checkPermission('Registrar Usuario'), registrarUsuarioController.validateNombre);
