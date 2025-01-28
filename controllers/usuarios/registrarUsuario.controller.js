@@ -52,17 +52,13 @@ exports.postRegistrarUsuario = async (req, res) => {
     try {
         // Guardar el usuario en la base de datos
         const usuarioRegistrado = new Usuario(nombre, apellidos, correoElectronico);
-        await usuarioRegistrado.saveUsuarioPrisma(nombre, apellidos, correoElectronico);
+        await usuarioRegistrado.saveUsuarioPrisma();
 
         // Confirm that the user was added to avoid foreign key issues
-        const [newUser] = await Usuario.fetchOne(correoElectronico);
+        const newUser = await Usuario.fetchOne(correoElectronico);
         if (newUser.length === 0) {
             throw new Error('User insertion failed; cannot proceed to assign role.');
         }
-
-        // Guardar el cliente en la base de datos
-
-        newUser.IDUsuario = newUser[0].IDUsuario;
 
         await Usuario.saveCliente(
             newUser.IDUsuario,
@@ -134,16 +130,13 @@ exports.postRegistrarAdmin = async (req, res) => {
     try {
         // Guardar el usuario en la base de datos
         const usuarioRegistrado = new Usuario(nombre, apellidos, correoElectronico);
-        await usuarioRegistrado.saveUsuarioPrisma(nombre, apellidos, correoElectronico);
+        await usuarioRegistrado.saveUsuarioPrisma();
 
         // Confirm that the user was added to avoid foreign key issues
-        const [newUser] = await Usuario.fetchOne(correoElectronico);
+        const newUser = await Usuario.fetchOne(correoElectronico);
         if (newUser.length === 0) {
             throw new Error('User insertion failed; cannot proceed to assign role.');
         }
-
-        // Guardar el cliente en la base de datos
-        newUser.IDUsuario = newUser[0].IDUsuario;
 
         // Asignar el rol de admin
         const IDRol = 'ROL01';

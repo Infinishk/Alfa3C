@@ -6,7 +6,7 @@ module.exports = class Usuario {
     constructor(miNombre, miApellidos, miCorreoElectronico) {
         this.Nombre = miNombre;
         this.Apellidos = miApellidos;
-        this.correoElectronico = miCorreoElectronico;
+        this.CorreoElectronico = miCorreoElectronico;
     }
 
     saveUsuarioPrisma() {
