@@ -1,15 +1,15 @@
 const bcrypt = require('bcryptjs');
 const prisma = require('../util/database'); 
-const { fetchActiveUsersDB, fetchInactiveUsersDB } = require('@prisma/client/sql');
-const { saveUsuario } = require('../util/database');
+const { fetchActiveUsersDB, fetchInactiveUsersDB, saveUsuario } = require('@prisma/client/sql');
 
 module.exports = class Usuario {
-    constructor(miIDUsuario, miPassword) {
-        this.IDUsuario = miIDUsuario;
-        this.password = miPassword;
+    constructor(miNombre, miApellidos, miCorreoElectronico) {
+        this.Nombre = miNombre;
+        this.Apellidos = miApellidos;
+        this.correoElectronico = miCorreoElectronico;
     }
 
-    saveUsuarioManual() {
+    saveUsuarioPrisma() {
         return prisma.$queryRawTyped(saveUsuario(this.Nombre, this.Apellidos, this.CorreoElectronico));
     }
 
@@ -26,8 +26,6 @@ module.exports = class Usuario {
             }
         });
     }
-
-    
     
     static async fetchOne(CorreoElectronico) {
         return prisma.usuario.findFirst({
@@ -107,55 +105,6 @@ module.exports = class Usuario {
         });
     }
 
-    static async fetchActivos() {
-        return prisma.usuario.findMany({
-            where: {
-                UsuarioActivo: 1 
-            }
-        });
-    }
-
-    static async fetchNoActivos() {
-        return prisma.usuario.findMany({
-            where: {
-                UsuarioActivo: 0 
-            }
-        });
-    }
-
-    static async update(IDUsuario, estado) {
-        return prisma.usuario.update({
-            where: {
-                IDUsuario: IDUsuario
-            },
-            data: {
-                UsuarioActivo: estado 
-            }
-        });
-    }
-
-    static async buscarActivos(consulta) {
-        return prisma.usuario.findMany({
-            where: {
-                IDUsuario: {
-                    contains: consulta 
-                },
-                UsuarioActivo: 1
-            }
-        });
-    }
-
-    static async buscarNoActivos(consulta) {
-        return prisma.usuario.findMany({
-            where: {
-                IDUsuario: {
-                    contains: consulta 
-                },
-                UsuarioActivo: 0
-            }
-        });
-    }
-
     static async saveRol(IDUsuario, IDRol) {
         return prisma.posee.create({
             data: {
@@ -173,10 +122,8 @@ module.exports = class Usuario {
         });
     }
 
-    static async saveCliente(
-        IDCliente, Direccion, Telefono, RFC, ReferenciaBancaria, 
-        PorcentajeInteres, MontoRetencion, TipoCliente
-    ) {
+    static async saveCliente(IDCliente, Direccion, Telefono, RFC, ReferenciaBancaria, 
+        PorcentajeInteres, MontoRetencion, TipoCliente) {
         return prisma.cliente.create({
             data: {
                 IDCliente: IDCliente,
@@ -203,13 +150,11 @@ module.exports = class Usuario {
     }
 
     static async fetchActiveUsers() {
-        return prisma.$queryRaw`SELECT * FROM usuario AS U, posee AS P, cliente AS C WHERE U.Status = 1  
-        AND P.IDUsuario = U.IDUsuario AND U.IDUsuario = C.IDCliente AND P.IDRol = 'ROL02'`;
+        return prisma.$queryRawTyped(fetchActiveUsersDB());
     }
 
     static async fetchInactiveUsers() {
-        return prisma.$queryRaw`SELECT * FROM usuario AS U, posee AS P, cliente AS C WHERE U.Status = 0
-        AND P.IDUsuario = U.IDUsuario AND U.IDUsuario = C.IDCliente AND P.IDRol = 'ROL02'`;
+        return prisma.$queryRawTyped(fetchInactiveUsersDB());
     }
 
     static async fetchAdmins() {

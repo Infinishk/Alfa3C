@@ -51,7 +51,8 @@ exports.postRegistrarUsuario = async (req, res) => {
 
     try {
         // Guardar el usuario en la base de datos
-        await Usuario.saveUsuario(nombre, apellidos, correoElectronico);
+        const usuarioRegistrado = new Usuario(nombre, apellidos, correoElectronico);
+        await usuarioRegistrado.saveUsuarioPrisma(nombre, apellidos, correoElectronico);
 
         // Confirm that the user was added to avoid foreign key issues
         const [newUser] = await Usuario.fetchOne(correoElectronico);
@@ -132,7 +133,8 @@ exports.postRegistrarAdmin = async (req, res) => {
 
     try {
         // Guardar el usuario en la base de datos
-        await Usuario.saveUsuario(nombre, apellidos, correoElectronico);
+        const usuarioRegistrado = new Usuario(nombre, apellidos, correoElectronico);
+        await usuarioRegistrado.saveUsuarioPrisma(nombre, apellidos, correoElectronico);
 
         // Confirm that the user was added to avoid foreign key issues
         const [newUser] = await Usuario.fetchOne(correoElectronico);
